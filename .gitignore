@@ -1,0 +1,12 @@
+!.gitignore
+!.r
+!.Rproj
+!.md
+
+raw_data/
+scripts/
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
