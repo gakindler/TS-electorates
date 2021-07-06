@@ -4,7 +4,8 @@
 !.md
 
 raw_data/
-scripts/
+analysed_data/
+plots/
 
 .Rproj.user
 .Rhistory
