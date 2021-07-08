@@ -25,6 +25,8 @@ st_crs(electorates) == st_crs(species)
 species.sl <- st_make_valid(species.sl)
 electorates.ss <- st_make_valid(electorates.ss)
 
+intersection <- st_join(species.sl, electorates.ss, join = st_intersection)
+
 #### Join intersect ####
 
 intersect <- st_join(electorates.ss, species.sl, join = st_intersects)
