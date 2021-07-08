@@ -1,5 +1,5 @@
-# Trialling R for GIS as arcGIS was toxic
-# Let's see how far I get
+# Answering questions from my manuscript and improving MW's tables
+# Also using R for GIS, let's see how far I get
 
 #### Libraries ####
 
@@ -13,7 +13,7 @@ electorates <- st_read("raw_data/AEC_2019_superseded/COM_ELB_region.shp")
 species <-  st_read("raw_data/EPBC_Listed_Species_100m_MW.gdb")
 # outline <- st_read("raw_data/aus_outline_nsaasr9nnd_02211a04es_geo/aust_cd66states.shp")
 
-species.sl <- slice_sample(species, n = 50000) %>% 
+species.sl <- slice_sample(species, n = 10000) %>% 
   select(c("CURRENT_NAME", "COMMON_NAME", "THREATENED_STATUS", "AREA_HA", "SHAPE"))
 electorates.ss <- select(electorates, -c("Numccds", "Actual", "Projected", 
                                          "Total_Popu", "Australian", "Sortname"))
@@ -25,12 +25,11 @@ st_crs(electorates) == st_crs(species)
 species.sl <- st_make_valid(species.sl)
 electorates.ss <- st_make_valid(electorates.ss)
 
-#### Join ####
+#### Join intersect ####
 
 intersect <- st_join(electorates.ss, species.sl, join = st_intersects)
-intersect.exp <- st_join()
-st_geometry(intersect) <- NULL
 
+st_geometry(intersect) <- NULL
 # elect.spec.ng <- dplyr::select(as.data.frame(elect.spec), -geometry)
 
 ## Count species within each electorate ##
@@ -56,13 +55,37 @@ elect.spec.uniq.elect.tbl <- intersect %>%
   group_by(CURRENT_NAME) %>% 
   summarise(total_unique_elect = n_distinct(Elect_div))
 
-#### Experimental ####
+#### Join intersect-ion ####
 
-disjoint <- st_join(electorates.ss, species.sl, join = st_disjoint, left = TRUE)
+# electorates.ss.exp <- electorates.ss %>% st_buffer(0.0)
+# species.sl.exp <- species.sl %>% st_buffer(0.0)
 
-contains <- st_join(electorates.ss, species.sl, join = st_contains)
-st_geometry(contains) <- NULL
+intersection <- st_join(species.sl, electorates.ss, join = st_intersection)
 
+# Calculate area of intersection-al polygons (i.e. individual species' range 
+# within each of their electorates
+
+intersection.exp <- intersection %>% 
+  mutate(area = st_area(.) %>% as.numeric()) %>% 
+  as_tibble() %>%
+  group_by(Elect_div, CURRENT_NAME) %>%
+  summarise(area = sum(area))
+
+intersection.exp2 <- intersection %>% 
+  as_tibble() %>%
+  group_by(Elect_div, CURRENT_NAME) %>%
+  mutate(area = st_area(.) %>% as.numeric())
+
+
+area.nogeom <- area
+st_geometry(area.nogeom) <- NULL
+intersection <- area.nogeom$AREA_HA == area.nogeom$area
+unique(intersection)
+
+
+#### Other ####
+
+filter <- st_filter(electorates.ss, species.sl, .pred = st_intersects())
 
 #### Plotting ####
 

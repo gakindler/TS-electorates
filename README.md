@@ -2,3 +2,6 @@
 
 ## To do:
 
+## Questions:
+* When joining, should I set a buffer zone around electorates, i.e. 1km to account for movement of wildlife? #nitpicky
+* Does the same species's range overlap ever?
