@@ -10,24 +10,28 @@ library(tmap)
 #### Loading and subsetting ####
 
 electorates <- st_read("raw_data/AEC_2019_superseded/COM_ELB_region.shp")
-species <-  st_read("raw_data/EPBC_Listed_Species_100m_MW.gdb")
+species <-  st_read("raw_data/SNES_public_1july2021.gdb")
 # outline <- st_read("raw_data/aus_outline_nsaasr9nnd_02211a04es_geo/aust_cd66states.shp")
 
-species.sl <- slice_sample(species, n = 10000) %>% 
-  select(c("CURRENT_NAME", "COMMON_NAME", "THREATENED_STATUS", "AREA_HA", "SHAPE"))
+species.sl <- slice_sample(species, n = 1000) %>% 
+  select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS", "Shape_Area", "Shape"))
 electorates.ss <- select(electorates, -c("Numccds", "Actual", "Projected", 
                                          "Total_Popu", "Australian", "Sortname"))
 
 # Check CRS's are the same
 st_crs(electorates) == st_crs(species)
 
+species.sl <- st_buffer(species.sl, 0.0)
+electorates.ss <- st_buffer(electorates.ss, 0.0)
+
+species.sl <- st_buffer(species.sl[!is.na(valid)], 0.0)
+electorates.ss <- st_buffer(electorates.ss[!is.na(valid)], 0.0)
+
+#### Join intersect ####
+
 # Make valid? Wtf does this mean? https://r-spatial.org/r/2017/03/19/invalid.html 
 species.sl <- st_make_valid(species.sl)
 electorates.ss <- st_make_valid(electorates.ss)
-
-intersection <- st_join(species.sl, electorates.ss, join = st_intersection)
-
-#### Join intersect ####
 
 intersect <- st_join(electorates.ss, species.sl, join = st_intersects)
 
@@ -59,10 +63,12 @@ elect.spec.uniq.elect.tbl <- intersect %>%
 
 #### Join intersect-ion ####
 
-# electorates.ss.exp <- electorates.ss %>% st_buffer(0.0)
-# species.sl.exp <- species.sl %>% st_buffer(0.0)
+# Make valid? Wtf does this mean? https://r-spatial.org/r/2017/03/19/invalid.html 
+species.sl <- st_make_valid(species.sl)
+electorates.ss <- st_make_valid(electorates.ss)
 
-intersection <- st_join(species.sl, electorates.ss, join = st_intersection)
+# Intersection join
+intersection <- st_intersection(species.sl, electorates.ss)
 
 # Calculate area of intersection-al polygons (i.e. individual species' range 
 # within each of their electorates
@@ -78,12 +84,10 @@ intersection.exp2 <- intersection %>%
   group_by(Elect_div, CURRENT_NAME) %>%
   mutate(area = st_area(.) %>% as.numeric())
 
-
 area.nogeom <- area
 st_geometry(area.nogeom) <- NULL
 intersection <- area.nogeom$AREA_HA == area.nogeom$area
 unique(intersection)
-
 
 #### Other ####
 
