@@ -60,7 +60,8 @@ elect.spec.uniq.elect.tbl <- intersect %>%
 #### Join intersect-ion ####
 
 # Intersection join
-intersection.swap <- st_intersection(electorates.ss, species.sl)
+intersection <- st_intersection(electorates.ss, species.sl)
+intersection.swap <- st_intersection(species.sl, electorates.ss)
 
 # Make valid again?
 intersection <- st_make_valid(intersection)
@@ -69,21 +70,12 @@ intersection <- st_make_valid(intersection)
 # within each of their electorates
 
 # Total area of each species within each electorate?
-intersection.exp <- intersection %>% 
+intersection.calcarea <- intersection %>% 
   mutate(area = st_area(.) %>% as.numeric()) %>% 
   as_tibble() %>%
   group_by(Elect_div, SCIENTIFIC_NAME) %>%
   summarise(area = sum(area))
-st_geometry(intersection.exp) <- NULL
-
-# Total area of each species within each electorate?
-intersection.exp2 <- intersection %>% 
-  mutate(area = st_area(.) %>% as.numeric()) %>% 
-  as_tibble() %>% 
-  group_by(SCIENTIFIC_NAME) %>% 
-  summarise(area_per_spec = sum(Elect_div))
-st_geometry(intersection.exp2) <- NULL
-
+st_geometry(intersection.calcarea) <- NULL
 
 area.nogeom <- area
 intersection <- area.nogeom$AREA_HA == area.nogeom$area
