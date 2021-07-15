@@ -27,7 +27,7 @@ electorates.ss <- st_make_valid(electorates.ss)
 
 #### Join intersect ####
 
-intersect <- st_join(electorates.ss, species.sl, join = st_intersects)
+intersect <- st_join(electorates.ss, species.sl, join = st_intersects, left = FALSE)
 st_geometry(intersect) <- NULL
 
 ## Count species within each electorate ##
@@ -59,12 +59,14 @@ elect.spec.uniq.elect.tbl <- intersect %>%
 
 #### Join intersect-ion ####
 
-# Intersection join
+# Intersection join, functions as an inner join
 intersection <- st_intersection(electorates.ss, species.sl)
-intersection.swap <- st_intersection(species.sl, electorates.ss)
 
 # Make valid again?
 intersection <- st_make_valid(intersection)
+
+# Write it
+st_write(intersection, dsn = "analysed_data/intersection.gpkg")
 
 # Calculate area of intersection-al polygons (i.e. individual species' range 
 # within each of their electorates
@@ -75,6 +77,8 @@ intersection.calcarea <- intersection %>%
   as_tibble() %>%
   group_by(Elect_div, SCIENTIFIC_NAME) %>%
   summarise(area = sum(area))
+
+
 st_geometry(intersection.calcarea) <- NULL
 
 area.nogeom <- area

@@ -8,3 +8,5 @@
 * Do the same species's range overlap ever?
 * Act came in 1999, how could I integrate historical data into my analyses
 * Can direct SNES questions to Stephen K
+* How does range/distribution relate to habitat with this data?
+* Is there a way of pulling out/getting critical habitat for EPBC act listed species?
