@@ -14,7 +14,8 @@ species <-  st_read("raw_data/SNES_public_1july2021.gdb")
 # outline <- st_read("raw_data/aus_outline_nsaasr9nnd_02211a04es_geo/aust_cd66states.shp")
 
 species.sl <- slice_sample(species, n = 500) %>% 
-  select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS", "Shape_Area", "Shape"))
+  select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS", 
+           "Shape_Area", "Shape"))
 electorates.ss <- select(electorates, -c("Numccds", "Actual", "Projected", 
                                          "Total_Popu", "Australian", "Sortname"))
 
@@ -27,15 +28,20 @@ electorates.ss <- st_make_valid(electorates.ss)
 
 #### Join intersect ####
 
-intersect <- st_join(electorates.ss, species.sl, join = st_intersects, left = FALSE)
-st_geometry(intersect) <- NULL
+# 'Electorates' object is the object x as we want to keep this geometry and
+# inner join as we only want the intersect, not any disjointed values
+join.intersect <- st_join(electorates.ss, species.sl, 
+                     join = st_intersects, 
+                     left = FALSE)
+
+## Mapping
+
 
 ## Count species within each electorate ##
-
 # Add a column of no of species per electorate
 elect.spec.uniq.spec <- intersect %>% 
   as_tibble() %>% 
-  group_by(Elect_div) %>%
+  group_by(Elect_div) %>% 
   mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
 
 # Isolated table of no of species per electorate
@@ -56,6 +62,20 @@ elect.spec.uniq.elect.tbl <- intersect %>%
   as_tibble() %>% 
   group_by(SCIENTIFIC_NAME) %>% 
   summarise(total_unique_elect = n_distinct(Elect_div))
+
+#### Join antijoin ####
+
+outside <- sapply(st_intersects(species.sl, electorates.ss), function(x){
+  length(x) == 0
+  })
+
+inside.elects <- lengths(st_intersects(electorates.ss, species.sl)) > 0
+outside.elects <- !inside.elects
+
+#### Join difference ####
+
+join.diff <- st_difference(electorates.ss, species.sl)
+join.diff.swap <- st_difference(species.sl, electorates.ss)
 
 #### Join intersect-ion ####
 
