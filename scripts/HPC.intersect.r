@@ -1,5 +1,4 @@
-# Answering questions from my manuscript and improving MW's tables
-# Also using R for GIS, let's see how far I get
+# Intersect HPC script
 
 #### Libraries ####
 
@@ -16,26 +15,22 @@ species <-  st_read("raw_data/SNES_public_1july2021.gdb")
 # Check CRS's are the same
 st_crs(electorates) == st_crs(species)
 
-species.sl <- slice_sample(species, n = 500) %>%
-  select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
+species.ss <- select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
            "Shape_Area", "Shape"))
 electorates.ss <- select(electorates, -c("Numccds", "Actual", "Projected", 
                                          "Total_Popu", "Australian", "Sortname"))
 
 # Make valid? Wtf does this mean? https://r-spatial.org/r/2017/03/19/invalid.html 
-species.sl <- st_make_valid(species.sl)
+species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
 
 #### Join intersect ####
 
 # 'Electorates' object is the object x as we want to keep this geometry and
 # inner join as we only want the intersect, not any disjointed values
-join.intersect <- st_join(electorates.ss, species.sl, 
-                     join = st_intersects, 
-                     left = FALSE)
-
-## Mapping
-
+join.intersect <- st_join(electorates.ss, species.ss, 
+                          join = st_intersects, 
+                          left = FALSE)
 
 ## Count species within each electorate ##
 # Add a column of no of species per electorate
@@ -67,7 +62,7 @@ elect.spec.uniq.elect.tbl <- intersect %>%
 
 outside <- sapply(st_intersects(species.sl, electorates.ss), function(x){
   length(x) == 0
-  })
+})
 
 inside.elects <- lengths(st_intersects(electorates.ss, species.sl)) > 0
 outside.elects <- !inside.elects

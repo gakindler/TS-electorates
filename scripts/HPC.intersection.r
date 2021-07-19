@@ -31,8 +31,8 @@ electorates.ss <- st_make_valid(electorates.ss)
 # 'Electorates' object is the object x as we want to keep this geometry and
 # inner join as we only want the intersect, not any disjointed values
 join.intersect <- st_join(electorates.ss, species.sl, 
-                     join = st_intersects, 
-                     left = FALSE)
+                          join = st_intersects, 
+                          left = FALSE)
 
 ## Mapping
 
@@ -67,7 +67,7 @@ elect.spec.uniq.elect.tbl <- intersect %>%
 
 outside <- sapply(st_intersects(species.sl, electorates.ss), function(x){
   length(x) == 0
-  })
+})
 
 inside.elects <- lengths(st_intersects(electorates.ss, species.sl)) > 0
 outside.elects <- !inside.elects
