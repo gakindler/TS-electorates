@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+#PBS -A UQ-SCI-SEES
+#
+#PBS -l select=1:ncpus=16:mem=120GB
+#PBS -l walltime=12:00:00
+#PBS -N HPCBigAnalyses
+#
+
+cd $PBS_O_WORKDIR
+
+module load R
+# module load R/4.0.2+Spatial
+
+Rscript --vanilla HPC.spatial.ops.R

@@ -23,14 +23,14 @@ electorates.ss <- select(electorates, -c("Numccds", "Actual", "Projected",
                                          "Total_Popu", "Australian", "Sortname"))
 
 # Make valid? Wtf does this mean? https://r-spatial.org/r/2017/03/19/invalid.html 
-species.sl <- st_make_valid(species.sl)
-electorates.ss <- st_make_valid(electorates.ss)
+species <- st_make_valid(species)
+electorates <- st_make_valid(electorates)
 
 #### Join intersect ####
 
 # 'Electorates' object is the object x as we want to keep this geometry and
 # inner join as we only want the intersect, not any disjointed values
-join.intersect <- st_join(electorates.ss, species.sl, 
+join.intersect <- st_join(electorates, species, 
                      join = st_intersects, 
                      left = FALSE)
 
@@ -87,6 +87,7 @@ intersection <- st_make_valid(intersection)
 
 # Write it
 st_write(intersection, dsn = "analysed_data/intersection.gpkg")
+
 
 # Calculate area of intersection-al polygons (i.e. individual species' range 
 # within each of their electorates
