@@ -14,6 +14,13 @@ species.public <- st_read("raw_data/snes_public_grids_08Aug2019.gdb", layer = "s
 st_layers("raw_data/snes_public_grids_08Aug2019.gdb")
 # outline <- st_read("raw_data/aus_outline_nsaasr9nnd_02211a04es_geo/aust_cd66states.shp")
 
+# GET unique values of each column
+# st_geometry(species) <- NULL
+# unique <- lapply(species, unique)
+# unique.exp <- as.data.frame(unique)
+# unique.exp <- filter(THREATENED_STATUS, MIGRATORY_STATUS, MARINE, CETACEAN, 
+#                      PRESENCE_RANK, PRESENCE_CATEGORY)
+
 # Check CRS's are the same
 st_crs(electorates) == st_crs(species)
 
