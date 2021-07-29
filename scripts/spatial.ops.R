@@ -6,38 +6,45 @@
 library(tidyverse)
 library(sf)
 library(rmapshaper)
-library(remotes)
+# library(remotes)
 
 #### Loading and subsetting ####
 
 electorates <- st_read("raw_data/AEC_2019_superseded/COM_ELB_region.shp")
 species <- st_read("raw_data/SNES_public_1july2021.gdb")
-species.public <- st_read("raw_data/snes_public_grids_08Aug2019.gdb", layer = "species_combined")
-st_layers("raw_data/snes_public_grids_08Aug2019.gdb")
-# outline <- st_read("raw_data/aus_outline_nsaasr9nnd_02211a04es_geo/aust_cd66states.shp")
+# species.public <- st_read("raw_data/snes_public_grids_08Aug2019.gdb", layer = "species_combined")
+# st_layers("raw_data/snes_public_grids_08Aug2019.gdb")
+australia <- st_read("raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
 
 # What are the unique values of each attribute?
-unique <- lapply(species, unique)
-st_geometry(unique) <- NULL
+# unique <- lapply(species, unique)
+# st_geometry(unique) <- NULL
 
 # Check CRS's are the same
 st_crs(electorates) == st_crs(species)
+st_crs(electorates) == st_crs(australia)
 
-# Filter for only 'likely to occur', 
+# Filter for only 'likely to occur', and bs columns/rows
 species.ss <- species %>% 
   filter(PRESENCE_RANK == 2) %>% 
   select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
           "Shape_Area", "Shape"))
-electorates.ss <- electorates %>% select(-c("Numccds", "Actual", "Projected",
-                                         "Total_Popu", "Australian", "Sortname"))
+electorates.ss <- electorates %>% 
+  select(-c("Numccds", "Actual", "Projected", 
+            "Total_Popu", "Australian", "Sortname"))
+australia.ss <- australia %>% 
+  select(geometry) %>% 
+  slice(1)
 
 # Make valid
 species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
 
 # Simplify geometry
-species.ss <- st_simplify(species.ss, dTolerance = 10000) # 10000 metres?
-electorates.ss <- ms_simplify(electorates.ss, keep = 0.01, keep_shape = TRUE) # 1% of original?
+species.ss <- st_simplify(species.ss, dTolerance = 25000) # 10000 metres?
+electorates.ss <- ms_simplify(electorates.ss, keep = 0.001, keep_shape = TRUE) # 1% of original?
+australia.ss <- ms_simplify(australia.ss, keep = 0.001, keep_shape = TRUE) %>% 
+  select(geometry)
 
 species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
@@ -65,11 +72,14 @@ elect.spec.uniq.spec <- join.intersect %>%
 #   
 # exp <- split(species.sl)
 
-# Isolated table of no of species per electorate
-elect.spec.uniq.spec.tbl <- join.intersect %>% 
-  as_tibble() %>% 
+# Isolated table of no of species per electorate, then snap onto a map of Aus
+spec.per.elect <- electorates.ss %>% 
+  st_join(species.ss) %>% 
   group_by(Elect_div) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+
+spec.per.elect.aus <- st_intersection(australia.ss, spec.per.elect) %>% 
+  st_make_valid()
 
 ## Count electorates on no of species within them ##
 # Add a column
