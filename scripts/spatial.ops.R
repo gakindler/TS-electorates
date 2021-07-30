@@ -36,32 +36,43 @@ australia.ss <- australia %>%
   select(geometry) %>% 
   slice(1)
 
-# Make valid
+# # Make valid
 species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
 
 # Simplify geometry
-species.ss <- st_simplify(species.ss, dTolerance = 25000) # 10000 metres?
-electorates.ss <- ms_simplify(electorates.ss, keep = 0.001, keep_shape = TRUE) # 1% of original?
-australia.ss <- ms_simplify(australia.ss, keep = 0.001, keep_shape = TRUE) %>% 
+species.ss <- st_simplify(species.ss, dTolerance = 5000) # ___ metres?
+electorates.ss <- ms_simplify(electorates.ss, keep = 0.1, keep_shape = TRUE) # __% of original?
+australia.ss <- ms_simplify(australia.ss, keep = 0.1, keep_shape = TRUE) %>%
   select(geometry)
 
 species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
+australia.ss <- st_make_valid(australia.ss)
 
 #### Join intersect ####
 
 # 'Electorates' object is the object x as we want to keep this geometry and
 # inner join as we only want the intersect, not any disjointed values
-join.intersect <- st_join(electorates.ss, species.ss, 
-                     join = st_intersects, 
+join.intersect <- st_join(electorates.ss, species.ss,
+                     join = st_intersects,
                      left = FALSE)
+
+new.durack <- join.intersect %>% 
+  filter(Elect_div == "Durack")
+st_geometry(new.durack) <- NULL
+new.durack <- new.durack %>% 
+  distinct(Elect_div, SCIENTIFIC_NAME, .keep_all = TRUE) %>% 
+  select(SCIENTIFIC_NAME, VERNACULAR_NAME)
+old.durack <- read.csv("analysed_data/old_durack.csv")
+old.durack <- rename(old.durack, SCIENTIFIC_NAME = Scientific.Name, VERNACULAR_NAME = Common.Name)
+join.durack <- anti_join(new.durack, old.durack, by = "SCIENTIFIC_NAME")
 
 ## Count species within each electorate ##
 # Add a column of no of species per electorate
-elect.spec.uniq.spec <- join.intersect %>% 
-  group_by(Elect_div) %>% 
-  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+# elect.spec.uniq.spec <- join.intersect %>% 
+#   group_by(Elect_div) %>% 
+#   mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
 
 # Aggregate per electorate while maintaining species list
 # elect.spec.uniq.spec.exp <- join.intersect %>% 
@@ -80,6 +91,10 @@ spec.per.elect <- electorates.ss %>%
 
 spec.per.elect.aus <- st_intersection(australia.ss, spec.per.elect) %>% 
   st_make_valid()
+
+spec.per.elect.aus.exp <- st_join(australia.ss, spec.per.elect,
+                          join = st_intersects,
+                          left = FALSE)
 
 ## Count electorates on no of species within them ##
 # Add a column

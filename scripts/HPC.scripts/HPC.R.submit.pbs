@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+#PBS -A UQ-SCI-SEES
+#
+#PBS -l select=1:ncpus=16:mem=120GB
+#PBS -l walltime=12:00:00
+#PBS -N HPCBigAnalyses
+#PBS -q Special
+# Remember to remove special queue later
+
+cd $PBS_O_WORKDIR
+
+module load R/4.1.0+sf
+
+Rscript ###.pbs
+
+# When using containers on HPC
+# echo "Rscript HPC.spatial.ops.R" | shell
+
+# When new module created, force it to rescan - 
+# ls ~/.lmod.d/.cache
+# Remove the cache
+# rm -rf ~/.lmod.d/.cache
+# module avail
+
