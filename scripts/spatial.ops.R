@@ -41,9 +41,9 @@ species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
 
 # Simplify geometry
-species.ss <- st_simplify(species.ss, dTolerance = 5000) # ___ metres?
-electorates.ss <- ms_simplify(electorates.ss, keep = 0.1, keep_shape = TRUE) # __% of original?
-australia.ss <- ms_simplify(australia.ss, keep = 0.1, keep_shape = TRUE) %>%
+species.ss <- st_simplify(species.ss, dTolerance = 20000) # ___ metres?
+electorates.ss <- ms_simplify(electorates.ss, keep = 0.01, keep_shape = TRUE) # __% of original?
+australia.ss <- ms_simplify(australia.ss, keep = 0.01, keep_shape = TRUE) %>%
   select(geometry)
 
 species.ss <- st_make_valid(species.ss)
@@ -58,15 +58,15 @@ join.intersect <- st_join(electorates.ss, species.ss,
                      join = st_intersects,
                      left = FALSE)
 
-new.durack <- join.intersect %>% 
-  filter(Elect_div == "Durack")
-st_geometry(new.durack) <- NULL
-new.durack <- new.durack %>% 
-  distinct(Elect_div, SCIENTIFIC_NAME, .keep_all = TRUE) %>% 
-  select(SCIENTIFIC_NAME, VERNACULAR_NAME)
-old.durack <- read.csv("analysed_data/old_durack.csv")
-old.durack <- rename(old.durack, SCIENTIFIC_NAME = Scientific.Name, VERNACULAR_NAME = Common.Name)
-join.durack <- anti_join(new.durack, old.durack, by = "SCIENTIFIC_NAME")
+# new.durack <- join.intersect %>%
+#   filter(Elect_div == "Durack")
+# st_geometry(new.durack) <- NULL
+# new.durack <- new.durack %>%
+#   distinct(Elect_div, SCIENTIFIC_NAME, .keep_all = TRUE) %>%
+#   select(SCIENTIFIC_NAME, VERNACULAR_NAME)
+# old.durack <- read.csv("analysed_data/old_durack.csv")
+# old.durack <- rename(old.durack, SCIENTIFIC_NAME = Scientific.Name, VERNACULAR_NAME = Common.Name)
+# join.durack <- anti_join(new.durack, old.durack, by = "SCIENTIFIC_NAME")
 
 ## Count species within each electorate ##
 # Add a column of no of species per electorate
@@ -83,7 +83,7 @@ join.durack <- anti_join(new.durack, old.durack, by = "SCIENTIFIC_NAME")
 #   
 # exp <- split(species.sl)
 
-# Isolated table of no of species per electorate, then snap onto a map of Aus
+# Table of no of species per electorate, then snap onto a map of Aus
 spec.per.elect <- electorates.ss %>% 
   st_join(species.ss) %>% 
   group_by(Elect_div) %>% 
@@ -92,22 +92,20 @@ spec.per.elect <- electorates.ss %>%
 spec.per.elect.aus <- st_intersection(australia.ss, spec.per.elect) %>% 
   st_make_valid()
 
-spec.per.elect.aus.exp <- st_join(australia.ss, spec.per.elect,
-                          join = st_intersects,
-                          left = FALSE)
+## ?? ##
+spec.endemic.elect <- electorates.ss %>% 
+  st_join(species.ss) %>% 
+  group_by(SCIENTIFIC_NAME, Elect_div) %>% 
+  summarise(elect_range_covers = n_distinct(Elect_div))
+
+qtm(spec.endemic.elect, fill = "elect_range_covers")
 
 ## Count electorates on no of species within them ##
-# Add a column
-elect.spec.uniq.elect <- join.intersect %>% 
-  as_tibble() %>% 
-  group_by(SCIENTIFIC_NAME) %>% 
-  mutate(total_unique_elect = n_distinct(Elect_div))
-
 # Isolated table of no of species per electorate
 elect.spec.uniq.elect.tbl <- join.intersect %>% 
   as_tibble() %>% 
   group_by(SCIENTIFIC_NAME) %>% 
-  summarise(total_unique_elect = n_distinct(Elect_div))
+  summarise(elect_range_covers = n_distinct(Elect_div))
 
 #### Join antijoin ####
 

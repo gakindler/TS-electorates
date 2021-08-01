@@ -12,8 +12,33 @@ tm_shape(spec.per.elect.aus) +
   tm_polygons("total_unique_spec", 
               style = "jenks", 
               title = "Number of species",
-              palette = "-viridis") +
+              palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA")
+
+tm_shape(spec.per.elect.aus) +
+  tm_polygons("total_unique_spec", 
+              style = "jenks", 
+              title = "Number of species",
+              palette = "-viridis", 
+              border.col = "white") + 
+  tm_text("Elect_div", size = "AREA")
+
+tm_shape(spec.per.elect.aus) +
+  tm_fill("total_unique_spec", 
+              style = "jenks", 
+              title = "Number of species",
+              palette = "-viridis") + 
+  tm_borders(col = "white", 
+             lwd = 0.1)
+  tm_text("Elect_div", size = "AREA")
+
+
+
+
+
+
+
+  
 
 # Get rid of lines?
 
