@@ -41,9 +41,9 @@ species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
 
 # Simplify geometry
-species.ss <- st_simplify(species.ss, dTolerance = 20000) # ___ metres?
-electorates.ss <- ms_simplify(electorates.ss, keep = 0.01, keep_shape = TRUE) # __% of original?
-australia.ss <- ms_simplify(australia.ss, keep = 0.01, keep_shape = TRUE) %>%
+species.ss <- st_simplify(species.ss, dTolerance = 5000) # ___ metres?
+electorates.ss <- ms_simplify(electorates.ss, keep = 0.1, keep_shape = TRUE) # __% of original?
+australia.ss <- ms_simplify(australia.ss, keep = 0.1, keep_shape = TRUE) %>%
   select(geometry)
 
 species.ss <- st_make_valid(species.ss)
@@ -52,29 +52,13 @@ australia.ss <- st_make_valid(australia.ss)
 
 #### Join intersect ####
 
-# 'Electorates' object is the object x as we want to keep this geometry and
-# inner join as we only want the intersect, not any disjointed values
-join.intersect <- st_join(electorates.ss, species.ss,
-                     join = st_intersects,
-                     left = FALSE)
+# # 'Electorates' object is the object x as we want to keep this geometry and
+# # inner join as we only want the intersect, not any disjointed values
+# join.intersect <- st_join(electorates.ss, species.ss,
+#                      join = st_intersects,
+#                      left = FALSE)
 
-# new.durack <- join.intersect %>%
-#   filter(Elect_div == "Durack")
-# st_geometry(new.durack) <- NULL
-# new.durack <- new.durack %>%
-#   distinct(Elect_div, SCIENTIFIC_NAME, .keep_all = TRUE) %>%
-#   select(SCIENTIFIC_NAME, VERNACULAR_NAME)
-# old.durack <- read.csv("analysed_data/old_durack.csv")
-# old.durack <- rename(old.durack, SCIENTIFIC_NAME = Scientific.Name, VERNACULAR_NAME = Common.Name)
-# join.durack <- anti_join(new.durack, old.durack, by = "SCIENTIFIC_NAME")
-
-## Count species within each electorate ##
-# Add a column of no of species per electorate
-# elect.spec.uniq.spec <- join.intersect %>% 
-#   group_by(Elect_div) %>% 
-#   mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-
-# Aggregate per electorate while maintaining species list
+# # Aggregate per electorate while maintaining species list
 # elect.spec.uniq.spec.exp <- join.intersect %>% 
 #   as_tibble() %>% 
 #   group_by(Elect_div) %>% 
@@ -83,38 +67,47 @@ join.intersect <- st_join(electorates.ss, species.ss,
 #   
 # exp <- split(species.sl)
 
-# Table of no of species per electorate, then snap onto a map of Aus
+# Count no. of species per electorate, then snap onto Aus
 spec.per.elect <- electorates.ss %>% 
   st_join(species.ss) %>% 
   group_by(Elect_div) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-
 spec.per.elect.aus <- st_intersection(australia.ss, spec.per.elect) %>% 
   st_make_valid()
 
-## ?? ##
+# Count no. of endemic species per electorate, then snap onto Aus
 spec.endemic.elect <- electorates.ss %>% 
   st_join(species.ss) %>% 
   group_by(SCIENTIFIC_NAME, Elect_div) %>% 
-  summarise(elect_range_covers = n_distinct(Elect_div))
+  summarise(elect_range_covers = n_distinct(SCIENTIFIC_NAME))
 
-qtm(spec.endemic.elect, fill = "elect_range_covers")
+# Count no. of endemic species per electorate in wide format
 
-## Count electorates on no of species within them ##
-# Isolated table of no of species per electorate
-elect.spec.uniq.elect.tbl <- join.intersect %>% 
+# Count no. of electorates each species range covers
+spec.range.elect <- join.intersect %>% 
   as_tibble() %>% 
   group_by(SCIENTIFIC_NAME) %>% 
   summarise(elect_range_covers = n_distinct(Elect_div))
 
-#### Join antijoin ####
+#### Clipping/antijoin ####
 
-# outside <- sapply(st_intersects(species.sl, electorates.ss), function(x){
-#   length(x) == 0
-#   })
-# 
-# inside.elects <- lengths(st_intersects(electorates.ss, species.sl)) > 0
-# outside.elects <- !inside.elects
+electorates.ss.union <- st_union(electorates.ss, by_feature = FALSE) %>% 
+  st_sf()
+
+# Logical vector method
+outside <- sapply(st_intersects(species.ss, electorates.ss.union), function(x){
+  length(x) == 0
+  })
+spec.out <- species.ss[outside, ]
+
+# Fact check
+antijoin.fc <- unique(join.intersect["SCIENTIFIC_NAME"])
+
+# Alt method
+inside.elects <- lengths(st_intersects(electorates.ss.union, species.ss)) > 0
+outside.elects <- !inside.elects
+
+
 
 #### Join difference ####
 

@@ -8,40 +8,24 @@ library(viridis)
 
 print(object.size(spec.per.elect.aus), units = "Kb")
 
-tm_shape(spec.per.elect.aus) +
+tm1 <- tm_shape(spec.per.elect.aus) +
   tm_polygons("total_unique_spec", 
               style = "jenks", 
               title = "Number of species",
               palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA")
 
-tm_shape(spec.per.elect.aus) +
-  tm_polygons("total_unique_spec", 
-              style = "jenks", 
-              title = "Number of species",
-              palette = "-viridis", 
-              border.col = "white") + 
-  tm_text("Elect_div", size = "AREA")
+tmap_save(tm1, file = "for_BEATS_preso.png")
 
+# Get rid of lines?
 tm_shape(spec.per.elect.aus) +
   tm_fill("total_unique_spec", 
               style = "jenks", 
               title = "Number of species",
               palette = "-viridis") + 
+  tm_text("Elect_div", size = "AREA") + 
   tm_borders(col = "white", 
-             lwd = 0.1)
-  tm_text("Elect_div", size = "AREA")
-
-
-
-
-
-
-
-  
-
-# Get rid of lines?
-
+             lwd = 0.000000000001)
 
 #### Leaflet mapping ####
 
