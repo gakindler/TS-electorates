@@ -6,26 +6,31 @@ library(leaflet)
 library(ggplot2)
 library(viridis)
 
+# Check size, for interactive maps?
 print(object.size(spec.per.elect.aus), units = "Kb")
 
-tm1 <- tm_shape(spec.per.elect.aus) +
-  tm_polygons("total_unique_spec", 
-              style = "jenks", 
-              title = "Number of species",
-              palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA")
+# Check bounding box 
+st_bbox(spec.per.elect.aus)
 
-tmap_save(tm1, file = "for_BEATS_preso.png")
-
-# Get rid of lines?
-tm_shape(spec.per.elect.aus) +
+# Remove Australian continent borders while maintaining internal borders?
+tm1 <- tm_shape(spec.per.elect.aus, 
+                bbox = st_bbox(c(xmin = 113, 
+                                 xmax = 154, 
+                                 ymin = -43.740482, 
+                                 ymax = -9.219937), 
+                               crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
-              style = "jenks", 
-              title = "Number of species",
-              palette = "-viridis") + 
+          style = "jenks", 
+          title = "Number of vulnerable species",
+          palette = "-magma") + 
   tm_text("Elect_div", size = "AREA") + 
-  tm_borders(col = "white", 
-             lwd = 0.000000000001)
+  tm_borders(alpha = 0.5) +
+  tm_compass(position = c("left", "bottom")) +
+  tm_scale_bar(position = c("left", "bottom"), 
+               width = 0.2) +
+  tm_layout(frame = FALSE)
+
+tmap_save(tm1, file = "plots/draft_spec.per.elect.png")
 
 #### Leaflet mapping ####
 
