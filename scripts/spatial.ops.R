@@ -6,6 +6,7 @@
 library(tidyverse)
 library(sf)
 library(rmapshaper)
+library(ggplot2)
 # library(remotes)
 
 #### Loading and subsetting ####
@@ -41,9 +42,9 @@ species.ss <- st_make_valid(species.ss)
 electorates.ss <- st_make_valid(electorates.ss)
 
 # Simplify geometry
-species.ss <- st_simplify(species.ss, dTolerance = 5000) # ___ metres?
-electorates.ss <- ms_simplify(electorates.ss, keep = 0.1, keep_shape = TRUE) # __% of original?
-australia.ss <- ms_simplify(australia.ss, keep = 0.1, keep_shape = TRUE) %>%
+species.ss <- st_simplify(species.ss, dTolerance = 20000) # ___ metres?
+electorates.ss <- ms_simplify(electorates.ss, keep = 0.01, keep_shape = TRUE) # __% of original?
+australia.ss <- ms_simplify(australia.ss, keep = 0.01, keep_shape = TRUE) %>%
   select(geometry)
 
 species.ss <- st_make_valid(species.ss)
@@ -52,21 +53,19 @@ australia.ss <- st_make_valid(australia.ss)
 
 #### Join intersect ####
 
-# # 'Electorates' object is the object x as we want to keep this geometry and
-# # inner join as we only want the intersect, not any disjointed values
-# join.intersect <- st_join(electorates.ss, species.ss,
-#                      join = st_intersects,
-#                      left = FALSE)
+# 'Electorates' object is the object x as we want to keep this geometry and
+# inner join as we only want the intersect, not any disjointed values
+join.intersect <- st_join(electorates.ss, species.ss,
+                     join = st_intersects,
+                     left = FALSE)
 
-# # Aggregate per electorate while maintaining species list
-# elect.spec.uniq.spec.exp <- join.intersect %>% 
-#   as_tibble() %>% 
-#   group_by(Elect_div) %>% 
-#   mutate()
-#   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-#   
-# exp <- split(species.sl)
+#### Join intersect-ion ####
 
+# Intersection join, functions as an inner join
+intersection <- st_intersection(electorates.ss, species.ss)
+intersection <- st_make_valid(intersection)
+
+#### Spec.per.elect - no. of species per electorate ####
 # Count no. of species per electorate, then snap onto Aus
 spec.per.elect <- electorates.ss %>% 
   st_join(species.ss) %>% 
@@ -75,13 +74,25 @@ spec.per.elect <- electorates.ss %>%
 spec.per.elect.aus <- st_intersection(australia.ss, spec.per.elect) %>% 
   st_make_valid()
 
+# # Count no. of species per electorate while maintaining species list
+# elect.spec.uniq.spec.exp <- join.intersect %>% 
+#   as_tibble() %>% 
+#   group_by(Elect_div) %>% 
+#   mutate()
+#   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+#   
+# exp <- split(species.sl)
+
+#### Spec.endemic.per.elect - species endemic to each electorate ####
 # Count no. of endemic species per electorate, then snap onto Aus
 spec.endemic.elect <- electorates.ss %>% 
   st_join(species.ss) %>% 
   group_by(SCIENTIFIC_NAME, Elect_div) %>% 
   summarise(elect_range_covers = n_distinct(SCIENTIFIC_NAME))
 
-# Count no. of endemic species per electorate in wide format
+# Count no. of endemic species per electorate in wide format?
+
+
 
 # Count no. of electorates each species range covers
 spec.range.elect <- join.intersect %>% 
@@ -114,20 +125,37 @@ outside.elects <- !inside.elects
 # join.diff <- st_difference(electorates.ss, species.sl)
 # join.diff.swap <- st_difference(species.sl, electorates.ss)
 
-#### Join intersect-ion ####
-
-# Intersection join, functions as an inner join
-intersection <- st_intersection(electorates, species)
-
-# Make valid again?
-intersection <- st_make_valid(intersection)
-
-# Write it
-st_write(intersection, dsn = "analysed_data/intersection.gpkg")
-
 
 # Calculate area of intersection-al polygons (i.e. individual species' range 
 # within each of their electorates
+
+#### Spec.range.elect - species range within each electorate ####
+
+electorates.ss.area <- electorates.ss %>% 
+  mutate(elect_area_sqm = st_area(geometry) %>% as.numeric())
+
+# PROBLEMO IS HERE - I'm getting species range within the electorate
+spec.range.elect <- st_intersection(electorates.ss.area, species.ss) %>% 
+  st_make_valid() %>% 
+  mutate(intersection_area_sqm = st_area(geometry) %>% as.numeric()) %>% 
+  transform(percent_range_within = intersection_area_sqm / elect_area_sqm)
+
+# Pause for a quick vis
+ggplot(spec.range.elect, aes(x = percent_range_within)) +
+  geom_histogram(binwidth = .02)
+
+spec.range.elect.eighty <- elect.spec.range.cover %>% 
+  filter(percent_range_within >= 0.8) %>% 
+  select(-c("Elect_div", "State"))
+
+spec.range.elect.eighty <- electorates.ss %>% 
+  st_join(spec.range.elect.eighty) %>% 
+  group_by(Elect_div) %>% 
+  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+spec.range.elect.eighty.aus <- st_intersection(australia.ss, spec.range.elect.eighty) %>% 
+  st_make_valid()
+
+
 
 # Total area of each species within each electorate?
 intersection.calcarea <- intersection %>% 
@@ -166,4 +194,6 @@ intersection.calcarea <- intersection %>%
 # 
 # tmap_save(tm.elect.spec, filename = "plots/tm_elect_spec.png", 
 #           width = 600, height = 600)
-
+# 
+# # Write it
+# st_write(intersection, dsn = "analysed_data/intersection.gpkg")
