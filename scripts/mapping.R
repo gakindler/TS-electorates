@@ -28,7 +28,7 @@ tm1 <- tm_shape(spec.per.elect.aus,
                                crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of vulnerable specs",
           palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -49,7 +49,7 @@ tm_shape(spec.range.elect.eighty.aus,
                                crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of vulnerable specs",
           palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -72,7 +72,7 @@ tm_shape(spec.per.elect.aus,
                         crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of vulnerable specs",
           palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -89,7 +89,7 @@ tm_shape(spec.per.elect.aus,
                         crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of vulnerable specs",
           palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -106,7 +106,7 @@ tm_shape(spec.per.elect.aus,
                         crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of vulnerable specs",
           palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -123,7 +123,7 @@ tm_shape(spec.per.elect.aus,
                         crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of vulnerable specs",
           palette = "-viridis") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -146,7 +146,7 @@ bins <- c(0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, Inf)
 pal <- colorBin("YlOrRd", domain = spec.per.elect.aus$total_unique_spec, bins = bins)
 labels <- sprintf(
   "<strong>Electorate</strong><br/>%s<br/>
-  <strong>Number of species</strong><br/>%d",
+  <strong>Number of specs</strong><br/>%d",
   spec.per.elect.aus$Elect_div, spec.per.elect.aus$total_unique_spec
   ) %>% lapply(htmltools::HTML)
 

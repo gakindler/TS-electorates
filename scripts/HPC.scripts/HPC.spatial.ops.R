@@ -7,27 +7,27 @@ library(sf)
 
 #### Loading and subsetting ####
 
-electorates <- st_read("/QRISdata/Q4107/raw_data/AEC_2019_superseded/COM_ELB_region.shp")
-species <-  st_read("/QRISdata/Q4107/raw_data/SNES_public_1july2021.gdb")
+elects <- st_read("/QRISdata/Q4107/raw_data/AEC_2019_superseded/COM_ELB_region.shp")
+specs <-  st_read("/QRISdata/Q4107/raw_data/SNES_public_1july2021.gdb")
 
-electorates <- select(electorates, c("Elect_div", "State", "Area_SqKm", "geometry"))
+elects <- select(elects, c("Elect_div", "State", "Area_SqKm", "geometry"))
 
 # Now playing around on a planar not geodesic scale
 sf_use_s2(FALSE)
 
-species <- st_make_valid(species)
-table((st_is_valid(species)))
+specs <- st_make_valid(specs)
+table((st_is_valid(specs)))
 
-electorates <- st_make_valid(electorates)
-table((st_is_valid(electorates)))
+elects <- st_make_valid(elects)
+table((st_is_valid(elects)))
 
-st_crs(electorates) == st_crs(species)
+st_crs(elects) == st_crs(specs)
 
 #### Join intersect ####
 
 # 'Electorates' object is the object x as we want to keep this geometry and
 # inner join as we only want the intersect, not any disjointed values
-join.intersect <- st_join(electorates, species, 
+join.intersect <- st_join(elects, specs, 
                           join = st_intersects, 
                           left = FALSE)
 
@@ -45,7 +45,7 @@ st_write(join.intersect, dsn = "/QRISdata/Q4107/analysed_data/intersect.nogeom.g
 #### Join intersect-ion ####
 
 # Intersection, functions as an inner join
-intersection <- st_intersection(electorates, species)
+intersection <- st_intersection(elects, specs)
 
 # Make valid again
 intersection <- st_make_valid(intersection)

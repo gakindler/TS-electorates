@@ -4,10 +4,10 @@ library(dplyr)
 library(sf)
 
 
-species.invalid <- slice(species.public, 1946, 3206, 3247)
-table((st_is_valid(species.invalid)))
-species.invalid <- species.invalid %>% select(geometry)
-st_write(species.invalid, dsn = "analysed_data/invalid.geom.gpkg")
+specs.invalid <- slice(specs.public, 1946, 3206, 3247)
+table((st_is_valid(specs.invalid)))
+specs.invalid <- specs.invalid %>% select(geometry)
+st_write(specs.invalid, dsn = "analysed_data/invalid.geom.gpkg")
 
 invalid.geom <- st_read(dsn = "analysed_data/invalid.geom.gpkg")
 
