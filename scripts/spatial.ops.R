@@ -28,7 +28,8 @@ st_crs(electorates) == st_crs(australia)
 specs.ss <- species %>% 
   filter(PRESENCE_RANK == 2) %>% 
   select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
-          "Shape_Area", "Shape"))
+          "Shape_Area", "Shape")) %>% 
+  st_make_valid()
 elects.ss <- electorates %>% 
   select(-c("Numccds", "Actual", "Projected", 
             "Total_Popu", "Australian", "Sortname"))
@@ -36,35 +37,16 @@ aus.ss <- australia %>%
   select(geometry) %>% 
   slice(1)
 
-# # Make valid
-specs.ss <- st_make_valid(specs.ss)
-elects.ss <- st_make_valid(elects.ss)
-
 # Simplify geometry
-specs.ss <- st_simplify(specs.ss, dTolerance = 20000) # ___ metres?
-elects.ss <- ms_simplify(elects.ss, keep = 0.01, keep_shape = TRUE) # __% of original?
+specs.ss <- st_simplify(specs.ss, dTolerance = 5000) %>% # ___ metres?
+  st_make_valid() 
+elects.ss <- ms_simplify(elects.ss, keep = 0.01, keep_shape = TRUE) %>%  # __% of original? 
+  st_make_valid()
 aus.ss <- ms_simplify(aus.ss, keep = 0.01, keep_shape = TRUE) %>%
-  select(geometry)
+  select(geometry) %>% 
+  st_make_valid()
 
-specs.ss <- st_make_valid(specs.ss)
-elects.ss <- st_make_valid(elects.ss)
-aus.ss <- st_make_valid(aus.ss)
-
-#### Join intersect ####
-
-# 'Electorates' object is the object x as we want to keep this geometry and
-# inner join as we only want the intersect, not any disjointed values
-join.intersect <- st_join(elects.ss, specs.ss,
-                     join = st_intersects,
-                     left = FALSE)
-
-#### Join intersect-ion ####
-
-# Intersection join, functions as an inner join
-intersection <- st_intersection(elects.ss, specs.ss)
-intersection <- st_make_valid(intersection)
-
-#### Spec.per.elect - no. of specs per electorate ####
+#### spec.per.elect - no. of specs per electorate ####
 # Count no. of specs per electorate, then snap onto Aus
 spec.per.elect <- elects.ss %>% 
   st_join(specs.ss) %>% 
@@ -82,24 +64,25 @@ spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>%
 #   
 # exp <- split(specs.sl)
 
-#### Spec.range.elect - specs range within each electorate ####
-
-# Create toy specs dataset, leave out the simplification step for this
-# slice_sample(specs.ss, n = 20)
-specs.ss <- specs.ss %>% 
+#### spec.range.elect - specs range within each electorate ####
+specs.ss.area <- specs.ss %>% 
+  slice_sample(n = 20) %>% 
   mutate(spec_area_sqm = st_area(Shape) %>% as.numeric())
 
 # Check for empty geoms
-table(st_dimension(specs.ss))
+table(st_dimension(specs.ss.area))
 
-elects.ss.area <- elects.ss %>% 
-  mutate(elect_area_sqm = st_area(geometry) %>% as.numeric()) %>% 
-  select(-"Area_SqKm")
-
-spec.range.elect <- st_intersection(elects.ss.area, specs.ss) %>% 
+spec.range.elect <- st_intersection(elects.ss, specs.ss.area) %>% 
   st_make_valid() %>% 
-  mutate(intersection_area_sqm = st_area(geometry) %>% as.numeric()) %>% 
+  mutate(intersection_area_sqm = st_area(geometry)) %>% 
   transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
+
+# PROBLEM: not calucalting percentages correctly
+
+st_geometry(spec.range.elect) <- NULL
+
+plot(spec.range.elect$geometry)
+summary(spec.range.elect$percent_range_within)
 
 # Pause for a quick vis
 ggplot(spec.range.elect, aes(x = percent_range_within)) +
@@ -107,27 +90,24 @@ ggplot(spec.range.elect, aes(x = percent_range_within)) +
 
 spec.range.elect.eighty <- spec.range.elect %>% 
   filter(percent_range_within >= 0.8) %>% 
-  select(-c("Elect_div", "State", "Shape_Area"))
+  select(-c("State", "Shape_Area")) %>% 
+  rename(Elect_div_orig = Elect_div)
 
-# Something is happening here where sometimes the elect_div of pre and post scripts
-# here are not matching up - could it be from the simplification step?
+# PROBLEM: sometimes the elect_div of pre and post scripts are not matching up 
 
-spec.range.elect.eighty <- elects.ss %>% 
-  st_join(spec.range.elect.eighty, left = FALSE) %>% 
+spec.range.elect.eighty.exp <- elects.ss %>% 
+  st_join(spec.range.elect.eighty, left = FALSE)
+
+table(spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig)
+
   group_by(Elect_div) %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
 spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
   st_make_valid()
 
+# Sum area after grouping elect_div and species?
 
-# Total area of each specs within each electorate?
-intersection.calcarea <- intersection %>% 
-  mutate(area = st_area(.) %>% as.numeric()) %>% 
-  as_tibble() %>%
-  group_by(Elect_div, SCIENTIFIC_NAME) %>%
-  summarise(area = sum(area))
-
-#### Spec.endemic.elect - specs endemic to each electorate ####
+#### spec.endemic.elect - specs endemic to each electorate ####
 # Count no. of endemic specs per electorate, then snap onto Aus
 spec.endemic.elect <- spec.range.elect %>% 
   filter(percent_range_within == 1) %>% 
@@ -150,18 +130,51 @@ spec.endemic.elect <- elects.ss %>%
 
 
 
-# Count no. of elects each specs range covers
-spec.range.elect <- join.intersect %>% 
-  as_tibble() %>% 
+#### elect.spec.cover - How many electorates does each species's range cover? ####
+elect.spec.cover <- elects.ss %>% 
+  st_join(specs.ss, left = FALSE) %>% 
   group_by(SCIENTIFIC_NAME) %>% 
   summarise(elect_range_covers = n_distinct(Elect_div))
 
-#### Clipping/antijoin ####
+#### spec.outside.elect - Clipping/antijoin ####
+# Couple of methods here:
+## 1. Same procedure as endemic but with st_difference
+specs.ss.area <- specs.ss %>% 
+  slice_sample(n = 20) %>% 
+  mutate(spec_area_sqm = st_area(Shape) %>% as.numeric())
 
+spec.outside.elect <- st_difference(specs.ss.area, elects.ss) %>% 
+  st_make_valid() %>% 
+  mutate(intersection_area_sqm = st_area(Shape)) %>% 
+  transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
+
+plot(spec.outside.elect$Shape)
+st_geometry(spec.outside.elect) <- NULL
+ggplot(spec.outside.elect, aes(x = percent_range_within)) +
+  geom_histogram()
+summary(spec.outside.elect$percent_range_within)
+
+# PROBLEM: Same as spec.range
+
+spec.range.elect.eighty <- spec.range.elect %>% 
+  filter(percent_range_within >= .8) %>% # Their range of less than 20% instead maybe? 
+  select(-c("State", "Shape_Area")) %>% 
+  rename(Elect_div_orig = Elect_div)
+
+spec.range.elect.eighty.exp <- elects.ss %>% 
+  st_join(spec.range.elect.eighty, left = FALSE)
+
+table(spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig)
+
+group_by(Elect_div) %>%
+  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
+  st_make_valid()
+
+## 2. Logical vector method
+# Make all electorates into the same feature
 elects.ss.union <- st_union(elects.ss, by_feature = FALSE) %>% 
   st_sf()
-
-# Logical vector method
 outside <- sapply(st_intersects(specs.ss, elects.ss.union), function(x){
   length(x) == 0
   })
@@ -170,29 +183,7 @@ spec.out <- specs.ss[outside, ]
 # Fact check
 antijoin.fc <- unique(join.intersect["SCIENTIFIC_NAME"])
 
-# Alt method
-inside.elects <- lengths(st_intersects(elects.ss.union, specs.ss)) > 0
-outside.elects <- !inside.elects
 
-
-
-#### Join difference ####
-
-# join.diff <- st_difference(elects.ss, specs.sl)
-# join.diff.swap <- st_difference(specs.sl, elects.ss)
-
-
-# Calculate area of intersection-al polygons (i.e. individual specs' range 
-# within each of their elects
-
-
-
-# st_geometry(intersection.calcarea) <- NULL
-# 
-# area.nogeom <- area
-# intersection <- area.nogeom$AREA_HA == area.nogeom$area
-# unique(intersection)
-# 
 # #### Other ####
 # 
 # st_geometry(intersect) <- NULL
@@ -205,17 +196,3 @@ outside.elects <- !inside.elects
 # 
 # filter <- st_filter(elects.ss, specs.sl, .pred = st_intersects())
 # 
-# #### Plotting ####
-# 
-# tm.elect.spec <- tm_shape(elect.spec) +
-#   tm_polygons(col = "lightblue")
-# 
-# #### Saving ####
-# 
-# write.csv(elect.spec.ng, file = "analysed_data/elect_spec.csv")
-# 
-# tmap_save(tm.elect.spec, filename = "plots/tm_elect_spec.png", 
-#           width = 600, height = 600)
-# 
-# # Write it
-# st_write(intersection, dsn = "analysed_data/intersection.gpkg")
