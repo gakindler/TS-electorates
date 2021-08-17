@@ -1,4 +1,4 @@
-# baleful-pantomime [electoral_analysis]
+# Electoral analysis
 
 ## To do:
 * What do I need to do about "MIGRATORY_STATUS" "MARINE" "CETACEAN" when comes to "THREATENED_STATUS"?
