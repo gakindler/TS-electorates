@@ -1,5 +1,4 @@
-# Answering questions from my manuscript and improving MW's tables
-# Also using R for GIS, let's see how far I get
+# Back end spatial operations to answer the research questions
 
 #### Libraries ####
 
@@ -9,13 +8,14 @@ library(rmapshaper)
 library(ggplot2)
 # library(remotes)
 
-#### Loading and subsetting ####
+#### Loading and pre-processing ####
 
 electorates <- st_read("raw_data/AEC_2019_superseded/COM_ELB_region.shp")
 species <- st_read("raw_data/SNES_public_1july2021.gdb")
 # specs.public <- st_read("raw_data/snes_public_grids_08Aug2019.gdb", layer = "specs_combined")
 # st_layers("raw_data/snes_public_grids_08Aug2019.gdb")
 australia <- st_read("raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
+demography <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
 
 # What are the unique values of each attribute?
 # unique <- lapply(species, unique)
@@ -28,17 +28,28 @@ st_crs(electorates) == st_crs(australia)
 specs.ss <- species %>% 
   filter(PRESENCE_RANK == 2) %>% 
   select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
-          "Shape_Area", "Shape")) %>% 
+          "Shape_Area", "Shape", "REGIONS")) %>% 
   st_make_valid()
+
+# The 'electorates' file has a couple of contractions that do not match 'demography' file
+electorates$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", electorates$Elect_div) 
+electorates$Elect_div <- gsub("Mcewen", "McEwen", electorates$Elect_div) 
+electorates$Elect_div <- gsub("Mcmahon", "McMahon", electorates$Elect_div) 
+electorates$Elect_div <- gsub("Mcpherson", "McPherson", electorates$Elect_div) 
+electorates$Elect_div <- gsub("O'connor", "O'Connor", electorates$Elect_div) 
 elects.ss <- electorates %>% 
+  left_join(demography, by = c("Elect_div" = "Electoral division")) %>% 
   select(-c("Numccds", "Actual", "Projected", 
-            "Total_Popu", "Australian", "Sortname"))
+            "Total_Popu", "Australian", "Sortname", "State or territory")) %>% 
+  rename(Demographic_class = "Demographic classification")
+
+# Cutting random bs
 aus.ss <- australia %>% 
   select(geometry) %>% 
   slice(1)
 
 # Simplify geometry
-specs.ss <- st_simplify(specs.ss, dTolerance = 5000) %>% # ___ metres?
+specs.ss <- st_simplify(specs.ss, dTolerance = 20000) %>% # ___ metres?
   st_make_valid() 
 elects.ss <- ms_simplify(elects.ss, keep = 0.01, keep_shape = TRUE) %>%  # __% of original? 
   st_make_valid()
@@ -64,20 +75,29 @@ spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>%
 #   
 # exp <- split(specs.sl)
 
+#### demo.spec - How do species relate to AEC's demography? ####
+
+demo.spec <- elects.ss %>% 
+  st_join(specs.ss) %>% 
+  group_by(Elect_div) %>% 
+  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
+  ungroup()
+demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>% 
+  st_make_valid()
+
 #### spec.range.elect - specs range within each electorate ####
 specs.ss.area <- specs.ss %>% 
+  filter(REGIONS == "NSW") %>% 
   slice_sample(n = 20) %>% 
   mutate(spec_area_sqm = st_area(Shape) %>% as.numeric())
 
-# Check for empty geoms
-table(st_dimension(specs.ss.area))
-
-spec.range.elect <- st_intersection(elects.ss, specs.ss.area) %>% 
-  st_make_valid() %>% 
-  mutate(intersection_area_sqm = st_area(geometry)) %>% 
+spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>% 
+  mutate(intersection_area_sqm = st_area(Shape) %>% as.numeric()) %>% 
   transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
 
-# PROBLEM: not calucalting percentages correctly
+table(spec.range.elect$spec_area_sqm > spec.range.elect$intersection_area_sqm)
+
+# PROBLEM: something is going wrong with the intersection function
 
 st_geometry(spec.range.elect) <- NULL
 
@@ -140,15 +160,13 @@ elect.spec.cover <- elects.ss %>%
 # Couple of methods here:
 ## 1. Same procedure as endemic but with st_difference
 specs.ss.area <- specs.ss %>% 
-  slice_sample(n = 20) %>% 
   mutate(spec_area_sqm = st_area(Shape) %>% as.numeric())
 
 spec.outside.elect <- st_difference(specs.ss.area, elects.ss) %>% 
   st_make_valid() %>% 
-  mutate(intersection_area_sqm = st_area(Shape)) %>% 
+  mutate(intersection_area_sqm = st_area(Shape) %>% as.numeric()) %>% 
   transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
 
-plot(spec.outside.elect$Shape)
 st_geometry(spec.outside.elect) <- NULL
 ggplot(spec.outside.elect, aes(x = percent_range_within)) +
   geom_histogram()

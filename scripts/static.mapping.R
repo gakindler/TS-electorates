@@ -10,13 +10,11 @@
 
 #### Libraries ####
 
-library(tidyverse)
 library(sf)
 library(tmap)
 library(leaflet)
 library(ggplot2)
 library(viridis)
-library(grid)
 
 #### spec.per.elect ####
 
@@ -35,7 +33,7 @@ tm1 <- tm_shape(spec.per.elect.aus,
                                  ymin = -43.740482,
                                  xmax = 154, 
                                  ymax = -9.219937), 
-                               crs = st_crs(spec.per.elect.aus))) +
+                               crs = st_crs(4283))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
           title = "Number of vulnerable specs",
@@ -46,25 +44,6 @@ tm1 <- tm_shape(spec.per.elect.aus,
   tm_scale_bar(position = c("left", "bottom"), 
                width = 0.2) +
   tm_layout(frame = FALSE)
-
-# Inset maps?
-syd.region <- tm_shape(spec.per.elect.aus, 
-                       bbox = st_bbox(c(xmin = 150.3871677534, 
-                                        ymin = -34.2640872964,
-                                        xmax = 151.4690855434, 
-                                        ymax = -33.455856658), 
-                                      crs = st_crs(spec.per.elect.aus))) +
-  tm_fill("total_unique_spec", 
-          style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
-  tm_borders(alpha = 0.3) +
-  tm_layout(frame = FALSE)
-
-tm1
-print(syd.region, vp = viewport(0.8, 0.27, width = 0.5, height = 0.5))
-
 
 tmap_save(tm1, file = "plots/draft_spec.per.elect.png")
 
@@ -89,14 +68,7 @@ tm_shape(spec.range.elect.eighty.aus,
 
 tmap_save(tm1, file = "plots/draft_spec.range.elect.eighty.png")
 
-#### demo.spec ####
-
-tm_shape(demo.spec.aus, bbox = st_bbox(c(xmin = 113, 
-                                         ymin = -43.740482,
-                                         xmax = 154, 
-                                         ymax = -9.219937), 
-                                       crs = st_crs(4283))) +
-  tm_fill("Demographic.classification")
+#### 
 
 
 #### other ####
