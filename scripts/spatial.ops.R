@@ -49,11 +49,16 @@ aus.ss <- australia %>%
   slice(1)
 
 # Simplify geometry
-specs.ss <- st_simplify(specs.ss, dTolerance = 20000) %>% # ___ metres?
+specs.ss <- st_simplify(specs.ss, 
+                        dTolerance = 20000) %>% # units of metres
   st_make_valid() 
-elects.ss <- ms_simplify(elects.ss, keep = 0.01, keep_shape = TRUE) %>%  # __% of original? 
+elects.ss <- ms_simplify(elects.ss, 
+                         keep = 0.01, 
+                         keep_shape = TRUE) %>%  # __% of original? 
   st_make_valid()
-aus.ss <- ms_simplify(aus.ss, keep = 0.01, keep_shape = TRUE) %>%
+aus.ss <- ms_simplify(aus.ss,
+                      keep = 0.01, 
+                      keep_shape = TRUE) %>%
   select(geometry) %>% 
   st_make_valid()
 
@@ -87,26 +92,29 @@ demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>%
 
 #### spec.range.elect - specs range within each electorate ####
 specs.ss.area <- specs.ss %>% 
-  filter(REGIONS == "NSW") %>% 
-  slice_sample(n = 20) %>% 
+  # filter(REGIONS == "NSW") %>% 
+  # slice_sample(n = 20) %>% 
   mutate(spec_area_sqm = st_area(Shape) %>% as.numeric())
 
 spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>% 
   mutate(intersection_area_sqm = st_area(Shape) %>% as.numeric()) %>% 
   transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
 
-table(spec.range.elect$spec_area_sqm > spec.range.elect$intersection_area_sqm)
+# Check percentage calculations are correct
+if (max(spec.range.elect$percent_range_within) <= 1){
+  spec.range.elect.eighty <- spec.range.elect %>% 
+    filter(percent_range_within >= 0.8) %>% 
+    select(-c("State", "Shape_Area")) %>% 
+    rename(Elect_div_orig = Elect_div)
+} else{
+  print("Your percentage values are not right")
+  percent.error <- spec.range.elect %>% 
+    filter(spec_area_sqm < intersection_area_sqm)
+  ggplot(spec.range.elect, aes(x = percent_range_within)) +
+    geom_histogram(binwidth = .02)
+}
 
-# PROBLEM: something is going wrong with the intersection function
 
-st_geometry(spec.range.elect) <- NULL
-
-plot(spec.range.elect$geometry)
-summary(spec.range.elect$percent_range_within)
-
-# Pause for a quick vis
-ggplot(spec.range.elect, aes(x = percent_range_within)) +
-  geom_histogram(binwidth = .02)
 
 spec.range.elect.eighty <- spec.range.elect %>% 
   filter(percent_range_within >= 0.8) %>% 
@@ -115,11 +123,23 @@ spec.range.elect.eighty <- spec.range.elect %>%
 
 # PROBLEM: sometimes the elect_div of pre and post scripts are not matching up 
 
-spec.range.elect.eighty.exp <- elects.ss %>% 
+spec.range.elect.eighty <- elects.ss %>% 
   st_join(spec.range.elect.eighty, left = FALSE)
 
-table(spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig)
+if (spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig){
+  group_by(Elect_div) %>%
+  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+} else{
+  "Your rejoin produced different electorate division results"
+}
 
+spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
+  st_make_valid()
+
+    
+spec.range.elect.eighty <- elects.ss %>% 
+  st_join(spec.range.elect.eighty, left = FALSE) %>% 
+    # table(spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig)
   group_by(Elect_div) %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
 spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
