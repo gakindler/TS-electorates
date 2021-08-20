@@ -10,7 +10,7 @@ library(ggplot2)
 
 #### Loading and pre-processing ####
 
-electorates <- st_read("raw_data/AEC_2019_superseded/COM_ELB_region.shp")
+electorates <- st_read("raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
 species <- st_read("raw_data/SNES_public_1july2021.gdb")
 # specs.public <- st_read("raw_data/snes_public_grids_08Aug2019.gdb", layer = "specs_combined")
 # st_layers("raw_data/snes_public_grids_08Aug2019.gdb")
@@ -62,12 +62,14 @@ aus.ss <- ms_simplify(aus.ss,
   select(geometry) %>% 
   st_make_valid()
 
-#### spec.per.elect - no. of specs per electorate ####
+#### spec.per.elect - no. of specs per electorate and concentration ####
 # Count no. of specs per electorate, then snap onto Aus
 spec.per.elect <- elects.ss %>% 
   st_join(specs.ss) %>% 
   group_by(Elect_div) %>% 
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
+  mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
+  mutate(species_concentration = total_unique_spec / eletcs_area_sqm)
 spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>% 
   st_make_valid()
 
@@ -92,63 +94,50 @@ demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>%
 
 #### spec.range.elect - specs range within each electorate ####
 specs.ss.area <- specs.ss %>% 
-  # filter(REGIONS == "NSW") %>% 
+  filter(REGIONS == "WA") %>% 
   # slice_sample(n = 20) %>% 
-  mutate(spec_area_sqm = st_area(Shape) %>% as.numeric())
+  mutate(spec_area_sqm = st_area(.) %>% as.numeric())
 
 spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>% 
-  mutate(intersection_area_sqm = st_area(Shape) %>% as.numeric()) %>% 
+  mutate(intersection_area_sqm = st_area(.) %>% as.numeric()) %>% 
   transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
 
-# Check percentage calculations are correct
-if (max(spec.range.elect$percent_range_within) <= 1){
-  spec.range.elect.eighty <- spec.range.elect %>% 
+if (max(spec.range.elect$percent_range_within) <= 1){ # If this is changed to '<=' 1 this creates an error
+  spec.eighty.elect <- spec.range.elect %>% 
     filter(percent_range_within >= 0.8) %>% 
     select(-c("State", "Shape_Area")) %>% 
     rename(Elect_div_orig = Elect_div)
 } else{
-  print("Your percentage values are not right")
+  print("Your percentage values are not right, check 'percent.error' df for answers or plot window")
   percent.error <- spec.range.elect %>% 
     filter(spec_area_sqm < intersection_area_sqm)
   ggplot(spec.range.elect, aes(x = percent_range_within)) +
     geom_histogram(binwidth = .02)
 }
 
+# PROBLEM: the max percent_range_within value is 1 but script is saying it is higher, wtf? 
 
+spec.eighty.elect <- elects.ss %>% 
+  st_join(spec.eighty.elect, left = FALSE)
 
-spec.range.elect.eighty <- spec.range.elect %>% 
-  filter(percent_range_within >= 0.8) %>% 
-  select(-c("State", "Shape_Area")) %>% 
-  rename(Elect_div_orig = Elect_div)
+if (all(spec.eighty.elect$Elect_div == spec.eighty.elect$Elect_div_orig)){
+  spec.eighty.elect <- spec.eighty.elect %>% 
+    group_by(Elect_div) %>% 
+    summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+  spec.eighty.elect.aus <- st_intersection(aus.ss, spec.eighty.elect) %>%
+    st_make_valid()
+} else{
+  print("There are electorate division discrepancies, check plot window")
+  base::plot(table(spec.eighty.elect$Elect_div == spec.eighty.elect$Elect_div_orig))
+}
 
 # PROBLEM: sometimes the elect_div of pre and post scripts are not matching up 
 
-spec.range.elect.eighty <- elects.ss %>% 
-  st_join(spec.range.elect.eighty, left = FALSE)
-
-if (spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig){
-  group_by(Elect_div) %>%
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-} else{
-  "Your rejoin produced different electorate division results"
-}
-
-spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
-  st_make_valid()
-
-    
-spec.range.elect.eighty <- elects.ss %>% 
-  st_join(spec.range.elect.eighty, left = FALSE) %>% 
-    # table(spec.range.elect.eighty$Elect_div == spec.range.elect.eighty$Elect_div_orig)
-  group_by(Elect_div) %>%
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
-  st_make_valid()
-
-# Sum area after grouping elect_div and species?
-
 #### spec.endemic.elect - specs endemic to each electorate ####
 # Count no. of endemic specs per electorate, then snap onto Aus
+
+# TO DO: Add conditional evaluation to this section
+
 spec.endemic.elect <- spec.range.elect %>% 
   filter(percent_range_within == 1) %>% 
   select(-c("Elect_div", "State", "Shape_Area"))
@@ -160,21 +149,21 @@ spec.endemic.elect <- elects.ss %>%
 spec.endemic.elect.aus <- st_intersection(aus.ss, spec.endemic.elect) %>%
   st_make_valid()
 
-
-spec.endemic.elect <- elects.ss %>% 
-  st_join(specs.ss) %>% 
-  group_by(SCIENTIFIC_NAME, Elect_div) %>% 
-  summarise(elect_range_covers = n_distinct(SCIENTIFIC_NAME))
-
-# Count no. of endemic specs per electorate in wide format?
-
-
+# TO DO: Count no. of endemic specs per electorate in wide format?
 
 #### elect.spec.cover - How many electorates does each species's range cover? ####
 elect.spec.cover <- elects.ss %>% 
   st_join(specs.ss, left = FALSE) %>% 
   group_by(SCIENTIFIC_NAME) %>% 
   summarise(elect_range_covers = n_distinct(Elect_div))
+
+elect.spec.cover.status <- specs.ss %>% 
+  as.data.frame() %>% 
+  select(c("SCIENTIFIC_NAME", "THREATENED_STATUS")) %>% 
+  left_join(elect.spec.cover, by = "SCIENTIFIC_NAME") %>% 
+  as.data.frame() %>% 
+  select(-"geometry") %>% 
+  drop_na()
 
 #### spec.outside.elect - Clipping/antijoin ####
 # Couple of methods here:
