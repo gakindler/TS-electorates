@@ -5,7 +5,6 @@
 library(tidyverse)
 library(sf)
 library(rmapshaper)
-library(ggplot2)
 # library(remotes)
 
 #### Loading and pre-processing ####
@@ -93,45 +92,39 @@ demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>%
   st_make_valid()
 
 #### spec.range.elect - specs range within each electorate ####
+# Calculate total area of each species's range
 specs.ss.area <- specs.ss %>% 
   filter(REGIONS == "WA") %>% 
-  # slice_sample(n = 20) %>% 
+  slice_sample(n = 100) %>% 
   mutate(spec_area_sqm = st_area(.) %>% as.numeric())
 
-spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>% 
+# Calculate the percentage of species area within each electorate 
+spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>%
   mutate(intersection_area_sqm = st_area(.) %>% as.numeric()) %>% 
-  transform(percent_range_within = intersection_area_sqm / spec_area_sqm)
+  transform(percent_range_within = intersection_area_sqm / spec_area_sqm) %>% 
+  mutate(across(percent_range_within, round, digits = 2)) # Negates floating point problems (hopefully)
 
-if (max(spec.range.elect$percent_range_within) <= 1){ # If this is changed to '<=' 1 this creates an error
-  spec.eighty.elect <- spec.range.elect %>% 
+# Filter for species which have >80% of their range within an electorate
+spec.range.elect.eighty <- spec.range.elect %>% 
     filter(percent_range_within >= 0.8) %>% 
-    select(-c("State", "Shape_Area")) %>% 
+    select(-c("State", "Shape_Area", "Elect_div", "spec_area_sqm", "Area_SqKm",
+              "intersection_area_sqm", "Demographic_class")) %>% 
     rename(Elect_div_orig = Elect_div)
-} else{
-  print("Your percentage values are not right, check 'percent.error' df for answers or plot window")
-  percent.error <- spec.range.elect %>% 
-    filter(spec_area_sqm < intersection_area_sqm)
-  ggplot(spec.range.elect, aes(x = percent_range_within)) +
-    geom_histogram(binwidth = .02)
-}
 
-# PROBLEM: the max percent_range_within value is 1 but script is saying it is higher, wtf? 
+spec.range.elect.eighty.exp <- elects.ss %>% 
+  st_join(spec.range.elect.eighty, left = FALSE) 
 
-spec.eighty.elect <- elects.ss %>% 
-  st_join(spec.eighty.elect, left = FALSE)
+# PROBLEM: this join is duplicating rows that shouldn't need to be duplicated?
 
-if (all(spec.eighty.elect$Elect_div == spec.eighty.elect$Elect_div_orig)){
-  spec.eighty.elect <- spec.eighty.elect %>% 
+if (nrow(spec.range.elect.eighty) == nrow(spec.range.elect.eighty.exp)){
+  spec.range.elect.eighty <- spec.range.elect.eighty %>% 
     group_by(Elect_div) %>% 
     summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-  spec.eighty.elect.aus <- st_intersection(aus.ss, spec.eighty.elect) %>%
+  spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.eighty.elect.exp) %>%
     st_make_valid()
 } else{
-  print("There are electorate division discrepancies, check plot window")
-  base::plot(table(spec.eighty.elect$Elect_div == spec.eighty.elect$Elect_div_orig))
+  print("This spatial join has duplicated rows")
 }
-
-# PROBLEM: sometimes the elect_div of pre and post scripts are not matching up 
 
 #### spec.endemic.elect - specs endemic to each electorate ####
 # Count no. of endemic specs per electorate, then snap onto Aus

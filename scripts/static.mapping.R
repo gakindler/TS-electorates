@@ -14,9 +14,16 @@ library(tidyverse)
 library(sf)
 library(tmap)
 library(leaflet)
-library(ggplot2)
 library(viridis)
 library(grid)
+
+#### diagnostic ####
+
+tm_shape(intersects) +
+  tm_polygons() +
+  tm_shape(elects.ss) +
+  tm_polygons()
+
 
 #### spec.per.elect ####
 
