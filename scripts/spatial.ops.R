@@ -68,7 +68,7 @@ spec.per.elect <- elects.ss %>%
   group_by(Elect_div) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
   mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
-  mutate(species_concentration = total_unique_spec / eletcs_area_sqm)
+  mutate(species_concentration = total_unique_spec / elects_area_sqm)
 spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>% 
   st_make_valid()
 
