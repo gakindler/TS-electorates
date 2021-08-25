@@ -95,26 +95,55 @@ demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>%
 # Calculate total area of each species's range
 specs.ss.area <- specs.ss %>% 
   filter(REGIONS == "WA") %>% 
-  slice_sample(n = 100) %>% 
+  # slice_sample(n = 100) %>% 
   mutate(spec_area_sqm = st_area(.) %>% as.numeric())
 
 # Calculate the percentage of species area within each electorate 
 spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>%
   mutate(intersection_area_sqm = st_area(.) %>% as.numeric()) %>% 
-  transform(percent_range_within = intersection_area_sqm / spec_area_sqm) %>% 
+  mutate(percent_range_within = intersection_area_sqm / spec_area_sqm) %>% 
   mutate(across(percent_range_within, round, digits = 2)) # Negates floating point problems (hopefully)
 
 # Filter for species which have >80% of their range within an electorate
 spec.range.elect.eighty <- spec.range.elect %>% 
-    filter(percent_range_within >= 0.8) %>% 
-    select(-c("State", "Shape_Area", "Elect_div", "spec_area_sqm", "Area_SqKm",
-              "intersection_area_sqm", "Demographic_class")) %>% 
-    rename(Elect_div_orig = Elect_div)
+  filter(percent_range_within >= 0.8) %>% 
+  select(-c("State", "Shape_Area", "spec_area_sqm", "Area_SqKm",
+             "intersection_area_sqm", "Demographic_class")) %>% 
+  rename(Elect_div_orig = Elect_div)
 
 spec.range.elect.eighty.exp <- elects.ss %>% 
-  st_join(spec.range.elect.eighty, left = FALSE) 
+  st_join(spec.range.elect.eighty, 
+          join = st_overlaps, 
+          left = FALSE)
+
+spec.range.elect.eighty.exp <- st_join(elects.ss, spec.range.elect.eighty, left = FALSE) 
+
+st_write(spec.range.elect.eighty, dsn = "analysed_data/spec_range_elect_eighty.shp", 
+         layer = 'spec.range.elect.eighty')
+
+table(spec.range.elect.eighty.exp$SCIENTIFIC_NAME)
+
+discrep.exp <- spec.range.elect.eighty.exp %>% 
+  group_by(SCIENTIFIC_NAME) %>% 
+  filter(n() > 1)
+  
+discrep.exp <- table(spec.range.elect.eighty.exp$SCIENTIFIC_NAME)
+
+discrep <- anti_join(spec.range.elect.eighty.exp, spec.range.elect.eighty,
+                     by = c("Elect_div" = "Elect_div_orig", "SCIENTIFIC_NAME" = "SCIENTIFIC_NAME"))
+
+st_write(discrep, dsn = "analysed_data/discrep/discrep.shp", 
+         layer = 'discrep')
 
 # PROBLEM: this join is duplicating rows that shouldn't need to be duplicated?
+# ANSWER: I did not understand how the intersects predicate works. 
+# If you've got geometry that shares the same boundaries i.e. federal electoral boundaries
+# And you try and join previously intersection-ed data with that geometry it is
+# going to share the boundaries with the geometry that was sliced it
+# Therefore if you try to rejoin with this geometry, it's not going to function 
+# how I wanted it to which was only capture where the majority of the geometry was contained
+# It's going to be captured by the shared borders too, therefore duplicating it
+# WHATTA GENIUS
 
 if (nrow(spec.range.elect.eighty) == nrow(spec.range.elect.eighty.exp)){
   spec.range.elect.eighty <- spec.range.elect.eighty %>% 
@@ -192,6 +221,7 @@ spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) 
   st_make_valid()
 
 ## 2. Logical vector method
+# More from Ryan Peek - https://ryanpeek.org/mapping-in-R-workshop/03_spatial_joins.html
 # Make all electorates into the same feature
 elects.ss.union <- st_union(elects.ss, by_feature = FALSE) %>% 
   st_sf()
