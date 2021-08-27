@@ -4,7 +4,7 @@
 
 library(tidyverse)
 library(sf)
-library(rmapshaper) # For installing use 'library(remotes)'
+# library(rmapshaper) # For installing use 'library(remotes)'
 
 #### Loading and pre-processing ####
 
@@ -65,13 +65,29 @@ aus.ss <- australia %>%
 spec.per.elect <- elects.ss %>% 
   st_join(specs.ss) %>% 
   group_by(Elect_div) %>% 
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
-  mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
-  mutate(species_concentration = total_unique_spec / elects_area_sqm)
+  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) 
+  # mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
+  # mutate(species_concentration = total_unique_spec / elects_area_sqm)
+st_write(spec.per.elect, 
+         dsn = "analysed_data/spatial_ops_output/spec.per.elect.gpkg", 
+         layer = 'spec.per.elect')
+
 spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>% 
   st_make_valid()
+st_write(spec.per.elect.aus, 
+         dsn = "analysed_data/spatial_ops_output/spec.per.elect.aus.gpkg", 
+         layer = 'spec.per.elect.aus')
 
-# # Count no. of specs per electorate while maintaining specs list
+# Count no. of specs per electorate while maintaining specs list
+
+spec.per.elect.mutate <- elects.ss %>% 
+  st_join(specs.ss) %>% 
+  group_by(Elect_div) %>% 
+  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+st_write(spec.per.elect.mutate, 
+         dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.mutate.gpkg", 
+         layer = 'spec.per.elect.mutate')
+
 # elect.spec.uniq.spec.exp <- join.intersect %>% 
 #   as_tibble() %>% 
 #   group_by(Elect_div) %>% 
@@ -83,12 +99,18 @@ spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>%
 #### demo.spec - demography and species ####
 
 demo.spec <- elects.ss %>% 
-  st_join(specs.ss) %>% 
-  group_by(Elect_div) %>% 
-  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
-  ungroup()
+  st_join(specs.ss) 
+  group_by(Demographic_class) %>% 
+  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+st_write(demo.spec, 
+         dsn = "analysed_data/spatial_ops_output/demo.spec.gpkg", 
+         layer = 'demo.spec')
+
 demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>% 
   st_make_valid()
+st_write(demo.spec.aus, 
+         dsn = "analysed_data/spatial_ops_output/demo.spec.aus.gpkg", 
+         layer = 'demo.spec.aus')
 
 #### spec.range.elect - specs range within each electorate ####
 # Calculate total area of each species's range
@@ -111,9 +133,15 @@ spec.range.elect.eighty <- spec.range.elect %>%
   st_as_sf() %>% 
   group_by(Elect_div) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+st_write(spec.range.elect.eighty, 
+         dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.gpkg", 
+         layer = 'spec.range.elect.eighty')
 
 spec.range.elect.eighty.aus <- st_intersection(aus.ss, spec.range.elect.eighty) %>%
   st_make_valid()
+st_write(spec.range.elect.eighty.aus, 
+         dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.aus.gpkg", 
+         layer = 'spec.range.elect.eighty.aus')
 
 #### spec.endemic.elect - specs endemic to each electorate ####
 
@@ -127,8 +155,15 @@ spec.endemic.elect <- spec.range.elect %>%
   st_as_sf() %>% 
   group_by(Elect_div) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+st_write(spec.endemic.elect, 
+         dsn = "analysed_data/spatial_ops_output/spec.endemic.elect.gpkg", 
+         layer = 'spec.endemic.elect')
+
 spec.endemic.elect.aus <- st_intersection(aus.ss, spec.endemic.elect) %>%
   st_make_valid()
+st_write(spec.endemic.elect.aus, 
+         dsn = "analysed_data/spatial_ops_output/spec.endemic.elect.aus.gpkg", 
+         layer = 'spec.endemic.elect.aus')
 
 # TO DO: Count no. of endemic specs per electorate in wide format?
 
@@ -144,6 +179,8 @@ elect.spec.cover.status <- specs.ss %>%
   left_join(elect.spec.cover, by = "SCIENTIFIC_NAME") %>% 
   as.data.frame() %>% 
   select(-"geometry")
+write.csv(elect.spec.cover.status, 
+          file = "analysed_data/spatial_ops_output/elect.spec.cover.status.csv")
 
 #### spec.outside.elect ####
 # Two methods here:
@@ -158,6 +195,9 @@ spec.outside.elect <- st_difference(specs.ss.area, elects.ss.union) %>%
   mutate(percent_range_outside = outside_area_sqm / spec_area_sqm) %>% 
   mutate(across(percent_range_outside, round, digits = 2)) %>% 
   filter(percent_range_outside >= .8) # 80% who chose this? Did you? Did I?
+st_write(spec.outside.elect, 
+         dsn = "analysed_data/spatial_ops_output/spec.outside.elect.gpkg", 
+         layer = 'spec.outside.elect')
 
 ## 2. Logical vector method
 # More from Ryan Peek - https://ryanpeek.org/mapping-in-R-workshop/03_spatial_joins.html
@@ -165,7 +205,7 @@ spec.outside.elect <- st_difference(specs.ss.area, elects.ss.union) %>%
 outside <- sapply(st_intersects(specs.ss, elects.ss.union), function(x){
   length(x) == 0
   })
-spec.out <- specs.ss[outside, ]
-
-# Fact check
-antijoin.fc <- unique(join.intersect["SCIENTIFIC_NAME"])
+spec.outside.elect.logical <- specs.ss[outside, ]
+st_write(spec.outside.elect.logical, 
+         dsn = "analysed_data/spatial_ops_output/spec.outside.elect.logical.gpkg", 
+         layer = 'spec.outside.elect.logical')

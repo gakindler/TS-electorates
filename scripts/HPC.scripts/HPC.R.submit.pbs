@@ -5,14 +5,14 @@
 #PBS -l select=1:ncpus=16:mem=120GB
 #PBS -l walltime=12:00:00
 #PBS -N HPCBigAnalyses
-#PBS -q Special
-# Remember to remove special queue later
 
 cd $PBS_O_WORKDIR
 
+cd $TMPDIR
+
 module load R/4.1.0+sf
 
-Rscript ###.pbs
+Rscript HPC.spatial.ops.R
 
 # When using containers on HPC
 # echo "Rscript HPC.spatial.ops.R" | shell
