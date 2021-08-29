@@ -8,8 +8,6 @@
 
 cd $PBS_O_WORKDIR
 
-cd $TMPDIR
-
 module load R/4.1.0+sf
 
 Rscript HPC.spatial.ops.R

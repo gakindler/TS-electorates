@@ -37,48 +37,48 @@ aus.ss <- australia %>%
   select(geometry) %>% 
   slice(1)
 
-#### spec.per.elect - no. of specs per electorate and concentration ####
-
-spec.per.elect <- elects.ss %>% 
-  st_join(specs.ss) %>% 
-  group_by(Elect_div) %>% 
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
-  mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
-  mutate(species_concentration = total_unique_spec / elects_area_sqm)
-st_write(spec.per.elect, 
-         dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.gpkg", 
-         layer = 'spec.per.elect')
-
-spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>% 
-  st_make_valid()
-st_write(spec.per.elect.aus, 
-         dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.aus.gpkg", 
-         layer = 'spec.per.elect.aus')
-
-# Count no. of specs per electorate while maintaining specs list
-spec.per.elect.mutate <- elects.ss %>% 
-  st_join(specs.ss) %>% 
-  group_by(Elect_div) %>% 
-  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-st_write(spec.per.elect.mutate, 
-         dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.mutate.gpkg", 
-         layer = 'spec.per.elect.mutate')
-
-#### demo.spec - demography and species ####
-
-demo.spec <- elects.ss %>% 
-  st_join(specs.ss) 
-group_by(Demographic_class) %>% 
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-st_write(demo.spec, 
-         dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/demo.spec.gpkg", 
-         layer = 'demo.spec')
-
-demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>% 
-  st_make_valid()
-st_write(demo.spec.aus, 
-         dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/demo.spec.aus.gpkg", 
-         layer = 'demo.spec.aus')
+# #### spec.per.elect - no. of specs per electorate and concentration ####
+# 
+# spec.per.elect <- elects.ss %>% 
+#   st_join(specs.ss) %>% 
+#   group_by(Elect_div) %>% 
+#   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>% 
+#   mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
+#   mutate(species_concentration = total_unique_spec / elects_area_sqm)
+# st_write(spec.per.elect, 
+#          dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.gpkg", 
+#          layer = 'spec.per.elect')
+# 
+# spec.per.elect.aus <- st_intersection(aus.ss, spec.per.elect) %>% 
+#   st_make_valid()
+# st_write(spec.per.elect.aus, 
+#          dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.aus.gpkg", 
+#          layer = 'spec.per.elect.aus')
+# 
+# # Count no. of specs per electorate while maintaining specs list
+# spec.per.elect.mutate <- elects.ss %>% 
+#   st_join(specs.ss) %>% 
+#   group_by(Elect_div) %>% 
+#   mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+# st_write(spec.per.elect.mutate, 
+#          dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.mutate.gpkg", 
+#          layer = 'spec.per.elect.mutate')
+# 
+# #### demo.spec - demography and species ####
+# 
+# demo.spec <- elects.ss %>% 
+#   st_join(specs.ss) %>% 
+#   group_by(Demographic_class) %>% 
+#   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
+# st_write(demo.spec, 
+#          dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/demo.spec.gpkg", 
+#          layer = 'demo.spec')
+# 
+# demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>% 
+#   st_make_valid()
+# st_write(demo.spec.aus, 
+#          dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/demo.spec.aus.gpkg", 
+#          layer = 'demo.spec.aus')
 
 #### spec.range.elect - specs range within each electorate ####
 # Calculate total area of each species's range
@@ -87,6 +87,7 @@ specs.ss.area <- specs.ss %>%
 
 # Calculate the percentage of species area within each electorate 
 spec.range.elect <- st_intersection(specs.ss.area, elects.ss) %>%
+  st_make_valid() %>% 
   mutate(intersection_area_sqm = st_area(.) %>% as.numeric()) %>% 
   mutate(percent_range_within = intersection_area_sqm / spec_area_sqm) %>% 
   mutate(across(percent_range_within, round, digits = 2)) # Negates floating point problems (hopefully)

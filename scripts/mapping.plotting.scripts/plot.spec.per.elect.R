@@ -17,10 +17,24 @@ library(leaflet)
 library(viridis)
 library(grid)
 library(cartogram)
+library(rmapshaper)
+
+#### Grab data ####
+
+spec.per.elect <- st_read(dsn = "analysed_data/HPC_spatial_ops_output/spec.per.elect.gpkg")
+
+print(object.size(spec.per.elect), units = "Kb")
+
+spec.per.elect.less <- ms_simplify(spec.per.elect,
+                      keep = 0.1,
+                      keep_shape = TRUE) 
+
+spec.per.elect.less <- spec.per.elect.less %>% 
+  st_make_valid() 
+
+print(object.size(spec.per.elect.less), units = "Kb")
 
 #### spec.per.elect: chloropleth ####
-
-plot(spec.per.elect.aus)
 
 # Check bounding box 
 st_bbox(spec.per.elect.aus)
@@ -30,7 +44,7 @@ st_bbox(spec.per.elect.aus)
 # Continental Australia
 # Remove Australian continent borders while maintaining internal borders?
 # Saving as a pdf by changing the border.alpha from 0.001 to 0.01 made them massive
-tm1 <- tm_shape(spec.per.elect.aus, 
+tm_shape(spec.per.elect.aus, 
                 bbox = st_bbox(c(xmin = 113, 
                                  ymin = -43.740482,
                                  xmax = 154, 
@@ -70,12 +84,12 @@ tmap_save(tm1, file = "plots/draft_spec.per.elect.png")
 
 #### spec.per.elect: tmap dorling cartogram ####
 # https://geocompr.robinlovelace.net/adv-map.html
-tm_shape(spec.per.elect.aus, 
+tm_shape(spec.per.elect.less, 
                 bbox = st_bbox(c(xmin = 113, 
                                  ymin = -43.740482,
                                  xmax = 154, 
                                  ymax = -9.219937), 
-                               crs = st_crs(spec.per.elect.aus))) +
+                               crs = st_crs(spec.per.elect.less))) +
   tm_polygons() +
   tm_symbols(col = "grey", size = "total_unique_spec")
 
@@ -94,51 +108,35 @@ tm_shape(spec.per.elect.aus,
 # https://r-charts.com/spatial/cartogram-ggplot2/#dorling
 
 # Pass to dorling cartogram function
-spec.per.elect.aus.dorl <- st_transform(spec.per.elect.aus, 3112) %>% 
+spec.per.elect.less.dorl <- st_transform(spec.per.elect.less, 3112) %>% 
     cartogram_dorling(weight = "total_unique_spec")
 
-ggplot(spec.per.elect.aus.dorl) +
+ggplot(spec.per.elect.less.dorl) +
   geom_sf(aes(fill = total_unique_spec), color = "grey50") +
-  scale_fill_viridis(direction = -1) + 
-  theme_void() +
+  geom_sf_text(aes(label = Elect_div),
+               check_overlap = TRUE,
+               position = "identity") +
+  scale_fill_viridis(direction = -1,
+                       n.breaks = 10,
+                       guide_colorbar(
+                         barwidth = 50,
+                         barheight = 50,
+                         title = "Vulnerable species",
+                         title.position = "right",
+                         title.vjust = 0.1,
+                         ticks = FALSE)) +
+  theme_void()
+
+
   theme(legend.position = "top",
-        legend.margin = margin(t = 10, b = 2),
+        legend.margin = margin(t = 5, b = 1),
         legend.title = element_text(size = 7))
 
+
+
+ggsave("spec.per.elect.plot.png", spec.per.elect.plot)
+
 #### spec.per.elect: ggplot non-contiguous cartogram ####
-
-
-
-#### spec.range.elect ####
-
-tm_shape(spec.range.elect.eighty.aus, 
-         bbox = st_bbox(c(xmin = 113, 
-                          ymin = -43.740482,
-                          xmax = 154, 
-                          ymax = -9.219937), 
-                        crs = st_crs(4283))) +
-  tm_fill("total_unique_spec", 
-          style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
-  tm_borders(alpha = 0.3) +
-  tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(position = c("left", "bottom"), 
-               width = 0.2) +
-  tm_layout(frame = FALSE)
-
-tmap_save(tm1, file = "plots/draft_spec.range.elect.eighty.png")
-
-#### demo.spec ####
-
-tm_shape(demo.spec.aus, bbox = st_bbox(c(xmin = 113, 
-                                         ymin = -43.740482,
-                                         xmax = 154, 
-                                         ymax = -9.219937), 
-                                       crs = st_crs(4283))) +
-  tm_fill("Demographic.classification")
-
 
 #### other ####
 

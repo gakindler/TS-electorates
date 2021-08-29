@@ -4,7 +4,7 @@
 
 library(tidyverse)
 library(sf)
-# library(rmapshaper) # For installing use 'library(remotes)'
+library(rmapshaper) # For installing use 'library(remotes)'
 
 #### Loading and pre-processing ####
 
@@ -46,19 +46,19 @@ aus.ss <- australia %>%
   select(geometry) %>% 
   slice(1)
 
-# # Simplify geometry
-# specs.ss <- st_simplify(specs.ss,
-#                         dTolerance = 20000) %>% # units of metres
-#   st_make_valid()
-# elects.ss <- ms_simplify(elects.ss,
-#                          keep = 0.01,
-#                          keep_shape = TRUE) %>%  # __% of original?
-#   st_make_valid()
-# aus.ss <- ms_simplify(aus.ss,
-#                       keep = 0.01,
-#                       keep_shape = TRUE) %>%
-#   select(geometry) %>%
-#   st_make_valid()
+# Simplify geometry
+specs.ss <- st_simplify(specs.ss,
+                        dTolerance = 20000) %>% # units of metres
+  st_make_valid()
+elects.ss <- ms_simplify(elects.ss,
+                         keep = 0.01,
+                         keep_shape = TRUE) %>%  # __% of original?
+  st_make_valid()
+aus.ss <- ms_simplify(aus.ss,
+                      keep = 0.01,
+                      keep_shape = TRUE) %>%
+  select(geometry) %>%
+  st_make_valid()
 
 #### spec.per.elect - no. of specs per electorate and concentration ####
 
@@ -99,12 +99,12 @@ st_write(spec.per.elect.mutate,
 #### demo.spec - demography and species ####
 
 demo.spec <- elects.ss %>% 
-  st_join(specs.ss) 
+  st_join(specs.ss) %>% 
   group_by(Demographic_class) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME))
-st_write(demo.spec, 
-         dsn = "analysed_data/spatial_ops_output/demo.spec.gpkg", 
-         layer = 'demo.spec')
+# st_write(demo.spec, 
+#          dsn = "analysed_data/spatial_ops_output/demo.spec.gpkg", 
+#          layer = 'demo.spec')
 
 demo.spec.aus <- st_intersection(aus.ss, demo.spec) %>% 
   st_make_valid()
