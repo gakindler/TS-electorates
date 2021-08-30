@@ -66,8 +66,8 @@ spec.per.elect <- elects.ss %>%
   st_join(specs.ss) %>% 
   group_by(Elect_div) %>% 
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) 
-  # mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>% 
-  # mutate(species_concentration = total_unique_spec / elects_area_sqm)
+  mutate(elects_area_sqm = st_area(.) %>% as.numeric()) %>%
+  mutate(species_concentration = total_unique_spec / elects_area_sqm)
 st_write(spec.per.elect, 
          dsn = "analysed_data/spatial_ops_output/spec.per.elect.gpkg", 
          layer = 'spec.per.elect')

@@ -1,12 +1,6 @@
 # Creating maps of Australia using spatial.ops data
 
-# As outlined in eechidna (https://jforbes14.github.io/eechidna/articles/plotting-electorates.html),
-# mapping electorates is not conducive to a chloropleth due to the high density
-# of electorates in ubran regions
-# A non-contiguous, dorling cartogram may be more appropriate here?
-# Or make the dots proportionally sized?
-# But probs not, maybe some bbboxes for the city regions?
-# Or fuck maps and bar chart it? Maybe in supps?
+# https://jforbes14.github.io/eechidna/articles/plotting-electorates.html
 
 #### Libraries ####
 
@@ -19,22 +13,26 @@ library(grid)
 library(cartogram)
 library(rmapshaper)
 
-#### Grab data ####
+#### Import and simplify data ####
 
 spec.per.elect <- st_read(dsn = "analysed_data/HPC_spatial_ops_output/spec.per.elect.gpkg")
 
 print(object.size(spec.per.elect), units = "Kb")
 
-spec.per.elect.less <- ms_simplify(spec.per.elect,
+spec.per.elect <- ms_simplify(spec.per.elect,
                       keep = 0.1,
                       keep_shape = TRUE) 
 
-spec.per.elect.less <- spec.per.elect.less %>% 
-  st_make_valid() 
+spec.per.elect <- spec.per.elect %>% 
+  st_make_valid() %>% 
+  st_crop(xmin = 113, ymin = -43.740482, # drop those pesky islands
+          xmax = 154, ymax = -9.219937)
 
-print(object.size(spec.per.elect.less), units = "Kb")
+print(object.size(spec.per.elect), units = "Kb")
 
-#### spec.per.elect: chloropleth ####
+st_geometry(spec.per.elect) <- NULL
+
+#### Chloropleth ####
 
 # Check bounding box 
 st_bbox(spec.per.elect.aus)
@@ -44,16 +42,16 @@ st_bbox(spec.per.elect.aus)
 # Continental Australia
 # Remove Australian continent borders while maintaining internal borders?
 # Saving as a pdf by changing the border.alpha from 0.001 to 0.01 made them massive
-tm_shape(spec.per.elect.aus, 
+plot.spec.per.elect <- tm_shape(spec.per.elect, 
                 bbox = st_bbox(c(xmin = 113, 
                                  ymin = -43.740482,
                                  xmax = 154, 
                                  ymax = -9.219937), 
-                               crs = st_crs(spec.per.elect.aus))) +
+                               crs = st_crs(spec.per.elect))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
+          title = "Number of vulnerable species",
+          palette = "-inferno") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
   tm_compass(position = c("left", "bottom")) +
@@ -80,16 +78,36 @@ tm1
 print(syd.region, vp = viewport(0.8, 0.27, width = 0.5, height = 0.5))
 
 
-tmap_save(tm1, file = "plots/draft_spec.per.elect.png")
+tmap_save(plot.spec.per.elect, file = "plots/map_spec_per_elect.png")
 
-#### spec.per.elect: tmap dorling cartogram ####
+#### concentration chloropleth ####
+
+# plot.spec.conc.per.elect <- 
+tm_shape(spec.per.elect, 
+                                bbox = st_bbox(c(xmin = 113, 
+                                                 ymin = -43.740482,
+                                                 xmax = 154, 
+                                                 ymax = -9.219937), 
+                                               crs = st_crs(spec.per.elect))) +
+  tm_fill("species_concentration", 
+          style = "jenks", 
+          title = "Number of vulnerable species",
+          palette = "-inferno") + 
+  tm_text("Elect_div", size = "AREA") + 
+  tm_borders(alpha = 0.3) +
+  tm_compass(position = c("left", "bottom")) +
+  tm_scale_bar(position = c("left", "bottom"), 
+               width = 0.2) +
+  tm_layout(frame = FALSE)
+
+#### tmap dorling cartogram ####
 # https://geocompr.robinlovelace.net/adv-map.html
-tm_shape(spec.per.elect.less, 
+tm_shape(spec.per.elect, 
                 bbox = st_bbox(c(xmin = 113, 
                                  ymin = -43.740482,
                                  xmax = 154, 
                                  ymax = -9.219937), 
-                               crs = st_crs(spec.per.elect.less))) +
+                               crs = st_crs(spec.per.elect))) +
   tm_polygons() +
   tm_symbols(col = "grey", size = "total_unique_spec")
 
@@ -104,39 +122,93 @@ tm_shape(spec.per.elect.less,
                width = 0.2) +
   tm_layout(frame = FALSE)
   
-#### spec.per.elect: ggplot dorling cartogram ####
+#### ggplot dorling cartogram ####
 # https://r-charts.com/spatial/cartogram-ggplot2/#dorling
+# https://rpubs.com/frankhecker/434695
+# https://rud.is/rpubs/hello-dorling.html
 
 # Pass to dorling cartogram function
-spec.per.elect.less.dorl <- st_transform(spec.per.elect.less, 3112) %>% 
+spec.per.elect.dorl <- st_transform(spec.per.elect, 3112) %>% 
     cartogram_dorling(weight = "total_unique_spec")
 
-ggplot(spec.per.elect.less.dorl) +
-  geom_sf(aes(fill = total_unique_spec), color = "grey50") +
-  geom_sf_text(aes(label = Elect_div),
-               check_overlap = TRUE,
-               position = "identity") +
-  scale_fill_viridis(direction = -1,
+ggplot(spec.per.elect.dorl) +
+  geom_sf(
+    aes(fill = total_unique_spec), 
+    color = "grey50"
+  ) +
+  # geom_sf_text(aes(label = Elect_div),
+  #              check_overlap = TRUE) +
+  scale_fill_viridis(
+    direction = -1,
+    n.breaks = 10,
+    guide_colorbar(
+      barwidth = 50,
+      barheight = 50,
+      title = "Number of vulnerable species",
+      title.position = "right",
+      title.vjust = 0.1,
+      ticks = FALSE)
+  ) +
+  geom_sf_text(
+    aes(label = Elect_div, 
+        size = total_unique_spec,
+        color = )
+  ) +
+  theme_void()
+  theme(legend.position = "top",
+        legend.margin = margin(t = 5, b = 0),
+        legend.title = element_text(size = 7),
+        legend.text = element_text(angle = 45,
+                                   margin = margin(t = 5)))
+  
+
+  
+
+ggplot(spec.per.elect.dorl) +
+  geom_sf(
+    aes(fill = total_unique_spec), 
+    color = "grey50") +
+  # geom_sf_text(aes(label = Elect_div),
+  #              check_overlap = TRUE) +
+  scale_fill_viridis(
+    direction = -1,
                        n.breaks = 10,
                        guide_colorbar(
                          barwidth = 50,
                          barheight = 50,
-                         title = "Vulnerable species",
+                         title = "Number of vulnerable species",
                          title.position = "right",
                          title.vjust = 0.1,
                          ticks = FALSE)) +
-  theme_void()
-
-
+  theme_void() +
   theme(legend.position = "top",
-        legend.margin = margin(t = 5, b = 1),
-        legend.title = element_text(size = 7))
+        legend.margin = margin(t = 5, b = 0),
+        legend.title = element_text(size = 7),
+        legend.text = element_text(angle = 45,
+                                   margin = margin(t = 5)))
 
 
 
 ggsave("spec.per.elect.plot.png", spec.per.elect.plot)
 
-#### spec.per.elect: ggplot non-contiguous cartogram ####
+#### ggplot proportional symbol map ####
+
+elect_centroid <- st_centroid(spec.per.elect, of_largest_polygon = TRUE)
+
+ggplot() +
+  geom_sf(data = spec.per.elect, fill = "grey95") +
+  geom_sf(data = elect_centroid, 
+          aes(fill = total_unique_spec)) +
+  geom_sf(data = elect_centroid, 
+          aes(size = total_unique_spec), 
+          show.legend = FALSE) +
+  scale_fill_viridis(direction = -1) +
+  # scale_size(range = c(1, 9),
+  #            guide = guide_legend()) +
+  theme_void() +
+  theme(legend.position = "top")
+
+#### ggplot non-contiguous cartogram ####
 
 #### other ####
 
