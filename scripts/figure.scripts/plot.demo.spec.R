@@ -35,7 +35,7 @@ demo.spec$Demographic_class <- factor(
              "Provincial", "Rural"))
 
 
-histogram.demo.spec <- ggplot(demo.spec) +
+demo.spec.col <- ggplot(demo.spec) +
   aes(x = Demographic_class, 
       y = total_unique_spec,
       fill = Demographic_class) +
@@ -47,7 +47,7 @@ histogram.demo.spec <- ggplot(demo.spec) +
   theme_classic() +
   theme(axis.title.y = element_blank())
 
-ggsave("plots/bar_demo_spec.png", histogram.demo.spec)
+ggsave("plots/demo_spec_col.png", demo.spec.col)
 
 
 #### Mapping ####

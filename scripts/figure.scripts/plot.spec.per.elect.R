@@ -26,7 +26,8 @@ spec.per.elect <- ms_simplify(spec.per.elect,
 spec.per.elect <- spec.per.elect %>% 
   st_make_valid() %>% 
   st_crop(xmin = 113, ymin = -43.740482, # drop those pesky islands
-          xmax = 154, ymax = -9.219937)
+          xmax = 154, ymax = -9.219937) %>% 
+  mutate(Elect_div_abbrev = substr(Elect_div, start = 1, stop = 2))
 
 print(object.size(spec.per.elect), units = "Kb")
 
@@ -42,7 +43,7 @@ st_bbox(spec.per.elect.aus)
 # Continental Australia
 # Remove Australian continent borders while maintaining internal borders?
 # Saving as a pdf by changing the border.alpha from 0.001 to 0.01 made them massive
-plot.spec.per.elect <- tm_shape(spec.per.elect, 
+chloro.spec.per.elect <- tm_shape(spec.per.elect, 
                 bbox = st_bbox(c(xmin = 113, 
                                  ymin = -43.740482,
                                  xmax = 154, 
@@ -50,7 +51,7 @@ plot.spec.per.elect <- tm_shape(spec.per.elect,
                                crs = st_crs(spec.per.elect))) +
   tm_fill("total_unique_spec", 
           style = "jenks", 
-          title = "Number of vulnerable species",
+          title = "Number of threatened species",
           palette = "-inferno") + 
   tm_text("Elect_div", size = "AREA") + 
   tm_borders(alpha = 0.3) +
@@ -78,7 +79,7 @@ tm1
 print(syd.region, vp = viewport(0.8, 0.27, width = 0.5, height = 0.5))
 
 
-tmap_save(plot.spec.per.elect, file = "plots/map_spec_per_elect.png")
+tmap_save(chloro.spec.per.elect, file = "plots/spec_per_elect_chloro.png")
 
 #### concentration chloropleth ####
 
@@ -131,30 +132,34 @@ tm_shape(spec.per.elect,
 spec.per.elect.dorl <- st_transform(spec.per.elect, 3112) %>% 
     cartogram_dorling(weight = "total_unique_spec")
 
-ggplot(spec.per.elect.dorl) +
+spec.per.elect.dorl <- ggplot(spec.per.elect.dorl) +
   geom_sf(
     aes(fill = total_unique_spec), 
     color = "grey50"
   ) +
-  # geom_sf_text(aes(label = Elect_div),
-  #              check_overlap = TRUE) +
   scale_fill_viridis(
+    option = "C", 
     direction = -1,
     n.breaks = 10,
     guide_colorbar(
       barwidth = 50,
       barheight = 50,
-      title = "Number of vulnerable species",
+      title = "Number of threatened species",
       title.position = "right",
       title.vjust = 0.1,
       ticks = FALSE)
   ) +
   geom_sf_text(
-    aes(label = Elect_div, 
-        size = total_unique_spec,
-        color = )
+    aes(label = Elect_div, size = total_unique_spec), 
+    show.legend = FALSE
   ) +
   theme_void()
+
+ggsave("plots/spec_per_elect_dorl.png", spec.per.elect.dorl)
+
+
+
+
   theme(legend.position = "top",
         legend.margin = margin(t = 5, b = 0),
         legend.title = element_text(size = 7),

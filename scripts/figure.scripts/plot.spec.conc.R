@@ -30,7 +30,7 @@ st_geometry(spec.per.elect) <- NULL
 
 #### Correlation plot ####
 
-correlation.spec.per.elect <- ggplot(spec.per.elect) +
+spec.conc.correl <- ggplot(spec.per.elect) +
   aes(x = elects_area_sqm, y = total_unique_spec, fill = Elect_div) +
   geom_point(show.legend = FALSE) +
   scale_colour_viridis_d() +
@@ -41,7 +41,7 @@ correlation.spec.per.elect <- ggplot(spec.per.elect) +
 
   theme(axis.text.x = element_text(vjust = -2))   
 
-ggsave("plots/correlation.spec.per.elect.png", correlation.spec.per.elect)
+ggsave("plots/spec_conc_correl.png", spec.conc.correl)
 
 ggplot(spec.per.elect) +
   aes(x = elects_area_sqm, y = total_unique_spec, fill = Elect_div) +

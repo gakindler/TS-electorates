@@ -15,6 +15,8 @@ elect.spec.cover.status$THREATENED_STATUS <- elect.spec.cover.status$THREATENED_
 elect.spec.cover.status$elect_range_covers <- elect.spec.cover.status$elect_range_covers %>% 
   replace_na(0)
 
+st_geometry(elect.spec.cover.status) <- NULL
+
 #### Occurance of TS within demographies ####
 
 elect.spec.cover.status$THREATENED_STATUS <- factor(
@@ -23,7 +25,7 @@ elect.spec.cover.status$THREATENED_STATUS <- factor(
              "Critically Endangered", "Endangered", "Vulnerable",
              "Unknown"))
 
-histogram.elect.spec.cover.status <- ggplot(elect.spec.cover.status) +
+elect.spec.cover.status.histogram <- ggplot(elect.spec.cover.status) +
   aes(x = elect_range_covers, 
       fill = THREATENED_STATUS) +
   geom_histogram(binwidth = 1,
@@ -33,7 +35,7 @@ histogram.elect.spec.cover.status <- ggplot(elect.spec.cover.status) +
        y = "Number of threatened species") +
   theme_classic()
 
-ggsave("plots/histogram_elect_spec_cover_status.png", histogram.elect.spec.cover.status)
+ggsave("plots/elect_spec_cover_status_histogram.png", elect.spec.cover.status.histogram)
 
 # 
 # ggplot(elect.spec.cover.status, aes(elect_range_covers, fill = THREATENED_STATUS)) +
