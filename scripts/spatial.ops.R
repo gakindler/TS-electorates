@@ -26,7 +26,7 @@ st_crs(electorates) == st_crs(australia)
 specs.ss <- species %>% 
   filter(PRESENCE_RANK == 2) %>% 
   select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
-          "Shape_Area", "Shape", "REGIONS")) %>% 
+          "Shape_Area", "Shape", "REGIONS")) %>%
   st_make_valid()
 
 # The 'electorates' file has a couple of contractions that do not match 'demography' file

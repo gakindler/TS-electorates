@@ -47,6 +47,14 @@ print(object.size(spec.endemic.elect), units = "Kb")
 print(object.size(spec.eighty.elect), units = "Kb")
 print(object.size(electorates), units = "Kb")
 
+st_geometry(spec.endemic.elect) <- NULL
+st_geometry(spec.eighty.elect) <- NULL
+st_geometry(electorates) <- NULL
+
+
+join.spec.eighty.elect <- inner_join(spec.eighty.elect, demography, 
+                        by = c("Elect_div" = "Electoral division"))
+
 #### Mapping ####
 
 spec.endemic.elect.chloro <- tm_shape(electorates) +

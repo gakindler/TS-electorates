@@ -27,6 +27,8 @@ demo.spec <- demo.spec %>%
 
 print(object.size(demo.spec), units = "Kb")
 
+st_geometry(demo.spec) <- NULL
+
 #### Histogram ####
 
 demo.spec$Demographic_class <- factor(

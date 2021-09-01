@@ -15,7 +15,6 @@ elect.spec.cover.status$THREATENED_STATUS <- elect.spec.cover.status$THREATENED_
 elect.spec.cover.status$elect_range_covers <- elect.spec.cover.status$elect_range_covers %>% 
   replace_na(0)
 
-st_geometry(elect.spec.cover.status) <- NULL
 
 #### Occurance of TS within demographies ####
 
@@ -28,9 +27,13 @@ elect.spec.cover.status$THREATENED_STATUS <- factor(
 elect.spec.cover.status.histogram <- ggplot(elect.spec.cover.status) +
   aes(x = elect_range_covers, 
       fill = THREATENED_STATUS) +
-  geom_histogram(binwidth = 1,
-                 name = "Threatened status") + 
-  scale_fill_viridis_d(direction = -1) +
+  geom_histogram(binwidth = 1) + 
+  geom_vline(aes(xintercept = median(elect_range_covers)), 
+             col = 'red', 
+             size = 1,
+             linetype = "dashed") +
+  scale_fill_viridis_d(direction = -1,
+                       name = "Threatened status") +
   labs(x = "Electorates within species's range", 
        y = "Number of threatened species") +
   theme_classic()

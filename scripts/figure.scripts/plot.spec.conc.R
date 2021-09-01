@@ -28,6 +28,15 @@ print(object.size(spec.per.elect), units = "Kb")
 
 st_geometry(spec.per.elect) <- NULL
 
+join.demo <- inner_join(spec.per.elect, demography, 
+                        by = c("Elect_div" = "Electoral division")) %>% 
+  rename(Demographic_class = "Demographic classification") %>% 
+  filter(Demographic_class == "Rural") %>% 
+  select(total_unique_spec)
+
+colSums(join.demo)
+
+
 #### Correlation plot ####
 
 spec.conc.correl <- ggplot(spec.per.elect) +
