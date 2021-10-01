@@ -6,31 +6,25 @@ library(tidyverse)
 library(sf)
 library(rmapshaper) # For installing use 'library(remotes)'
 
-#### Loading and pre-processing ####
+#### Species: Import/clean ####
 
-electorates <- st_read("raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
 species <- st_read("raw_data/SNES_public_1july2021.gdb")
 # specs.public <- st_read("raw_data/snes_public_grids_08Aug2019.gdb", layer = "specs_combined")
 # st_layers("raw_data/snes_public_grids_08Aug2019.gdb")
-australia <- st_read("raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
-demography <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
 
-# # What are the unique values of each attribute?
 # unique <- lapply(species, unique)
-
-# Check CRS's are the same
-st_crs(electorates) == st_crs(species)
-st_crs(electorates) == st_crs(australia)
 
 # Filter for only 'likely to occur', and bs columns/rows
 specs.ss <- species %>% 
   filter(PRESENCE_RANK == 2) %>% 
-  select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
-          "Shape_Area", "Shape", "REGIONS")) %>%
+  select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS", 
+           "MIGRATORY_STATUS", "TAXON_GROUP", "Shape", "REGIONS")) %>%
   st_make_valid()
 
-# The 'electorates' file has a couple of contractions that do not match 'demography' file
-electorates$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", electorates$Elect_div) 
+#### Electorates: Import/clean ####
+
+electorates <- st_read("raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
+electorates$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", electorates$Elect_div) # The 'electorates' file has a couple of contractions that do not match 'demography' file
 electorates$Elect_div <- gsub("Mcewen", "McEwen", electorates$Elect_div) 
 electorates$Elect_div <- gsub("Mcmahon", "McMahon", electorates$Elect_div) 
 electorates$Elect_div <- gsub("Mcpherson", "McPherson", electorates$Elect_div) 
@@ -41,14 +35,30 @@ elects.ss <- electorates %>%
             "Total_Popu", "Australian", "Sortname", "State or territory")) %>% 
   rename(Demographic_class = "Demographic classification")
 
+#### Australia: Import/clean ####
+
+australia <- st_read("raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
 # Cutting random bs
 aus.ss <- australia %>% 
   select(geometry) %>% 
   slice(1)
 
-# Simplify geometry
+#### Demography: Import/clean ####
+
+demography <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
+
+
+
+
+#### CRS check ####
+st_crs(species)
+st_crs(electorates)
+st_crs(australia)
+
+#### Simplify geometry ####
+
 specs.ss <- st_simplify(specs.ss,
-                        dTolerance = 20000) %>% # units of metres
+                        dTolerance = 20000) %>% # units of metres, this deletes geoms < the dTolerance
   st_make_valid()
 elects.ss <- ms_simplify(elects.ss,
                          keep = 0.01,
