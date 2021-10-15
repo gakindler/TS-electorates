@@ -1,11 +1,11 @@
 # Fdb version 3
-["biber CSP_manuscript"] 1634296883 "CSP_manuscript.bcf" "CSP_manuscript.bbl" "CSP_manuscript" 1634297480
+["biber CSP_manuscript"] 1634296883 "CSP_manuscript.bcf" "CSP_manuscript.bbl" "CSP_manuscript" 1634297640
   "/home/gareth/everything/bibliography/latex_zotero_library_exports/lenovo_pop_os_my_library.bib" 1634296005 531681 a766fa715cd5e09c11288256c76aaff2 ""
   "CSP_manuscript.bcf" 1634297480 125070 b4b2a5873dc771b1b663299c5e233c57 "pdflatex"
   (generated)
   "CSP_manuscript.bbl"
   "CSP_manuscript.blg"
-["pdflatex"] 1634297478 "/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.tex" "/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.pdf" "CSP_manuscript" 1634297480
+["pdflatex"] 1634297478 "/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.tex" "/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.pdf" "CSP_manuscript" 1634297640
   "../../../figures/demo_spec_col.png" 1630307276 44545 d6a44bfb3bd9798090459121b0d28151 ""
   "../../../figures/elect_spec_cover_status_histogram.png" 1630470663 84868 8c9915b18b85a4aac1048ab960531e37 ""
   "../../../figures/spec_endemic_eighty_elect_combined_chloro.png" 1630364547 185725 6e4e4263829d3952e2c97eedd4bc1013 ""
@@ -161,14 +161,14 @@
   "CSP_manuscript.out" 1634297480 758 d2f5f3c58fd51476c57e61e7208caa2d "pdflatex"
   "CSP_manuscript.run.xml" 1634297480 2584 8ac9c04a611aa2a2cfc40a4166b89f7e "pdflatex"
   "CSP_manuscript.tex" 1634297363 13386 18c43de826e9c1e230a98f2b795d872e ""
-  "formatting.tex" 1634297478 2940 e341702034f30ad5b50c336dbf8bda29 ""
+  "formatting.tex" 1634297640 2940 e341702034f30ad5b50c336dbf8bda29 ""
   (generated)
-  "CSP_manuscript.aux"
-  "CSP_manuscript.pdf"
-  "CSP_manuscript.out"
-  "CSP_manuscript.bcf"
-  "formatting.aux"
-  "CSP_manuscript.run.xml"
-  "CSP_manuscript.log"
   "/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.pdf"
   "/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.log"
+  "formatting.aux"
+  "CSP_manuscript.run.xml"
+  "CSP_manuscript.aux"
+  "CSP_manuscript.log"
+  "CSP_manuscript.out"
+  "CSP_manuscript.pdf"
+  "CSP_manuscript.bcf"
