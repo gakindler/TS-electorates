@@ -4,7 +4,8 @@
 .Ruserdata
 /raw_data
 /analysed_data
-/writing
+/writing/word
 /electoral_analysis_ArcGIS_proj
 /figures
 /tables
+/presos
