@@ -5,10 +5,9 @@
 /raw_data
 /analysed_data
 /writing/word
-/writing/latex/**/*.pdf
-/writing/latex/!*.tex
+/writing/latex/**/!*.tex
 /electoral_analysis_ArcGIS_proj
 /figures
 /tables
 /presos
-/.vscode
+.vscode
