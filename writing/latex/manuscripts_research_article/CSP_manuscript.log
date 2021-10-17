@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.7)  15 OCT 2021 21:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.10.7)  15 OCT 2021 21:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -935,7 +935,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  90i,5n,122p,2582b,4950s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}</usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on /home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.pdf (13 pages, 1122653 bytes).
+Output written on /home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.pdf (13 pages, 1122636 bytes).
 PDF statistics:
  199 PDF objects out of 1000 (max. 8388607)
  173 compressed objects within 2 object streams
