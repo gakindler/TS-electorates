@@ -1,5 +1,0 @@
-[0] Config.pm:311> INFO - This is Biber 2.16
-[0] Config.pm:314> INFO - Logfile is 'CSP_manuscript.tex.blg'
-[55] biber:340> INFO - === Fri Oct 15, 2021, 17:01:18
-[155] Utils.pm:400> ERROR - Cannot find 'CSP_manuscript.tex.bcf'!
-[155] Biber.pm:132> INFO - ERRORS: 1
