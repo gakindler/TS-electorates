@@ -52,6 +52,7 @@
     <requires type="static">
       <file>blx-dm.def</file>
       <file>apa.dbx</file>
+      <file>blx-unicode.def</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>standard.bbx</file>
@@ -83,7 +84,7 @@
       <file>CSP_manuscript.bcf</file>
     </requires>
     <requires type="editable">
-      <file>C:/Users/s4679015/everything/bibliography/latex_zotero_library_exports/SEES_dell_windows_my_library.bib</file>
+      <file>/home/gareth/everything/bibliography/latex_zotero_library_exports/lenovo_pop_os_my_library.bib</file>
     </requires>
   </external>
 </requests>
