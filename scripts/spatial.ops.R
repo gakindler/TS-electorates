@@ -48,8 +48,8 @@ elects <- elects %>%
 #### Aus boundary: Import/clean ####
 
 aus <- st_read("raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
-aus <- aus %>% 
-  select(geometry) %>% 
+aus <- aus %>%
+  select(geometry) %>%
   slice(1)
 
 #### CRS check ####

@@ -1,9 +1,9 @@
 [0] Config.pm:311> INFO - This is Biber 2.16
 [0] Config.pm:314> INFO - Logfile is 'CSP_manuscript.blg'
-[152] biber-MSWIN64:340> INFO - === 
-[188] Biber.pm:415> INFO - Reading 'CSP_manuscript.bcf'
-[338] Biber.pm:952> INFO - Found 13 citekeys in bib section 0
-[355] Biber.pm:4340> INFO - Processing section 0
-[367] Biber.pm:4531> INFO - Looking for bibtex format file 'C:4679015\bibliography _zotero_library_exports_dell_windows_my_library.bib' for section 0
-[814] Utils.pm:411> ERROR - Cannot find 'C:4679015\bibliography _zotero_library_exports_dell_windows_my_library.bib'!
-[815] Biber.pm:132> INFO - ERRORS: 1
+[38] biber:340> INFO - === Thu Oct 21, 2021, 08:43:08
+[47] Biber.pm:415> INFO - Reading 'CSP_manuscript.bcf'
+[90] Biber.pm:952> INFO - Found 14 citekeys in bib section 0
+[99] Biber.pm:4340> INFO - Processing section 0
+[105] Biber.pm:4531> INFO - Looking for bibtex format file 'C:/Users/s4679015/everything/bibliography/latex_zotero_library_exports/SEES_dell_windows_my_library.bib' for section 0
+[166] Utils.pm:400> ERROR - Cannot find 'C:/Users/s4679015/everything/bibliography/latex_zotero_library_exports/SEES_dell_windows_my_library.bib'!
+[166] Biber.pm:132> INFO - ERRORS: 1
