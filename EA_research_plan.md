@@ -23,3 +23,16 @@
 * How do temporal electorate affiliations (long-held VS swing seats) relate to the status of TS?
     * Tally up number of flips each seat has experienced, correlate with 
 * How have individual TS statuses changed temporally?
+
+
+* Allocation of resources
+* Performance of political groupings on metrics (e.g. up/down listings, threatened status, range, threat management)
+* Temporal changes (e.g. long-held/swing seats)
+* Voting history (e.g. individual members, groupings)
+* Likelihood of implementing reform (e.g. per grouping)
+* Actions needed to ameliorate pressures on electorate basis
+* Environmental condition score
+* Constituency engagement (e.g. comms with members, public consultations)
+* Biodiversity history on electorate basis (e.g. extinctions, range change)
+* Reliance of electorate economy on biodiversity 
+* Social media engagement with biodiversity areas
