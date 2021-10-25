@@ -17,21 +17,34 @@ species <- species %>%
   filter(PRESENCE_RANK == 2) %>%
   select(c("SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
            "MIGRATORY_STATUS", "TAXON_GROUP", "Shape_Area", "Shape")) %>%
-  st_make_valid() %>% 
+  st_make_valid() %>%
   # Merge species at the broad taxa as there are duplicate polygons
   # Probably attributable to subspecies populations, but still ¯\_(ツ)_/¯ 
   group_by(SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
            MIGRATORY_STATUS, TAXON_GROUP) %>%
-  summarise() %>% 
+  summarise() %>%
   ungroup()
 
-#### Electorates and demo: Import/clean ####
+#### Demography, population, and electorates: Import/clean ####
 
 demo <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
 demo <- demo %>% 
   select(!"State or territory") %>% 
   rename(Demographic_class = "Demographic classification", 
          Elect_div = "Electoral division")
+
+pop <- read.csv("raw_data/AEC_elector_count_2019.csv", skip = 2)
+pop <- pop %>%
+  rename(Elect_div = Division, Electors = Electors.on.2019.Certified.list) %>%
+  select(Elect_div, Electors)
+pop$Electors <- as.numeric(gsub(",", "", pop$Electors))
+pop$Elect_div <- str_to_title(pop$Elect_div)
+pop$Elect_div <- str_squish(pop$Elect_div)
+pop$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", pop$Elect_div)
+pop$Elect_div <- gsub("Mcewen", "McEwen", pop$Elect_div) 
+pop$Elect_div <- gsub("Mcmahon", "McMahon", pop$Elect_div) 
+pop$Elect_div <- gsub("Mcpherson", "McPherson", pop$Elect_div) 
+pop$Elect_div <- gsub("O'connor", "O'Connor", pop$Elect_div)  
 
 elect <- st_read("raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
 # The 'elect' file has a couple of contractions that do not match 'demo' file
@@ -41,7 +54,8 @@ elect$Elect_div <- gsub("Mcmahon", "McMahon", elect$Elect_div)
 elect$Elect_div <- gsub("Mcpherson", "McPherson", elect$Elect_div) 
 elect$Elect_div <- gsub("O'connor", "O'Connor", elect$Elect_div) 
 elect <- elect %>% 
-  left_join(demo) %>% 
+  inner_join(demo) %>%
+  inner_join(pop) %>% 
   select(-c("Numccds", "Actual", "Projected", "Area_SqKm", 
             "Total_Popu", "Australian", "Sortname"))
 
@@ -85,9 +99,10 @@ spec.per.elect <- elect %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
   ungroup() %>%
   mutate(elect_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
-  mutate(species_per_sqkm = total_unique_spec / elect_area_sqkm) %>% 
-  inner_join(demo) %>% 
-  relocate(Elect_div, Demographic_class, total_unique_spec, 
+  mutate(species_per_sqkm = total_unique_spec / elect_area_sqkm) %>%
+  inner_join(demo) %>%
+  inner_join(pop) %>%
+  relocate(Elect_div, Demographic_class, Electors, total_unique_spec, 
            elect_area_sqkm, species_per_sqkm, geometry) %T>%
   st_write(dsn = "analysed_data/spatial_ops_output/spec.per.elect.gpkg",
          layer = 'spec.per.elect', append = FALSE) %>%
