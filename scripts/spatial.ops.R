@@ -5,7 +5,6 @@
 library(tidyverse)
 library(sf)
 library(rmapshaper) # For installing use 'library(remotes)'
-library(rjson)
 library(jsonlite)
 library(magrittr)
 library(units)
@@ -19,7 +18,7 @@ species <- species %>%
            "MIGRATORY_STATUS", "TAXON_GROUP", "Shape_Area", "Shape")) %>%
   st_make_valid() %>%
   # Merge species at the broad taxa as there are duplicate polygons
-  # Probably attributable to subspecies populations, but still ¯\_(ツ)_/¯ 
+  # Probably attributable to subspecies populations, but still ¯\_(ツ)_/¯
   group_by(SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
            MIGRATORY_STATUS, TAXON_GROUP) %>%
   summarise() %>%
@@ -28,9 +27,9 @@ species <- species %>%
 #### Demography, population, and electorates: Import/clean ####
 
 demo <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
-demo <- demo %>% 
-  select(!"State or territory") %>% 
-  rename(Demographic_class = "Demographic classification", 
+demo <- demo %>%
+  select(!"State or territory") %>%
+  rename(Demographic_class = "Demographic classification",
          Elect_div = "Electoral division")
 
 pop <- read.csv("raw_data/AEC_elector_count_2019.csv", skip = 2)
@@ -41,22 +40,22 @@ pop$Electors <- as.numeric(gsub(",", "", pop$Electors))
 pop$Elect_div <- str_to_title(pop$Elect_div)
 pop$Elect_div <- str_squish(pop$Elect_div)
 pop$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", pop$Elect_div)
-pop$Elect_div <- gsub("Mcewen", "McEwen", pop$Elect_div) 
-pop$Elect_div <- gsub("Mcmahon", "McMahon", pop$Elect_div) 
-pop$Elect_div <- gsub("Mcpherson", "McPherson", pop$Elect_div) 
-pop$Elect_div <- gsub("O'connor", "O'Connor", pop$Elect_div)  
+pop$Elect_div <- gsub("Mcewen", "McEwen", pop$Elect_div)
+pop$Elect_div <- gsub("Mcmahon", "McMahon", pop$Elect_div)
+pop$Elect_div <- gsub("Mcpherson", "McPherson", pop$Elect_div)
+pop$Elect_div <- gsub("O'connor", "O'Connor", pop$Elect_div)
 
 elect <- st_read("raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
 # The 'elect' file has a couple of contractions that do not match 'demo' file
 elect$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", elect$Elect_div)
-elect$Elect_div <- gsub("Mcewen", "McEwen", elect$Elect_div) 
-elect$Elect_div <- gsub("Mcmahon", "McMahon", elect$Elect_div) 
-elect$Elect_div <- gsub("Mcpherson", "McPherson", elect$Elect_div) 
-elect$Elect_div <- gsub("O'connor", "O'Connor", elect$Elect_div) 
-elect <- elect %>% 
+elect$Elect_div <- gsub("Mcewen", "McEwen", elect$Elect_div)
+elect$Elect_div <- gsub("Mcmahon", "McMahon", elect$Elect_div)
+elect$Elect_div <- gsub("Mcpherson", "McPherson", elect$Elect_div)
+elect$Elect_div <- gsub("O'connor", "O'Connor", elect$Elect_div)
+elect <- elect %>%
   inner_join(demo) %>%
-  inner_join(pop) %>% 
-  select(-c("Numccds", "Actual", "Projected", "Area_SqKm", 
+  inner_join(pop) %>%
+  select(-c("Numccds", "Actual", "Projected", "Area_SqKm",
             "Total_Popu", "Australian", "Sortname"))
 
 #### Aus boundary: Import/clean ####
@@ -78,8 +77,8 @@ if(st_crs(species) == st_crs(elect) && st_crs(elect) == st_crs(aus)) {
 
 species <- st_simplify(species,
                         dTolerance = 30000) %>% # units of metres, this deletes geoms < the dTolerance
-  st_make_valid() %>% 
-  filter(!is.na(st_dimension(Shape))) %>% 
+  st_make_valid() %>%
+  filter(!is.na(st_dimension(Shape))) %>%
   slice_sample(n = 100)
 elect <- ms_simplify(elect,
                          keep = 0.01,
@@ -102,7 +101,7 @@ spec.per.elect <- elect %>%
   mutate(species_per_sqkm = total_unique_spec / elect_area_sqkm) %>%
   inner_join(demo) %>%
   inner_join(pop) %>%
-  relocate(Elect_div, Demographic_class, Electors, total_unique_spec, 
+  relocate(Elect_div, Demographic_class, Electors, total_unique_spec,
            elect_area_sqkm, species_per_sqkm, geometry) %T>%
   st_write(dsn = "analysed_data/spatial_ops_output/spec.per.elect.gpkg",
          layer = 'spec.per.elect', append = FALSE) %>%
@@ -125,12 +124,12 @@ spec.per.elect.nest <- elect %>%
 species.area <- species %>%
   mutate(spec_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric())
 
-# Calculate the percentage of species area within each electorate 
+# Calculate the percentage of species area within each electorate
 spec.range.elect <- st_intersection(species.area, elect) %>%
-  mutate(intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>% 
+  mutate(intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
   mutate(percent_range_within = intersection_area_sqkm / spec_area_sqkm) %>%
   # Negates floating point problems (hopefully)
-  mutate(across(percent_range_within, round, digits = 2)) 
+  mutate(across(percent_range_within, round, digits = 2))
 
 # Filter for species which have >80% of their range within an electorate
 spec.range.elect.eighty <- spec.range.elect %>%
@@ -140,37 +139,37 @@ spec.range.elect.eighty <- spec.range.elect %>%
   st_as_sf() %>%
   group_by(Elect_div) %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.gpkg", 
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.gpkg",
          layer = 'spec.range.elect.eighty', append = FALSE)
 
 spec.range.elect.eighty.aus <- st_intersection(aus, spec.range.elect.eighty) %>%
   st_make_valid() %T>%
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.aus.gpkg", 
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.aus.gpkg",
          layer = 'spec.range.elect.eighty.aus', append = FALSE)
 
 #### spec.endemic.elect - species endemic to each electorate ####
 
 # Filter for species which are endemic to each electorate
-spec.endemic.elect <- spec.range.elect %>% 
-  filter(percent_range_within == 1) %>% 
-  st_set_geometry(NULL) %>% 
-  inner_join(elect, by = c("Elect_div" = "Elect_div")) %>% 
-  st_as_sf() %>% 
-  group_by(Elect_div) %>% 
+spec.endemic.elect <- spec.range.elect %>%
+  filter(percent_range_within == 1) %>%
+  st_set_geometry(NULL) %>%
+  inner_join(elect, by = c("Elect_div" = "Elect_div")) %>%
+  st_as_sf() %>%
+  group_by(Elect_div) %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.endemic.elect.gpkg", 
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.endemic.elect.gpkg",
          layer = 'spec.endemic.elect', append = FALSE)
 
 spec.endemic.elect.aus <- st_intersection(aus, spec.endemic.elect) %>%
   st_make_valid() %T>%
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.endemic.elect.aus.gpkg", 
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.endemic.elect.aus.gpkg",
          layer = 'spec.endemic.elect.aus', append = FALSE)
 
 # TO DO: Count no. of endemic species per electorate in wide format?
 
 #### elect.spec.cover - How many electorates does each species's range cover? ####
-elect.spec.cover <- elect %>% 
-  st_join(species, left = FALSE) %>% 
+elect.spec.cover <- elect %>%
+  st_join(species, left = FALSE) %>%
   group_by(SCIENTIFIC_NAME) %>%
   summarise(elect_range_covers = n_distinct(Elect_div))
 
@@ -179,23 +178,23 @@ elect.spec.cover.status <- species %>%
   select(c("SCIENTIFIC_NAME", "THREATENED_STATUS")) %>%
   left_join(elect.spec.cover, by = "SCIENTIFIC_NAME") %>%
   as.data.frame() %>%
-  select(-"geometry") %T>% 
+  select(-"geometry") %T>%
   write_json(path = "analysed_data/spatial_ops_output/elect.spec.cover.status.json")
 
 #### spec.outside.elect ####
 # Two methods here:
 ## 1. Same procedure as species.range but with st_difference, allows the distinguishing
 ## of how much of the species's range is outside electorates
-elect.union <- st_union(elect, by_feature = FALSE) %>% 
+elect.union <- st_union(elect, by_feature = FALSE) %>%
   st_sf()
 
 spec.outside.elect <- st_difference(species.area, elect.union) %>%
-  st_make_valid() %>% 
-  mutate(outside_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>% 
-  mutate(percent_range_outside = outside_area_sqkm / spec_area_sqkm) %>% 
-  mutate(across(percent_range_outside, round, digits = 2)) %>% 
+  st_make_valid() %>%
+  mutate(outside_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
+  mutate(percent_range_outside = outside_area_sqkm / spec_area_sqkm) %>%
+  mutate(across(percent_range_outside, round, digits = 2)) %>%
   filter(percent_range_outside >= .8) %T>% # 80%, who chose this? Did you? Did I?
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.outside.elect.gpkg", 
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.outside.elect.gpkg",
          layer = 'spec.outside.elect', append = FALSE)
 
 ## 2. Logical vector method
@@ -204,7 +203,6 @@ spec.outside.elect <- st_difference(species.area, elect.union) %>%
 outside <- sapply(st_intersects(species, elect.union), function(x){
   length(x) == 0
   })
-spec.outside.elect.logical <- species[outside, ] %T>% 
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.outside.elect.logical.gpkg", 
+spec.outside.elect.logical <- species[outside, ] %T>%
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.outside.elect.logical.gpkg",
          layer = 'spec.outside.elect.logical', append = FALSE)
-     
