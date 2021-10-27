@@ -46,4 +46,5 @@ leaflet(spec.per.elect.aus) %>%
                 textsize = "15px",
                 direction = "auto"))
 
+# But you can plot tmap to leaflet conversion, whaaa?
 
