@@ -11,3 +11,5 @@
 /tables
 /presos
 /.vscode
+/**/*.e*
+/**/*.o*
