@@ -22,7 +22,8 @@ species <- species %>%
   group_by(SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
            MIGRATORY_STATUS, TAXON_GROUP) %>%
   summarise() %>%
-  ungroup()
+  ungroup() %>%
+  st_make_valid()
 
 #### Demography, population, and electorates: Import/clean ####
 
@@ -56,7 +57,8 @@ elect <- elect %>%
   inner_join(demo) %>%
   inner_join(pop) %>%
   select(-c("Numccds", "Actual", "Projected", "Area_SqKm",
-            "Total_Popu", "Australian", "Sortname"))
+            "Total_Popu", "Australian", "Sortname")) %>% 
+  st_make_valid()
 
 #### Aus boundary: Import/clean ####
 
@@ -71,6 +73,16 @@ if(st_crs(species) == st_crs(elect) && st_crs(elect) == st_crs(aus)) {
   print("Species, elect, and Aus boundary CRS's are the same")
 } else {
   print("We got a CRS mismatch")
+}
+
+#### Validation check ####
+
+if(all(st_is_valid(species)) && 
+   all(st_is_valid(elect)) && 
+   all(st_is_valid(aus))) {
+  print("All species, elect, and Aus geometry are TRUE")
+} else {
+  print("All species, elect, and Aus geometry are NOT TRUE")
 }
 
 #### Simplify geometry ####
@@ -126,26 +138,28 @@ species.area <- species %>%
 
 # Calculate the percentage of species area within each electorate
 spec.range.elect <- st_intersection(species.area, elect) %>%
+  st_make_valid() %>%
   mutate(intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
   mutate(percent_range_within = intersection_area_sqkm / spec_area_sqkm) %>%
   # Negates floating point problems (hopefully)
   mutate(across(percent_range_within, round, digits = 2))
 
+#### spec.eighty.elect - species range >80% in each electorate ####
 # Filter for species which have >80% of their range within an electorate
-spec.range.elect.eighty <- spec.range.elect %>%
+spec.eighty.elect <- spec.range.elect %>%
   filter(percent_range_within >= 0.8) %>%
   st_set_geometry(NULL) %>%
   inner_join(elect, by = c("Elect_div" = "Elect_div")) %>%
   st_as_sf() %>%
   group_by(Elect_div) %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.gpkg",
-         layer = 'spec.range.elect.eighty', append = FALSE)
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.eighty.elect.gpkg",
+         layer = 'spec.eighty.elect', append = FALSE)
 
-spec.range.elect.eighty.aus <- st_intersection(aus, spec.range.elect.eighty) %>%
+spec.eighty.elect.aus <- st_intersection(aus, spec.eighty.elect) %>%
   st_make_valid() %T>%
-  st_write(dsn = "analysed_data/spatial_ops_output/spec.range.elect.eighty.aus.gpkg",
-         layer = 'spec.range.elect.eighty.aus', append = FALSE)
+  st_write(dsn = "analysed_data/spatial_ops_output/spec.eighty.elect.aus.gpkg",
+         layer = 'spec.eighty.elect.aus', append = FALSE)
 
 #### spec.endemic.elect - species endemic to each electorate ####
 
