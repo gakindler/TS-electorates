@@ -8,6 +8,7 @@
 % \title{A spatial comparison of formal political representation and threatened species occurrence}
 % \title{Ten electorates spatially represent 40% of Australia's threatened species}
 % \title{A comparison of formal political representation and threatened species distributions}
+% \title{Formal political representation and threatened species on a spatial scale}
 
 \author[1,2]{Gareth S. Kindler}
 % \author[1,2]{Michelle Ward}
@@ -75,7 +76,9 @@ These significant challenges facing conservation of biodiversity could either be
 
 \subsection{The big gap}
 
-No one has ever really explored the relationship between species conservation and leadership. We explore using listed species and federal members. Why? Because federal members have responsibility (CBD, EPBC). Our aim to showcase potential for new models of conservation that fill the gaps identified by Legge. 
+Australia has low population density, existing megadiversity, political stability, affluence, and large areas remaining some of the last pressure-free zones in the world (\cite{venterSixteenYearsChange2016}). Australia has domestic and global obligations and responsibilities (CBD, EPBC) to abate to biodiversity loss. Despite these motivations, advantages, obligations, and policy attempts to provide better protection \cite{wardLotsLossLittle2019}), our biodiversity continues to decline.
+
+No one has explored the spatial occurence between threatened biodiversity and formal representation. Here, we explore this co-occurrence using federally listed threatened species and electoral divisions. Our aim is to showcase potential for Australian elected members to assume responsibility for their local threatened biodiversity that can begin to remove the constraints identified by \cite{leggeMonitoringThreatenedSpecies2018}. We exhibit the mismatch between electorates and threatened species and identify the regions where elected members will need to advocate harder.
 
 \\ 
 
@@ -87,31 +90,35 @@ We used public grids of Species of National Environmental Significance (SNES), l
 
 \subsection{Australian federal electorate and terrestrial boundary data}
 
-Australia is currently divided into 151 single-member federal electorates for elections to the House of Representatives. The electorates cover the continent of Australia, the island of Tasmania, numerous smaller islands, and marine areas in the North East with Norfolk Island and Jervis Bay Territory being exempt [TODO: What's the deal with Norfolk, it's in the GIS data?] (\cite{parliamentofaustraliaElectoralDivisions2018}). The electorate boundaries are drawn on human population distribution within the States and Territories of the Commonwealth [TODO: What is the central value/range of population per elect?]. Federal electoral boundaries and their demographic classification are maintained and released by the Australian Electoral Commission \cite{australiaelectoralcomissionFederalElectoralBoundaries2019}. Australian land boundary spatial data was acquired from the Australian Statistical Geography Standard (ASGS) Edition 3 \cite{australianbureauofstatisticsAustralianStatisticalGeography2021} [TODO: did I actually use this?].
+Australia is currently divided into 151 single-member federal electorates for elections to the House of Representatives. The electorates cover the continent of Australia, the island of Tasmania, numerous smaller islands, and marine areas in the North East with Norfolk Island and Jervis Bay Territory being exempt [TODO: What's the deal with Norfolk, it's in the GIS data?] (\cite{parliamentofaustraliaElectoralDivisions2018}). The electorate boundaries are drawn on human population distribution within the States and Territories of the Commonwealth [TODO: What is the central value/range of population per elect?]. The range of electors across electoral divisions is 69,332 to 124,507, with a median of 109,430. Federal electoral boundaries and their demographic classification are maintained and released by the Australian Electoral Commission \cite{australiaelectoralcomissionFederalElectoralBoundaries2019}. Australian land boundary spatial data was acquired from the Australian Statistical Geography Standard (ASGS) Edition 3 \cite{australianbureauofstatisticsAustralianStatisticalGeography2021} [TODO: did I actually use this?].
 
 \subsection{Mapping the distribution of electorates and threatened species}
 As electorates in North East Australia comprise marine regions, we have included non-terrestrial threatened species.
 SNES data was generalised to contain only unique instances of species at the scientific name level.
+Some species do not intersect with any electorates and therefore have been excluded from the general analysis secctions. They have their own section.
 
 \\
 
 \section{Results}
 
+\subsection{The distribution of electorates does not match threatened species} 
 % As discussed, think break into clear set of results. Complete endemics and important electorates (say 80%).
-Our analysis examines the spatial occurrence of Australian federally recognised electoral boundaries and threatened species listed under the federal EPBC Act 1999. 
+% Integrating threatened species as a proportion of the total species (common etc) of those in the electorate.
 
-% Larger electorates represent more threatened species than their smaller counterparts (Figure \ref{fig:dorl}). 
+Our analysis examines the spatial occurrence of Australian federally recognised electoral boundaries and threatened species listed under the federal EPBC Act 1999. Federal electoral boundaries are drawn on human population distribution within Australia with quotas for states and territories. To meet this, the Australian Electoral Comission draws electorates that are vastly different in size, as the Australian population does not distribute evenly across the contienent and islands. 
 
-The largest electorate is Durack, which is over 50,000 times the size of the smallest, the inner metropolitan electorate of Grayndler. The larger electorates of Durack (WA), O'Connor (WA), and Kennedy (QLD) contain the most threatened species. The electorate of Adelaide contains the least with 29 threatened species and on an electorate size basis is the 31st smallest. 
+The largest electorate is Durack (1,629,886 sqkm, WA), which is over 50,000 times the size of the smallest, the inner metropolitan electorate of Grayndler (32 sqkm, NSW). The median size of electorate is 362 sqkm.
 
-Electorates of inner and outer metropolitan demographics represent 60 percent.
-60 percent of electorates are either inner metropolitan or outer metropolitan. 
+Threatened species within electorates range from 29 to 387 with a median of 95. Durack (WA) is the largest electorate and contains the most threatened species, at 387. The electorate of Adelaide contains the least with 29 threatened species and is the 31st smallest. As the size of electorate increases, the number of threatened species does too. The rural electorate of Lingiari (NT) has the lowest concentration of threatened species per sqkm at 0.0001, while the inner metropolitan electorate of Sydney contains the highest concentation at 2.9326 threatened species per sqkm.
 
-The disparity can primarily be explained by federal electoral boundaries being drawn on the population distribution of humans and the varied occurrence of threatened species. Despite this, the area difference of inner metropolitan electorates compared to the larger rural electorates is not equivalent to threatened species proportion. For example, the electorate of Sydney (NSW) has the highest concentration of threatened species, whilst Lingiari (NT) has the lowest. Lingiari is 30,000 times the size of Sydney yet contains less than double the number of threatened species. Australian urban areas are known to support substantially more threatened species than non-urban areas (\cite{ivesCitiesAreHotspots2016, soanesConservationOpportunitiesThreatened2020}). Another possible explanation is urban electorates are closer together and therefore share the same species. Another contribution is rural areas may house more species that are undiscovered when compared to built-up urban areas. These explanations need further investigation.
+There are 15,665 unique occurences of species and electorates. 
+Electorates of inner (45) and outer metropolitan (45) demographic classification represent 60\% of the 151 electorates.
+Electorates of provincial (23) and rural (38) demographic classification represent 40\% of the 151 electorates. 
 
-% How to test the occurrence of TS and human population/electorates?
-% Maybe a heatmap of Australia is better suited? Would move past the problem of labelling and smaller electorates? Maybe?
-% How do we display the inverse of this? Concentration of species is basically the inverse. The interaction being well despite the city-electorates being drastically smaller than the large ones they still have a considerable amount of threatened species for their size
+There are 1,738 species that intersect with rural electorates, 577 with provincial, 485 with outer metro, 453 with inner metro. 
+Rural electorates intersect with 89\% of federally listed threatened species.
+
+
 \begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{../../../figures/spec_per_elect_dorl.png}
@@ -119,9 +126,26 @@ The disparity can primarily be explained by federal electoral boundaries being d
     \label{fig:dorl}
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=\textwidth]{../../../figures/spec_per_elect_point_smooth.png}
+    \caption{Scatter plot comparing the size of the 151 Australian federal electorates along a log scale and the number of threatened species within. The colouring of circles is the AEC demographic classification.}
+    \label{fig:point_smooth}
+\end{figure}
+
+
+\subsection{Most threatened species are represented by a single electorate/endemic?}
 
 % That is massive opportunity for leadership – so a key point for a paper.
-The majority of threatened species reside in a single electorate, comprising forty-three percent of the total on the EPBC list (Figure \ref{fig:hist}). The median of how many electorates are covered in each species's range is two, mean is nine. One quarter of species have a range that crosses more than four electorates. Two strongly migratory species cover all 151 electorates, the Pacific Swift and the White-bellied Sea Eagle. The threatened status of species seems to have a uniform distribution across the number of electorates in their range but needs further investigation.
+A total of 863 (44\%) of the 1961 threatened species listed on the EPBC Act reside in a single electorate (Figure \ref{fig:hist}). 
+
+The median of how many electorates are covered in each species's range is two, with a third quartile of 4 [no accounting for species that do not have an electorate].
+
+Of the species with a range that covers five or more electorates, twenty-three percent are migratory. Two strongly migratory species cover all 151 electorates, the Pacific Swift and the White-bellied Sea Eagle. 
+
+[TODO: is there a relationship between threatened status and electorate coverage of species]
+% This doesn’t make sense. Is it marine species? Suggest taking them out? LH island is under the control of NSW. Mac is fed and tas
+Our analysis found 2\% of species on the list do not intersect with the boundaries of federal electorates. This constitutes 28 species of birds, five mammals, four sub-antarctic plants, three fishes, two reptiles, and the Lorde Howe Island Phasmid. 
 
 % In the discussoon we talk about the electorates with 0 and what they can do
 \begin{figure}[H]
@@ -132,9 +156,8 @@ The majority of threatened species reside in a single electorate, comprising for
 \end{figure}
 
 
-Endemic species were found in 44 electorates (Figure \ref{fig:combined_chloro}). The electorate of Bean contains one endemic species and is the only of inner metropolitan classification. Rural electorates make up seventy-two percent of electorates with endemic species. Species which have greater than eighty percent of their range within an electorate were found in 60. Bean contains the 12th highest number of species with eighty percent of their range within, more than 22 others which are rural. Bean and Pearce contain 26 and 17 threatened species with greater than eighty percent of their range within. Bean contains the 12th highest, more than 22 others which are rural.
-
-[TODO: How does the median change when species with 0 electorate cover are removed]
+Endemic species were found in 44 electorates (Figure \ref{fig:combined_chloro}). The electorate of Bean contains one endemic species and is the only of inner metropolitan classification. Rural electorates make up 72\% of electorates with endemic species. Species which have greater than eighty percent of their range within an electorate were found in 60. Bean contains the 12th highest number of species with 80\% of their range within, more than 22 others which are rural. Bean and Pearce contain 26 and 17 threatened species with greater than eighty percent of their range within.
+[TODO: Maybe need to assign each species to the electorate that has most of it's range?]
 
 \begin{figure}[H]
 	\centering
@@ -143,47 +166,38 @@ Endemic species were found in 44 electorates (Figure \ref{fig:combined_chloro}).
     \label{fig:combined_chloro}
 \end{figure}
 
-
-% \subsection{Threatened species without a representative}
-% % This doesn’t make sense. Is it marine species? Suggest taking them out? LH island is under the control of NSW. Mac is fed and tas
-% Our analysis found two percent of species on the list do not intersect with the boundaries of federal electorates, including external territories. This constitutes 28 species of birds, five mammals, four sub-antarctic plants, three fishes, two reptiles, and the Lorde Howe Island Phasmid. 
-
-% \subsection{Demography and threatened species}
-% % So this interesting but its important to set up why you do this? why are your exploring this? is it because rural pollies play an important role? They also feed the country and produce the resources? Be interesting to compare the role of each electorate the economy if this is the angle?
-% Our analysis examines the overlap of species and the demographic classification of electorates. Of the 1995 species included in this analysis, eighty-seven percent have at least part of their range within rural electorates \ref{fig:demo}.
-
-% \begin{figure}[H]
-% 	\centering
-%     \includegraphics[width=\textwidth]{../../../figures/demo_spec_col.png}
-%     \caption{Occurrence of threatened species's range within demographic classifications of Australian federal electoral boundaries. An individual species range can intersect with more than one demographic classification. Break this down into taxongroups ?}
-%     \label{fig:demo}
-% \end{figure}
-
-
 \\ 
 
 \section{Discussion}
 
-\subsection{The distribution of electorates does not match threatened species} 
-% Humans and threatned species do not have equal distribution in Australia
+Examining the spatial occurence of Australian threatened species and formal representation is important. Important because members of parliament are tasked with maintaining and advocating for their region. Biodiversity loss is occuring in every electorate of Australia so therefore a nonpartisan issue. Currently members advocate for car parks, sport fields, yet not their local threatened species. This is potentially a game changer as these members of parliament are responsible for deploying both resources and legislative change. Yet the power of members also includes ideational and instrumental means. 
 
-\subsection{Most threatened species are represented by a single electorate}
+\subsection{Electorates are not drawn on threatened species population, but what they stand for could be an immense mechanism for changing our trajectory} 
 
-\subsection{Some TS do not have any representation}
+The disparity can primarily be explained by federal electoral boundaries being drawn on the population distribution of humans and the varied occurrence of threatened species. Despite this, the area difference of inner metropolitan electorates compared to the larger rural electorates is not equivalent to threatened species proportion. For example, the electorate of Sydney (NSW) has the highest concentration of threatened species, whilst Lingiari (NT) has the lowest. Lingiari is 30,000 times the size of Sydney yet contains less than double the number of threatened species. Australian urban areas are known to support substantially more threatened species than non-urban areas (\cite{ivesCitiesAreHotspots2016, soanesConservationOpportunitiesThreatened2020}). Another possible explanation is urban electorates are closer together and therefore share the same species. Another contributing factor is that rural areas may house more species that are undiscovered when compared to built-up urban areas. These explanations need further investigation.
+
+[TODO: what if I drew greater Sydney/median/mean size of electorate as an electorate then tested for how many species it has?]
+
+
+\subsection{Two distinct groupings of species eletorate coverage}
+Electorates with endemic species require a different approach compared to strongly migratory
+When approaching the conservation of species through the formal representation paradigm, species that are endemic to a electorate require a different approach compared to migratory or multi-electorate species.
+What are the benefits of each of these paradigms?
+
+
 To have no representation from a federally elected member, a species must not be likely to occur on the Australian continent or external territories. In the case of plants, these are residing on the federally unrepresented site of Macquarie Island. The two reptiles live near East Timor and a rock islet near Tasmania. For the Lorde Howe Island Phasmid, it resides on the remnants of a volcano, Balls pyramid. 
 
 
 
 
-Connecting members of parliament with the threatened species that occur within the boundaries of Australia they are tasked with maintaining and advocating for is powerful. Powerful because members of parliament are responsible for ultimately deploying both resources and legislative change.
-Addressing this democracy deficit and pushing advocacy for threatened species onto local constituents and members has the potential to have drastic implications for changing our trajectory.
-Due to Australia's low population density, existing megadiversity, political stability, affluence, and large areas remaining some of the last pressure-free zones in the world (\cite{venterSixteenYearsChange2016}), Australia should be performing better. Despite these motivations, obligations, advantages, and Australia's policy attempts to provide better protection \cite{wardLotsLossLittle2019}), our biodiversity continues to decline.
+This represents a multifacted opportunity for elected members to take responsibility for threatened species and to change our trajectory.
+Species can only persist 
+Referencing threatened species with their local members enables constituents to better exercise their accountability (e.g. communication) and authorisiation power (e.g. voting). This could manifest in metrics and ideas that garner cross-party support such as threatened species emblems for electorates. 
 
-So A clear mismatch exists. 
-Massive opportunity for some electorate leaders to stand up and for citizens for demanding accountability. 
-Leaders should work with state and local council counterparts. 
-Species can only persist if the rule are in place that work for them, the funding is place that enable the threats to be abated. That’s means champions. 
-Some ideas for enabling this conversation further – each electorate should have their own threatened species emblem? A flagship for cross party support
+Species can only persist if the legislation and resources expenditure benefit them, through management, threat abatement, etc. Having elected representative acting as species champions has teh potential to have vast impacts.
+Leaders should be working with local and state counterparts of the Australian politicial system.
+
+Addressing this democracy deficit and pushing advocacy for threatened species onto local constituents and members has the potential to have drastic implications for changing our trajectory.
 
 \newpage
 \nolinenumbers
@@ -200,9 +214,10 @@ The authors declare no conflicts of interest.
 
 \newpage
 \section{Data}
-% Federal electoral boundaries spatial data is available via eechidna or augov
-% SNES data is publicly available via DPEE
-% The programming scripts used in this analysis are available. This should be readily reproducible for other countries and is a focus of the scripts.
+Federal electoral boundaries spatial data is available via eechidna or augov
+SNES data is publicly available via DPEE.
+Federal terrestrial boundaries is available at the ABS wesbite.
+The scripts used in this analysis are available on GitHub/Figshare. This should be readily reproducible for other countries and is a focus of the scripts.
 
 
 \end{document}
