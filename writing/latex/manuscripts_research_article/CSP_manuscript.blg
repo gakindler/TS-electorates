@@ -1,9 +1,15 @@
 [0] Config.pm:311> INFO - This is Biber 2.16
 [0] Config.pm:314> INFO - Logfile is 'CSP_manuscript.blg'
-[38] biber:340> INFO - === Thu Oct 21, 2021, 08:43:08
-[47] Biber.pm:415> INFO - Reading 'CSP_manuscript.bcf'
-[90] Biber.pm:952> INFO - Found 14 citekeys in bib section 0
+[40] biber:340> INFO - === Sun Oct 31, 2021, 17:10:27
+[48] Biber.pm:415> INFO - Reading 'CSP_manuscript.bcf'
+[91] Biber.pm:952> INFO - Found 20 citekeys in bib section 0
 [99] Biber.pm:4340> INFO - Processing section 0
-[105] Biber.pm:4531> INFO - Looking for bibtex format file 'C:/Users/s4679015/everything/bibliography/latex_zotero_library_exports/SEES_dell_windows_my_library.bib' for section 0
-[166] Utils.pm:400> ERROR - Cannot find 'C:/Users/s4679015/everything/bibliography/latex_zotero_library_exports/SEES_dell_windows_my_library.bib'!
-[166] Biber.pm:132> INFO - ERRORS: 1
+[109] Biber.pm:4531> INFO - Looking for bibtex format file '/home/gareth/everything/bibliography/latex_zotero_library_exports/lenovo_pop_os_my_library.bib' for section 0
+[139] bibtex.pm:1689> INFO - LaTeX decoding ...
+[469] bibtex.pm:1494> INFO - Found BibTeX data source '/home/gareth/everything/bibliography/latex_zotero_library_exports/lenovo_pop_os_my_library.bib'
+[647] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[647] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[647] Biber.pm:4168> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[647] Biber.pm:4174> INFO - No sort tailoring available for locale 'en-US'
+[669] bbl.pm:654> INFO - Writing 'CSP_manuscript.bbl' with encoding 'UTF-8'
+[697] bbl.pm:757> INFO - Output to CSP_manuscript.bbl

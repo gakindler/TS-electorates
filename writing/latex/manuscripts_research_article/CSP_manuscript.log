@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.12.0 (TeX Live 2020/Debian)  (format=lualatex 2021.10.7)  21 OCT 2021 08:43
+This is LuaHBTeX, Version 1.12.0 (TeX Live 2020/Debian)  (format=lualatex 2021.10.7)  31 OCT 2021 17:10
  restricted system commands enabled.
  file:line:error style messages enabled.
 **/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.tex
@@ -806,12 +806,12 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count457
 \@quotereset=\count458
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 19.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 20.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 19.
+(Font)              scaled to size 10.07397pt on input line 20.
  (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2020-01-29 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count459
@@ -819,38 +819,38 @@ File: l3backend-luatex.def 2020-01-29 L3 backend support: PDF output (LuaTeX)
 ) (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.aux)
 \openout1 = CSP_manuscript.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 19.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 20.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Info: Redefining \microtypecontext on input line 19.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Info: Redefining \microtypecontext on input line 20.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 19.
+LaTeX Info: Redefining \showhyphens on input line 20.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of spacing.
 Package microtype Info: No adjustment of kerning.
@@ -902,8 +902,8 @@ Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'CSP_manuscript.bbl' found.
  (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.bbl)
-Package biblatex Info: Reference section=0 on input line 19.
-Package biblatex Info: Reference segment=0 on input line 19.
+Package biblatex Info: Reference section=0 on input line 20.
+Package biblatex Info: Reference segment=0 on input line 20.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count460
@@ -923,7 +923,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 19.
+Package hyperref Info: Link coloring OFF on input line 20.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -933,9 +933,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count466
 )
-LaTeX Info: Redefining \ref on input line 19.
-LaTeX Info: Redefining \pageref on input line 19.
-LaTeX Info: Redefining \nameref on input line 19.
+LaTeX Info: Redefining \ref on input line 20.
+LaTeX Info: Redefining \pageref on input line 20.
+LaTeX Info: Redefining \nameref on input line 20.
  (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.out) (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.out)
 \@outlinefile=\write4
 
@@ -978,10 +978,10 @@ LaTeX Info: Redefining \nameref on input line 19.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 24.
+(Font)              scaled to size 13.24796pt on input line 25.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 13.24796pt on input line 24.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 24.
+(Font)              scaled to size 13.24796pt on input line 25.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 25.
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-LatinModernRoman.cfg
@@ -991,38 +991,38 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 24.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 25.
  (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 24.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 25.
  (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 24.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 25.
  (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 24.
+(Font)              <10.95> on input line 25.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 24.
+(Font)              <8> on input line 25.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 24.
+(Font)              <6> on input line 25.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 24.
+(Font)              scaled to size 7.35999pt on input line 25.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 24.
+(Font)              scaled to size 9.19998pt on input line 25.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 24.
+(Font)              <10> on input line 25.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 24.
+(Font)              <7> on input line 25.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 24.
+(Font)              <5> on input line 25.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 24.
+(Font)              scaled to size 6.43999pt on input line 25.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 10.07397pt on input line 32.
+(Font)              scaled to size 10.07397pt on input line 33.
  [1
 
 
@@ -1030,144 +1030,72 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 47.
- [2]
-
-LaTeX Warning: Citation 'lewisDefiningAnthropocene2015' on page 3 undefined on input line 55.
-
-
-LaTeX Warning: Citation 'ceballosAcceleratedModernHuman2015' on page 3 undefined on input line 55.
-
-
-LaTeX Warning: Citation 'maxwellBiodiversityRavagesGuns2016' on page 3 undefined on input line 55.
-
-
-LaTeX Warning: Citation 'w.w.f.LivingPlanetReport2020' on page 3 undefined on input line 55.
-
-
-LaTeX Warning: Citation 'kearneyThreatsAustraliaImperilled2019' on page 3 undefined on input line 59.
-
-
-LaTeX Warning: Citation 'simmondsVulnerableSpeciesEcosystems2020' on page 3 undefined on input line 59.
-
-
-LaTeX Warning: Citation 'woinarskiContributionPolicyLaw2017' on page 3 undefined on input line 59.
-
-
-Overfull \hbox (48.76726pt too wide) in paragraph at lines 59--60
-\T1/phv/m/n/10.95 file sig-nif-i-cantly dif-fer-ent when com-pared to the global ag-gre-gate ([]).
- []
-
-
-Overfull \hbox (25.86148pt too wide) in paragraph at lines 59--60
-\T1/phv/m/n/10.95 have gone ex-tinct that were pre-dictable and likely pre-ventable ([]). 
- []
-
-
-LaTeX Warning: Citation 'leggeMonitoringThreatenedSpecies2018' on page 3 undefined on input line 64.
-
-
-Overfull \hbox (33.99492pt too wide) in paragraph at lines 63--67
-\T1/phv/m/n/10.95 means fund-ing, co-or-di-na-tion, ef-fort. In the Aus-tralian con-text, []
- []
-
-[3]
-
-LaTeX Warning: Citation 'commonwealthofaustraliaThreatenedSpeciesEPBC2021' on page 4 undefined on input line 76.
-
-
-LaTeX Warning: Citation 'commonwealthofaustraliaThreatenedSpeciesEPBC2021' on page 4 undefined on input line 77.
-
-
-LaTeX Warning: Citation 'gastonSizesSpeciesGeographic2009' on page 4 undefined on input line 77.
-
-
-Overfull \hbox (117.61087pt too wide) in paragraph at lines 76--79
-\T1/phv/m/n/10.95 were 1,961[?] threat-ened species listed at the time of anal-y-sis ([]).
- []
-
-[4
+(Font)              scaled to size 8.27998pt on input line 49.
+ [2] [3] [4
 Missing character: There is no ’ (U+2019) in font phvr8t!
 Missing character: There is no ‘ (U+2018) in font phvr8t!
 Missing character: There is no ’ (U+2019) in font phvr8t!
 Missing character: There is no ‘ (U+2018) in font phvr8t!
 Missing character: There is no ’ (U+2019) in font phvr8t!
-Missing character: There is no ’ (U+2019) in font phvr8t!
-]
-
-LaTeX Warning: Citation 'ivesCitiesAreHotspots2016' on page 5 undefined on input line 95.
-
-
-LaTeX Warning: Citation 'soanesConservationOpportunitiesThreatened2020' on page 5 undefined on input line 95.
-
-<../../../figures/spec_per_elect_dorl.png, id=83, 663.9204pt x 413.1435pt>
-File: ../../../figures/spec_per_elect_dorl.png Graphic file (type png)
-<use ../../../figures/spec_per_elect_dorl.png>
-Package luatex.def Info: ../../../figures/spec_per_elect_dorl.png  used on input line 102.
-(luatex.def)             Requested size: 424.06033pt x 263.88768pt.
-[5]
-<../../../figures/elect_spec_cover_status_histogram.png, id=91, 663.9204pt x 413.1435pt>
+] [5]
+<../../../figures/spec_per_elect_point_smooth.png, id=154, 593.8185pt x 413.1435pt>
+File: ../../../figures/spec_per_elect_point_smooth.png Graphic file (type png)
+<use ../../../figures/spec_per_elect_point_smooth.png>
+Package luatex.def Info: ../../../figures/spec_per_elect_point_smooth.png  used on input line 109.
+(luatex.def)             Requested size: 424.06033pt x 295.03601pt.
+<../../../figures/elect_spec_cover_status_histogram.png, id=157, 593.8185pt x 413.1435pt>
 File: ../../../figures/elect_spec_cover_status_histogram.png Graphic file (type png)
 <use ../../../figures/elect_spec_cover_status_histogram.png>
-Package luatex.def Info: ../../../figures/elect_spec_cover_status_histogram.png  used on input line 113.
-(luatex.def)             Requested size: 424.06033pt x 263.88768pt.
- [6<../../../figures/spec_per_elect_dorl.png>]
-<../../../figures/spec_endemic_eighty_elect_combined_chloro.png, id=100, 505.89pt x 505.89pt>
+Package luatex.def Info: ../../../figures/elect_spec_cover_status_histogram.png  used on input line 122.
+(luatex.def)             Requested size: 424.06033pt x 295.03601pt.
+ [6<../../../figures/spec_per_elect_point_smooth.png>]
+<../../../figures/spec_endemic_eighty_elect_combined_chloro.png, id=167, 505.89pt x 505.89pt>
 File: ../../../figures/spec_endemic_eighty_elect_combined_chloro.png Graphic file (type png)
 <use ../../../figures/spec_endemic_eighty_elect_combined_chloro.png>
-Package luatex.def Info: ../../../figures/spec_endemic_eighty_elect_combined_chloro.png  used on input line 123.
+Package luatex.def Info: ../../../figures/spec_endemic_eighty_elect_combined_chloro.png  used on input line 133.
 (luatex.def)             Requested size: 424.06033pt x 424.0647pt.
- [7<../../../figures/elect_spec_cover_status_histogram.png>]
-<../../../figures/demo_spec_col.png, id=108, 663.9204pt x 413.1435pt>
-File: ../../../figures/demo_spec_col.png Graphic file (type png)
-<use ../../../figures/demo_spec_col.png>
-Package luatex.def Info: ../../../figures/demo_spec_col.png  used on input line 140.
-(luatex.def)             Requested size: 424.06033pt x 263.88768pt.
- [8<../../../figures/spec_endemic_eighty_elect_combined_chloro.png>]
+ [7<../../../figures/elect_spec_cover_status_histogram.png>] [8<../../../figures/spec_endemic_eighty_elect_combined_chloro.png>] [9] [10]
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 179.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 10.07397pt on input line 179.
 
-LaTeX Warning: Citation 'venterSixteenYearsChange2016' on page 9 undefined on input line 150.
+Overfull \hbox (14.9195pt too wide) in paragraph at lines 180--180
+\T1/phv/m/n/10.95 _eprint: https://besjour-nals.on-lineli-brary.wi-ley.com/doi/pdf/10.1111/j.1365-2664.2008.01596.x 
+ []
 
-
-LaTeX Warning: Citation 'wardLotsLossLittle2019' on page 9 undefined on input line 150.
-
-[9
-Missing character: There is no ’ (U+2019) in font phvr8t!
-<../../../figures/demo_spec_col.png>] [10
+[11
 Missing character: There is no – (U+2013) in font phvr8t!
-]
-
-LaTeX Warning: Empty bibliography on input line 161.
-
-[11] [12] [13] [14] (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.aux)
-
-LaTeX Warning: There were undefined references.
-
+Missing character: There is no ’ (U+2019) in font phvr8t!
+Missing character: There is no ’ (U+2019) in font phvr8t!
+] [12] [13]
+<../../../figures/spec_per_elect_dorl.png, id=239, 663.9204pt x 413.1435pt>
+File: ../../../figures/spec_per_elect_dorl.png Graphic file (type png)
+<use ../../../figures/spec_per_elect_dorl.png>
+Package luatex.def Info: ../../../figures/spec_per_elect_dorl.png  used on input line 186.
+(luatex.def)             Requested size: 424.06033pt x 263.88768pt.
+ [14<../../../figures/spec_per_elect_dorl.png>] [15] [16] (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/CSP_manuscript.aux)
 Package rerunfilecheck Info: File `CSP_manuscript.out' has not changed.
-(rerunfilecheck)             Checksum: 697735437986C381B1A91D714027AFD6;2312.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                CSP_manuscript
-(biblatex)                and rerun LaTeX afterwards.
-
+(rerunfilecheck)             Checksum: C48041B8EDB0536DA69F3A554BD761AF;4682.
 Package logreq Info: Writing requests to 'CSP_manuscript.run.xml'.
 
 \openout1 = CSP_manuscript.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 24310 strings out of 478824
+ 24493 strings out of 478824
  100000,1373583 words of node,token memory allocated
- 711 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 1 dir, 2 glue, 17 kern, 1 glyph, 31 attribute, 69 glue_spec, 17 attribute_list, 1 write nodes
-   avail lists: 1:4,2:647,3:203,4:49,5:452,6:21,7:6211,8:24,9:260,10:21,11:573
- 43001 multiletter control sequences out of 65536+600000
- 59 fonts using 5325431 bytes
- 90i,5n,120p,1241b,4951s stack positions out of 5000i,500n,10000p,200000b,200000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on CSP_manuscript.pdf (14 pages, 1110065 bytes).
+ 819 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 1 dir, 2 glue, 15 kern, 1 glyph, 49 attribute, 71 glue_spec, 26 attribute_list, 1 write, 9 pdf_action nodes
+   avail lists: 1:2,2:1087,3:529,4:48,5:468,6:24,7:6327,8:159,9:247,10:18,11:475,12:2
+ 43154 multiletter control sequences out of 65536+600000
+ 61 fonts using 5486631 bytes
+ 90i,5n,120p,2526b,4951s stack positions out of 5000i,500n,10000p,200000b,200000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}</usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on CSP_manuscript.pdf (16 pages, 1080638 bytes).
 
-PDF statistics: 160 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 131072)
- 113 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 277 PDF objects out of 1000 (max. 8388607)
+ 245 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 131072)
+ 161 words of extra memory for PDF output out of 10000 (max. 100000000)
 

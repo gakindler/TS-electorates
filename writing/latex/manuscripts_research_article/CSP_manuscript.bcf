@@ -2819,13 +2819,20 @@
     <bcf:citekey order="6">simmondsVulnerableSpeciesEcosystems2020</bcf:citekey>
     <bcf:citekey order="7">woinarskiContributionPolicyLaw2017</bcf:citekey>
     <bcf:citekey order="8">leggeMonitoringThreatenedSpecies2018</bcf:citekey>
-    <bcf:citekey order="9">commonwealthofaustraliaThreatenedSpeciesEPBC2021</bcf:citekey>
-    <bcf:citekey order="10">commonwealthofaustraliaThreatenedSpeciesEPBC2021</bcf:citekey>
-    <bcf:citekey order="11">gastonSizesSpeciesGeographic2009</bcf:citekey>
-    <bcf:citekey order="12">ivesCitiesAreHotspots2016</bcf:citekey>
-    <bcf:citekey order="12">soanesConservationOpportunitiesThreatened2020</bcf:citekey>
-    <bcf:citekey order="13">venterSixteenYearsChange2016</bcf:citekey>
-    <bcf:citekey order="14">wardLotsLossLittle2019</bcf:citekey>
+    <bcf:citekey order="9">venterSixteenYearsChange2016</bcf:citekey>
+    <bcf:citekey order="10">wardLotsLossLittle2019</bcf:citekey>
+    <bcf:citekey order="11">leggeMonitoringThreatenedSpecies2018</bcf:citekey>
+    <bcf:citekey order="12">commonwealthofaustraliaThreatenedSpeciesEPBC2021</bcf:citekey>
+    <bcf:citekey order="13">commonwealthofaustraliaThreatenedSpeciesEPBC2021</bcf:citekey>
+    <bcf:citekey order="14">gastonSizesSpeciesGeographic2009</bcf:citekey>
+    <bcf:citekey order="15">parliamentofaustraliaElectoralDivisions2018</bcf:citekey>
+    <bcf:citekey order="16">australiaelectoralcomissionFederalElectoralBoundaries2019</bcf:citekey>
+    <bcf:citekey order="17">australianbureauofstatisticsAustralianStatisticalGeography2021</bcf:citekey>
+    <bcf:citekey order="18">rcoreteamLanguageEnvironmentStatistical2021</bcf:citekey>
+    <bcf:citekey order="19">pebesmaSimpleFeaturesStandardized2018</bcf:citekey>
+    <bcf:citekey order="20">wickhamWelcomeTidyverse2019</bcf:citekey>
+    <bcf:citekey order="21">ivesCitiesAreHotspots2016</bcf:citekey>
+    <bcf:citekey order="21">soanesConservationOpportunitiesThreatened2020</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="apa">
