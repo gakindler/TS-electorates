@@ -5,7 +5,6 @@
 /raw_data
 /analysed_data
 /writing/word
-/writing/latex/**/*.pdf
 /electoral_analysis_ArcGIS_proj
 /figures
 /tables
@@ -14,4 +13,5 @@
 /**/*.e*
 /**/*.o*
 /**/*.docx
-!/**/*.tex
+!/writing/latex/**/*.tex
+/**/*.bib
