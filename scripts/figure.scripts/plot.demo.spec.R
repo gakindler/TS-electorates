@@ -10,15 +10,10 @@ library(viridis)
 library(grid)
 library(cartogram)
 library(rmapshaper)
-library(jsonlite)
 
 #### Import and simplify data ####
 
-demo.spec <- fromJSON("analysed_data/21-10-28_HPC_spatial_ops_output/spec.per.elect.nest.json")
-
-demo.spec <- demo.spec %>% 
-  unnest(data)
-
+demo.spec <- st_read(dsn = "analysed_data/HPC_spatial_ops_output/demo.spec.gpkg")
 print(object.size(demo.spec), units = "Kb")
 
 demo.spec <- ms_simplify(demo.spec,
@@ -76,19 +71,3 @@ tm_shape(demo.spec,
   tm_scale_bar(position = c("left", "bottom"), 
                width = 0.2) +
   tm_layout(frame = FALSE)
-
-
-#### Calcs ####
-
-demo.spec %>% 
-  group_by(Demographic_class) %>% 
-  summarise(count = n_distinct(SCIENTIFIC_NAME))
-
-demo.spec %>% 
-  filter(Demographic_class %in% c("Rural", "Provincial")) %>% 
-  summarise(count = n_distinct(SCIENTIFIC_NAME))
-
-453 + 485 + 577 + 1738
-1738/1961
-1795/1961
-

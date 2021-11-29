@@ -4,14 +4,14 @@
 .Ruserdata
 /raw_data
 /analysed_data
-/writing/word
 /electoral_analysis_ArcGIS_proj
 /figures
 /tables
 /presos
 /.vscode
-/**/*.e*
-/**/*.o*
+# /**/*.e*
+# /**/*.o*
 /**/*.docx
-!/writing/latex/**/*.tex
 /**/*.bib
+/writing/word
+!/writing/latex/**/*.tex
