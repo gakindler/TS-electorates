@@ -18,8 +18,9 @@
 % pandoc Kindler_EA_MS.tex --bibliography=/home/gareth/everything/bibliography/latex_zotero_library_exports/lenovo_pop_os_my_library.bib -o /home/gareth/everything/projects/au_electoral_analysis/writing/word/2021-11-24_Kindler_EA_MS.docx
 
 \author[1,2,*]{Gareth S. Kindler}
-\author[1,2]{Stephen Kearney}
-\author[1,2]{Michelle Ward}
+% Options: Rich F, Sarah B
+% \author[1,2]{Stephen Kearney}
+% \author[1,2]{Michelle Ward}
 \author[1,2]{James E.M. Watson}
 
 \affil[1]{Centre for Biodiversity and Conservation Science, The University of Queensland, St Lucia 4072, Australia}
@@ -74,37 +75,26 @@ Australia is at the forefront of the crisis with the highest extinction rate of 
 
 Unlike other countries, to save Australian threatened species requires active management. Active management entails making political choices to provide proper funding, coordination, and effort. The current major constraints on improved management of Australian species (\cite{leggeMonitoringThreatenedSpecies2018,wintleSpendingWhatWill2019, wawardLotsLossLittle2019, simmondsVulnerableSpeciesEcosystems2020, kearney et al, woinarski et al}) beyond scientific challenges, are funding shortfalls, policy/legislative deficiencies, cross institutional blockages, and within-institutional impediments. These constraints show that political institutions are relevant/crucial for improved species conservation as they hold significant power in the decision-making process (\cite{rydenLinkingDemocracyBiodiversity2020}).
 
-Political institutions are relevant. The species extinction crisis is the result of political choices (\cite{Dalby2017[TODO]}). Electorates are relevant because xxx. The current territorial electoral system is anthropocentric. 
+Political institutions are relevant. The species extinction crisis is the result of political choices (\cite{Dalby2017[TODO]}). Nature is not external to human politics (\cite{burkeSpeciesBordersPolitical2020}). Electorates are relevant because xxx. The current territorial electoral system is anthropocentric. 
 This research is an attempt to bring representation to the non-human in the political system of today. Given the current crisis, we are forced to find new ways to express the interests of humanity and non-humanity.
+This system is designed to provide territorial representation to the different regions of Australia and their competing interests. Elected members are tasked with acting on behalf of their local constituents to maintain and advocate for their region. Australian federal electorates are designated a demographic classification.
+
+Australian value their species???
 
 Australia has low population density, political stability, affluence, existing mega-diversity, and large areas remaining some of the last pressure-free zones in the world (\cite{venterSixteenYearsChange2016}). 
-The Australian government has domestic/international obligations and responsibilities (EPBC) to abate biodiversity loss yet they are failing to translate these into adequate protection (\cite{simmondsVulnerableSpeciesEcosystems2020,wardLotsLossLittle2019}).
+
 
 This article focuses on the spatial relationship between the Australian territorial electoral system and species threatened with extinction. Herein known as 'threatened species'. By using this as a topic, we showcase opportunities for institutional/political leadership that arise from the relationship. The theoretical argument of this article is that by encouraging elected members to assume responsibility, the constraints on Australian conservation can begin to removed. On the other hand, the accountability mechanisms of local constituents to their elected members is enhanced. Furthermore, the means by which elected members are authorised to act on the behalf of their local constituents is brought into question - 'are these systems functional for the problems facing humanity today?'.
 
 While the drivers of species/biodiversity loss are well mapped and myriad analyses alerting policy makers to the neccessary reforms. have been proposed (more funding, etc etc), less has been proposed regarding the ultimate causes of these problems (\cite{rydenLinkingDemocracyBiodiversity2020}).
 These challenges have been explored and explained by scientists over decades, with myriad analyses alerting policy makers, and recommending the necessary reforms. However, the implementation of institutional or system reform at the scale needed has not occurred. These constraints and the lack of action represent a significant opportunity for examination as to why we have ended up in such a shit situation. There is a chasm between scientific evidence and political action.
-Nature is not external to human politics (\cite{burkeSpeciesBordersPolitical2020}).
 
-This system is designed to provide territorial representation to the different regions of Australia and their competing interests. Elected members are tasked with acting on behalf of their local constituents to maintain and advocate for their region.
-
-Electorates were designed to do this, and this. They only really include rep for human life. What if we started to talk about it differently - non-human rep.
-Following this thought process, we examine the spatial relationship between Australia federal electorates and governemnt recognised threatened species by:
+Following this thought process, we examine the spatial relationship between Australia federal electorates and government recognised threatened species by:
 \begin{itemize}
     \item analysing the distribution of species within electorates with regards to electorate size/demography, species endemism/uniqueness
     \item identify trends in how species are distributed across electorates
     \item discuss/highlight the different roles elected members could assume in crisis abatement
 \end{itemize}
-
-
-Our aim is to showcase potential for Australian elected members to assume responsibility for their local threatened biodiversity that can begin to combat Australia's constraints on conservation of species. 
-
-
-
-% need to outline what you did and why. Why do the rural divisions etc? 
-
-Examining the spatial co-occurrence of Australian federal electorates and threatened species can provide insights into whether this system is functional for species, the interests of humans, and conservation strategy.
-
 
 \section{Methods}
 [TODO: update analysis to the recently released 2021/22 electoral boundaries]
@@ -113,7 +103,7 @@ Examining the spatial co-occurrence of Australian federal electorates and threat
 % Summary paragraph of what you broadly did. 
 % Have a look at other papers how they describe these paper -0 Kearney and Ward papers
 
-Our analysis examines the spatial relationship between the Australian federal territorial electoral system and threatened species listed under the EPBC Act 1999. We cropped both data sets to mainland Australia and its closer islands, then 
+Summary paragraph - Our analysis examines the spatial relationship between the Australian federal territorial electoral system and threatened species listed under the EPBC Act 1999. We cropped both data sets to mainland Australia and its closer islands, then 
 
 \subsection{Australian federal electorates}
 
@@ -138,6 +128,17 @@ Spatial analysis was conducted in R (\cite{rcoreteamLanguageEnvironmentStatistic
 We examined the correlation between the size of federal electorates and number of threatened species with a portion of their range within.
 
 \section{Results}
+
+% Figure structure:
+% 1. Non-contiguous/dorling cartogram - electorates with species
+% 2. Linear regression - size VS no. TS
+% 3. Histogram - electorate coverage, add a cumulation curve
+% 4. Choropleth - endemic species with highlights around outside
+
+% create a new fugure (ie fig 4), endemiccs, with some examples os species pointing to some of the electorates around the ouside. 
+% Visually nice like in ward et al. 
+% fig 1. https://www.nature.com/articles/s41559-020-1251-1
+% Or fig 2 https://www.nature.com/articles/s41559-018-0490-x
 
 \subsection{The electorate and species distribution disparity} 
 
@@ -196,21 +197,9 @@ The electorate of Bean contains one endemic species and is the only of inner met
     \caption{Choropleth maps displaying A) number of endemic threatened species and B) number of threatened species with at least 80\% of their range within continental Australian federal electoral boundaries. External territories (Lord Howe Island, Christmas Island etc) are not included in this map. [TODO: Maybe a better figure here would be a population pyramid with coloured rows for demographic class of electorate]}
     \label{fig:combined_chloro}
 \end{figure}
-% Suggest making fours maps – a, b, c, d in one figure
-% a.	Species richness
-% b.	 Electorates
-% c.	 Number of threatened species with  80%
-% d.	chloropath
-
-% create a new fugure (ie fig 4), endemiccs, with some examples os species pointing to some of the electorates around the ouside. 
-% Visually nice like in ward et al. 
-% fig 1. https://www.nature.com/articles/s41559-020-1251-1
-% Or fig 2 https://www.nature.com/articles/s41559-018-0490-x
-
 
 \section{Discussion}
 % First paragraph in a discussion is your primary result. 
-
 
 \subsection{The territorial electoral system does not account for threatened species}
 
@@ -233,6 +222,8 @@ When approaching the conservation of species through the territorial electorate 
 * Advantages/downsides of each?
 
 Species that are endemic or mostly occur within a single electorate (>80\%)
+
+The Australian government has domestic/international obligations and responsibilities (EPBC) to abate biodiversity loss yet they are failing to translate these into adequate protection (\cite{simmondsVulnerableSpeciesEcosystems2020,wardLotsLossLittle2019}).
 
 % species within only (or mostly) within 1 electorate – ownership of leader. Accountability. 
 % example species a in electorate B..point to figure 4. What are the types of things it could mean?
