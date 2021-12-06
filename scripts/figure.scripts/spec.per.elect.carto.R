@@ -15,62 +15,98 @@ library(rmapshaper)
 
 #### Import and simplify data ####
 
-spec.per.elect <- st_read(dsn = "analysed_data/HPC_spatial_ops_output/spec.per.elect.gpkg")
+spec.per.elect <- st_read(
+  dsn = "analysed_data/21-12-06_local_analysis_output/spec.per.elect.gpkg"
+)
+aus <- st_read(
+  "clean_data/aus.clean.gpkg"
+)
+elect <- st_read(
+  "clean_data/elect.clean.gpkg"
+)
 
 print(object.size(spec.per.elect), units = "Kb")
+print(object.size(aus), units = "Kb")
+print(object.size(elect), units = "Kb")
 
-spec.per.elect <- ms_simplify(spec.per.elect,
-                              keep = 0.1,
-                              keep_shape = TRUE) 
-
-spec.per.elect <- spec.per.elect %>% 
-  st_make_valid() %>% 
-  st_crop(xmin = 113, ymin = -43.740482, # drop those pesky islands
-          xmax = 154, ymax = -9.219937) %>% 
-  mutate(Elect_div_abbrev = substr(Elect_div, start = 1, stop = 2))
+spec.per.elect <- ms_simplify(
+  spec.per.elect,
+  keep = 0.001,
+  keep_shape = TRUE
+)
+aus <- ms_simplify(
+  aus,
+  keep = 0.001,
+  keep_shape = TRUE
+)
+elect <- ms_simplify(
+  elect,
+  keep = 0.001,
+  keep_shape = TRUE
+) %>%
+  st_make_valid()
 
 print(object.size(spec.per.elect), units = "Kb")
+print(object.size(aus), units = "Kb")
+print(object.size(elect), units = "Kb")
 
-st_geometry(spec.per.elect) <- NULL
 
-#### tmap dorling cartogram ####
+#### Non-overlapping circles cartogram (Dorling) ####
+
+# Pass to dorling cartogram function
+spec.per.elect.dorl.weight <- st_transform(spec.per.elect, 3112) %>%
+  cartogram_dorling(weight = "total_unique_spec")
+
+## tmap ##
 # https://geocompr.robinlovelace.net/adv-map.html
-tm_shape(spec.per.elect, 
-         bbox = st_bbox(c(xmin = 113, 
-                          ymin = -43.740482,
-                          xmax = 154, 
-                          ymax = -9.219937), 
-                        crs = st_crs(spec.per.elect))) +
-  tm_polygons() +
-  tm_symbols(col = "grey", size = "total_unique_spec")
+# https://github.com/sjewo/cartogram 
 
-tm_fill("total_unique_spec", 
-        style = "jenks", 
-        title = "Number of vulnerable specs",
-        palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
-  tm_borders(alpha = 0.3) +
-  tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(position = c("left", "bottom"), 
-               width = 0.2) +
-  tm_layout(frame = FALSE)
+spec.per.elect.dorl <-
+# tm_shape(elect) +
+#   tm_borders() +
+tm_shape(spec.per.elect.dorl.weight) +
+  tm_fill(
+    "total_unique_spec",
+    style = "jenks",
+    # style = "cont",
+    title = "Number of threatened species",
+    palette = "-inferno"
+  ) +
+  tm_text(
+    "Elect_div",
+    size = "AREA"
+  ) +
+  tm_borders(
+    alpha = 0.7
+  ) +
+  # tm_compass(position = c("left", "bottom")) +
+  # tm_scale_bar(
+  #   position = c("left", "bottom"),
+  #   width = 0.2
+  # ) +
+  tm_layout(
+    frame = FALSE,
+    # legend.outside = TRUE
+  )
 
-#### ggplot dorling cartogram ####
+tmap_save(spec.per.elect.dorl,
+  file = "figures/spec_per_elect_dorl.pdf"
+  # height = 8, width = 8, units = "cm"
+)
+
+## ggplot ##
 # https://r-charts.com/spatial/cartogram-ggplot2/#dorling
 # https://rpubs.com/frankhecker/434695
 # https://rud.is/rpubs/hello-dorling.html
 
-# Pass to dorling cartogram function
-spec.per.elect.dorl <- st_transform(spec.per.elect, 3112) %>% 
-  cartogram_dorling(weight = "total_unique_spec")
-
-spec.per.elect.dorl <- ggplot(spec.per.elect.dorl) +
+# spec.per.elect.dorl <-
+ggplot(spec.per.elect.dorl) +
   geom_sf(
-    aes(fill = total_unique_spec), 
+    aes(fill = total_unique_spec),
     color = "grey50"
   ) +
   scale_fill_viridis(
-    option = "C", 
+    option = "C",
     direction = -1,
     n.breaks = 10,
     guide_colorbar(
@@ -79,32 +115,20 @@ spec.per.elect.dorl <- ggplot(spec.per.elect.dorl) +
       title = "Number of threatened species",
       title.position = "right",
       title.vjust = 0.1,
-      ticks = FALSE)
+      ticks = FALSE
+    )
   ) +
   geom_sf_text(
-    aes(label = Elect_div, size = total_unique_spec), 
+    aes(label = Elect_div, size = total_unique_spec),
     show.legend = FALSE
   ) +
   theme_void()
 
-ggsave("plots/spec_per_elect_dorl.png", spec.per.elect.dorl)
-
-
-
-
-theme(legend.position = "top",
-      legend.margin = margin(t = 5, b = 0),
-      legend.title = element_text(size = 7),
-      legend.text = element_text(angle = 45,
-                                 margin = margin(t = 5)))
-
-
-
-
 ggplot(spec.per.elect.dorl) +
   geom_sf(
-    aes(fill = total_unique_spec), 
-    color = "grey50") +
+    aes(fill = total_unique_spec),
+    color = "grey50"
+  ) +
   # geom_sf_text(aes(label = Elect_div),
   #              check_overlap = TRUE) +
   scale_fill_viridis(
@@ -116,107 +140,72 @@ ggplot(spec.per.elect.dorl) +
       title = "Number of vulnerable species",
       title.position = "right",
       title.vjust = 0.1,
-      ticks = FALSE)) +
+      ticks = FALSE
+    )
+  ) +
   theme_void() +
-  theme(legend.position = "top",
-        legend.margin = margin(t = 5, b = 0),
-        legend.title = element_text(size = 7),
-        legend.text = element_text(angle = 45,
-                                   margin = margin(t = 5)))
+  theme(
+    legend.position = "top",
+    legend.margin = margin(t = 5, b = 0),
+    legend.title = element_text(size = 7),
+    legend.text = element_text(
+      angle = 45,
+      margin = margin(t = 5)
+    )
+  )
 
+ggsave("figures/spec.per.elect.plot.pdf",
+  width = 8, height = 8, units = "cm"
+)
 
-
-ggsave("spec.per.elect.plot.png", spec.per.elect.plot)
-
-#### ggplot proportional symbol map ####
+#### Proportional symbol map ####
 
 elect_centroid <- st_centroid(spec.per.elect, of_largest_polygon = TRUE)
 
 ggplot() +
   geom_sf(data = spec.per.elect, fill = "grey95") +
-  geom_sf(data = elect_centroid, 
-          aes(fill = total_unique_spec)) +
-  geom_sf(data = elect_centroid, 
-          aes(size = total_unique_spec), 
-          show.legend = FALSE) +
+  geom_sf(
+    data = elect_centroid,
+    aes(fill = total_unique_spec)
+  ) +
+  geom_sf(
+    data = elect_centroid,
+    aes(size = total_unique_spec),
+    show.legend = FALSE
+  ) +
   scale_fill_viridis(direction = -1) +
   # scale_size(range = c(1, 9),
   #            guide = guide_legend()) +
   theme_void() +
   theme(legend.position = "top")
 
-#### ggplot non-contiguous cartogram ####
+#### Non-contiguous cartogram ####
 
-#### other ####
+spec.per.elect.ncont.weight <- st_transform(spec.per.elect, 3112) %>%
+  cartogram_ncont(weight = "total_unique_spec")
 
-# Non-continental Australia
-# Norfolk
-tm_shape(spec.per.elect.aus, 
-         bbox = st_bbox(c(xmin = 167.863479, 
-                          ymin = -29.164764,
-                          xmax = 168.042694, 
-                          ymax = -28.964304), 
-                        crs = st_crs(4283))) +
-  tm_fill("total_unique_spec", 
-          style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
+# spec.per.elect.ncont <-
+tm_shape(elect) +
+  tm_borders() +
+  tm_shape(spec.per.elect.ncont.weight) +
+  tm_fill("total_unique_spec",
+    style = "jenks",
+    title = "Number of threatened species",
+    palette = "-inferno"
+  ) +
+  tm_text("Elect_div_abbrev", size = "AREA") +
   tm_borders(alpha = 0.3) +
   tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(position = c("left", "bottom")) +
-  tm_layout(frame = FALSE)
+  tm_scale_bar(
+    position = c("left", "bottom"),
+    width = 0.2
+  ) +
+  tm_layout(
+    frame = FALSE,
+    legend.outside = TRUE
+  )
 
-# Lord Howe
-tm_shape(spec.per.elect.aus, 
-         bbox = st_bbox(c(xmin = 159.010215, 
-                          ymin = -31.618085,
-                          xmax = 159.133983, 
-                          ymax = -31.469301), 
-                        crs = st_crs(4283))) +
-  tm_fill("total_unique_spec", 
-          style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
-  tm_borders(alpha = 0.3) +
-  tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(position = c("left", "bottom")) +
-  tm_layout(frame = FALSE)
-
-# Christmas Island
-tm_shape(spec.per.elect.aus, 
-         bbox = st_bbox(c(xmin = 105.470347, 
-                          ymin = -10.618522,
-                          xmax = 105.773844, 
-                          ymax = -10.35723), 
-                        crs = st_crs(4283))) +
-  tm_fill("total_unique_spec", 
-          style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
-  tm_borders(alpha = 0.3) +
-  tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(position = c("left", "bottom")) +
-  tm_layout(frame = FALSE)
-
-# Cocos islands
-tm_shape(spec.per.elect.aus, 
-         bbox = st_bbox(c(xmin = 96.736216, 
-                          ymin = -12.265961, 
-                          xmax = 96.986155, 
-                          ymax = -11.781081), 
-                        crs = st_crs(4283))) +
-  tm_fill("total_unique_spec", 
-          style = "jenks", 
-          title = "Number of vulnerable specs",
-          palette = "-viridis") + 
-  tm_text("Elect_div", size = "AREA") + 
-  tm_borders(alpha = 0.3) +
-  tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(position = c("left", "bottom")) +
-  tm_layout(frame = FALSE, legend.position = center)
-
-
-
+tmap_save(spec.per.elect.ncont,
+  file = "plots/spec_per_elect_ncont.pdf",
+  height = 8, width = 8, units = "cm"
+)
