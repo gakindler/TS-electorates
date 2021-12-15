@@ -10,80 +10,69 @@ library(viridis)
 library(grid)
 library(cartogram)
 library(rmapshaper)
+library(httpgd)
 
 #### Import and simplify data ####
 
-spec.endemic.elect <- st_read(dsn = "analysed_data/HPC_spatial_ops_output/spec.endemic.elect.gpkg")
+spec.endemic.elect <- st_read(
+  dsn = "analysed_data/21-12-06_local_analysis_output/spec.eighty.elect.gpkg"
+)
+spec.eighty.elect <- st_read(
+  dsn = "analysed_data/21-12-06_local_analysis_output/spec.eighty.elect.gpkg"
+)
+elect <- st_read("clean_data/elect.clean.gpkg")
+
 print(object.size(spec.endemic.elect), units = "Kb")
-spec.eighty.elect <- st_read(dsn = "analysed_data/HPC_spatial_ops_output/spec.range.elect.eighty.gpkg")
 print(object.size(spec.eighty.elect), units = "Kb")
-electorates <- st_read("raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
-print(object.size(electorates), units = "Kb")
+print(object.size(elect), units = "Kb")
 
 spec.endemic.elect <- ms_simplify(spec.endemic.elect,
   keep = 0.01,
   keep_shape = TRUE
-)
+) %>%
+  st_make_valid()
 spec.eighty.elect <- ms_simplify(spec.eighty.elect,
   keep = 0.01,
   keep_shape = TRUE
-)
-electorates <- ms_simplify(electorates,
+) %>%
+  st_make_valid()
+elect <- ms_simplify(elect,
   keep = 0.01,
   keep_shape = TRUE
-)
+) %>%
+  st_make_valid()
 
 print(object.size(spec.endemic.elect), units = "Kb")
 print(object.size(spec.eighty.elect), units = "Kb")
-print(object.size(electorates), units = "Kb")
-
-st_geometry(spec.endemic.elect) <- NULL
-st_geometry(spec.eighty.elect) <- NULL
-st_geometry(electorates) <- NULL
-
-
-join.spec.eighty.elect <- inner_join(spec.eighty.elect, demography,
-  by = c("Elect_div" = "Electoral division")
-)
+print(object.size(elect), units = "Kb")
 
 #### Mapping ####
 
-spec.endemic.elect.chloro <- tm_shape(electorates) +
-  tm_polygons(border.alpha = 0.3) +
-  tm_shape(spec.endemic.elect,
-    bbox = st_bbox(c(
-      xmin = 113,
-      ymin = -43.740482,
-      xmax = 154,
-      ymax = -9.219937
-    ),
-    crs = st_crs(spec.endemic.elect)
-    )
-  ) +
+spec.endemic.elect.chloro <- tm_shape(elect) +
+  tm_polygons(border.alpha = 0) +
+  tm_shape(spec.endemic.elect) +
   tm_fill("total_unique_spec",
     style = "jenks",
     title = "Number of endemic \nthreatened species",
     palette = "-magma"
   ) +
   tm_text("Elect_div", size = "AREA") +
-  tm_borders(alpha = 0.3) +
+  tm_borders(
+    col = "black", alpha = 0.4) +
   # tm_compass(position = c("left", "bottom")) +
   # tm_scale_bar(position = c("left", "bottom"),
   #              width = 0.2) +
   tm_layout(frame = FALSE)
 
-spec.eighty.elect.chloro <- tm_shape(electorates) +
+tmap_save(spec.endemic.elect.chloro,
+  file = "figures/post_processing/spec_endemic_elect_chloro.svg",
+  width = 13, height = 13, units = "cm"
+)
+
+# spec.eighty.elect.chloro <-
+tm_shape(elect) +
   tm_polygons(border.alpha = 0.3) +
-  tm_shape(spec.eighty.elect,
-    bbox = st_bbox(c(
-      xmin = 113,
-      ymin = -43.740482,
-      xmax = 154,
-      ymax = -9.219937
-    ),
-    crs = st_crs(spec.eighty.elect)
-    )
-  ) +
+  tm_shape(spec.eighty.elect) +
   tm_fill("total_unique_spec",
     style = "jenks",
     title = "Number of threatened species \nwith 80% of range within",
@@ -103,5 +92,3 @@ spec.endemic.eighty.elect.combined.chloro <- tmap_arrange(spec.endemic.elect.chl
 tmap_save(spec.endemic.eighty.elect.combined.chloro,
   file = "plots/spec_endemic_eighty_elect_combined_chloro.png"
 )
-
-#### Export ####

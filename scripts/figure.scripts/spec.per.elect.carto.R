@@ -59,7 +59,7 @@ spec.per.elect.dorl.weight <- st_transform(spec.per.elect, 3112) %>%
 
 ## tmap ##
 # https://geocompr.robinlovelace.net/adv-map.html
-# https://github.com/sjewo/cartogram 
+# https://github.com/sjewo/cartogram
 
 spec.per.elect.dorl <-
 # tm_shape(elect) +
@@ -90,8 +90,8 @@ tm_shape(spec.per.elect.dorl.weight) +
   )
 
 tmap_save(spec.per.elect.dorl,
-  file = "figures/spec_per_elect_dorl.pdf"
-  # height = 8, width = 8, units = "cm"
+  file = "figures/spec_per_elect_dorl.png",
+  height = 16, width = 20, units = "cm"
 )
 
 ## ggplot ##

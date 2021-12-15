@@ -37,8 +37,8 @@ predicted <- data.frame(elect_area_sqkm = seq(xmin, xmax, length.out = 100))
 ggplot(spec.per.elect) +
   aes(
     x = elect_area_sqkm,
-    y = total_unique_spec,
-    fill = Elect_div
+    y = total_unique_spec
+    # fill = Elect_div
   ) +
   geom_point(aes(colour = Demographic_class),
     alpha = 0.6,
@@ -51,12 +51,12 @@ ggplot(spec.per.elect) +
   # stat_smooth(
   #   method = lm
   # )
-  # geom_smooth(
-  #   # method = "loess",
-  #   method = "lm",
-  #   show.legend = FALSE,
-  #   colour = "black"
-  # ) +
+  geom_smooth(
+    # method = "loess",
+    method = "lm",
+    show.legend = FALSE,
+    colour = "black"
+  ) +
   # geom_line(
   #   data = predicted, size = 1
   # ) +
@@ -86,8 +86,8 @@ ggplot(spec.per.elect) +
   ) +
   theme_classic()
 
-ggsave("figures/spec_per_elect_point_smooth.pdf",
-  # width = 8, height = 8, units = "cm"
+ggsave("figures/spec_per_elect_point_smooth.png",
+  width = 20, height = 15, units = "cm"
 )
 
 ggplot(spec.per.elect) +
@@ -102,15 +102,17 @@ ggplot(spec.per.elect) +
     colour = "black"
   )
 
-#### Calcualtions ####
+#### Calculations ####
+
+spec.per.elect <- read.csv(
+  "analysed_data/21-12-06_local_analysis_output/spec.per.elect.csv"
+)
 
 summary(spec.per.elect)
 
-prop.table(table(spec.per.elect$Demographic_class))
+proportions(table(spec.per.elect$Demographic_class))
 
-spec.per.elect %>%
+spec.per.elect.demo.area <- spec.per.elect %>%
   group_by(Demographic_class) %>%
-  summarise(sum(total_unique_spec))
-
-spec.per.elect %>%
-  summarise(sum(total_unique_spec))
+  summarise(sum_elect_area_sqkm = sum(elect_area_sqkm))
+proportions(spec.per.elect.demo.area$sum_elect_area_sqkm)
