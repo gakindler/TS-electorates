@@ -42,6 +42,16 @@ spec.per.elect <- elect %>%
     layer = "spec.per.elect", append = FALSE
   )
 
+spec.per.elect.indiv <- elect %>%
+  st_join(species) %>%
+  group_by(Elect_div) %>%
+  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
+  ungroup() %>%
+  st_set_geometry(NULL) %T>%
+  write_json(
+    path = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
+  )
+
 #### spec.range.elect - species range within each electorate ####
 # Calculate total area of each species's range
 species.area <- species %>%
@@ -108,14 +118,18 @@ elect.spec.cover <- elect %>%
 
 species.no.geom <- species %>%
   st_set_geometry(NULL) %>%
-  select(c("SCIENTIFIC_NAME", "THREATENED_STATUS", "MIGRATORY_STATUS", "TAXON_GROUP"))
+  select(c(
+    "SCIENTIFIC_NAME", "VERNACULAR_NAME",
+    "THREATENED_STATUS", "MIGRATORY_STATUS", "TAXON_GROUP"
+  ))
 
 elect.spec.cover <- elect.spec.cover %>%
   st_set_geometry(NULL) %>%
   inner_join(species.no.geom) %T>%
-  write.csv("/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/elect.spec.cover.csv"
-)
-  
+  write_json(
+    path = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/elect.spec.cover.json"
+  )
+
 #### spec.outside.elect ####
 # Two methods here:
 ## 1. Same procedure as species.range but with st_difference, allows the distinguishing
