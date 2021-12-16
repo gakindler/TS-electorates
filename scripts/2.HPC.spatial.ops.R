@@ -25,42 +25,40 @@ species <- st_read("/QRISdata/Q4107/clean_data/species.clean.gpkg")
 #   st_sym_difference(aus) %>%
 #   mutate(difference_sqkm = units::set_units(st_area(.), km^2) %>%
 #           as.numeric()) %T>%
-#   st_write(dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/elect.aus.overlap.check.gpkg",
-#     layer = 'elect.aus.overlap.check', append = FALSE)
+#   st_write("/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/elect.aus.overlap.check.gpkg",
+#     layer = 'elect.aus.overlap.check', append = FALSE, delete_dsn = TRUE)
 
 #### spec.per.elect - no. of species per electorates, demography, and concentration ####
 
 spec.per.elect <- elect %>%
-  st_join(species) %>%
+  st_join(species)
+
+spec.per.elect.counts <- spec.per.elect %>%
   group_by(Elect_div) %>%
   summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
-  ungroup() %>%
-  mutate(elect_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
-  mutate(species_per_sqkm = total_unique_spec / elect_area_sqkm) %T>%
+  ungroup() %T>%
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.gpkg",
-    layer = "spec.per.elect", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.counts.gpkg",
+    layer = "spec.per.elect.counts", append = FALSE, delete_dsn = TRUE
   )
 
-spec.per.elect.indiv <- elect %>%
-  st_join(species) %>%
+spec.per.elect.indiv <- spec.per.elect %>%
   group_by(Elect_div) %>%
   mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
   ungroup() %>%
   st_set_geometry(NULL) %T>%
   write_json(
-    path = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
   )
 
 #### spec.range.elect - species range within each electorate ####
-# Calculate total area of each species's range
-species.area <- species %>%
-  mutate(spec_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric())
-
 # Calculate the percentage of species area within each electorate
-spec.range.elect <- st_intersection(species.area, elect) %>%
+spec.range.elect <- species %>%
+  st_intersection(elect) %>%
   st_make_valid() %>%
-  mutate(intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
+  mutate(
+    intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()
+  ) %>%
   mutate(percent_range_within = intersection_area_sqkm / spec_area_sqkm) %>%
   # Negates floating point problems (hopefully)
   mutate(across(percent_range_within, round, digits = 2))
@@ -73,17 +71,17 @@ spec.eighty.elect <- spec.range.elect %>%
   inner_join(elect, by = c("Elect_div" = "Elect_div")) %>%
   st_as_sf() %>%
   group_by(Elect_div) %>%
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
+  summarise(total_eighty_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.eighty.elect.gpkg",
-    layer = "spec.eighty.elect", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.eighty.elect.gpkg",
+    layer = "spec.eighty.elect", append = FALSE, delete_dsn = TRUE
   )
 
 spec.eighty.elect.aus <- st_intersection(aus, spec.eighty.elect) %>%
   st_make_valid() %T>%
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.eighty.elect.aus.gpkg",
-    layer = "spec.eighty.elect.aus", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.eighty.elect.aus.gpkg",
+    layer = "spec.eighty.elect.aus", append = FALSE, delete_dsn = TRUE
   )
 
 #### spec.endemic.elect - species endemic to each electorate ####
@@ -95,17 +93,17 @@ spec.endemic.elect <- spec.range.elect %>%
   inner_join(elect, by = c("Elect_div" = "Elect_div")) %>%
   st_as_sf() %>%
   group_by(Elect_div) %>%
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
+  summarise(total_endemic_unique_spec = n_distinct(SCIENTIFIC_NAME)) %T>%
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.endemic.elect.gpkg",
-    layer = "spec.endemic.elect", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.endemic.elect.gpkg",
+    layer = "spec.endemic.elect", append = FALSE, delete_dsn = TRUE
   )
 
 spec.endemic.elect.aus <- st_intersection(aus, spec.endemic.elect) %>%
   st_make_valid() %T>%
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.endemic.elect.aus.gpkg",
-    layer = "spec.endemic.elect.aus", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.endemic.elect.aus.gpkg",
+    layer = "spec.endemic.elect.aus", append = FALSE, delete_dsn = TRUE
   )
 
 # TO DO: Count no. of endemic species per electorate in wide format?
@@ -113,7 +111,7 @@ spec.endemic.elect.aus <- st_intersection(aus, spec.endemic.elect) %>%
 #### elect.spec.cover - How many electorates does each species's range cover? ####
 elect.spec.cover <- elect %>%
   st_join(species, left = FALSE) %>%
-  group_by(SCIENTIFIC_NAME) %>%
+  group_by(SCIENTIFIC_NAME, VERNACULAR_NAME) %>%
   summarise(elect_range_covers = n_distinct(Elect_div))
 
 species.no.geom <- species %>%
@@ -127,7 +125,7 @@ elect.spec.cover <- elect.spec.cover %>%
   st_set_geometry(NULL) %>%
   inner_join(species.no.geom) %T>%
   write_json(
-    path = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/elect.spec.cover.json"
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/elect.spec.cover.json"
   )
 
 #### spec.outside.elect ####
@@ -142,8 +140,8 @@ spec.outside.elect <- st_difference(species.area, elect.union) %>%
   mutate(across(percent_range_outside, round, digits = 2)) %>%
   filter(percent_range_outside >= .8) %T>% # 80%, who chose this? Did you? Did I?
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg",
-    layer = "spec.outside.elect", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg",
+    layer = "spec.outside.elect", append = FALSE, delete_dsn = TRUE
   )
 
 ## 2. Logical vector method
@@ -154,6 +152,6 @@ outside <- sapply(st_intersects(species, elect.union), function(x) {
 })
 spec.outside.elect.logical <- species[outside, ] %T>%
   st_write(
-    dsn = "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.outside.elect.logical.gpkg",
-    layer = "spec.outside.elect.logical", append = FALSE
+    "/QRISdata/Q4107/analysed_data/HPC_spatial_ops_output/spec.outside.elect.logical.gpkg",
+    layer = "spec.outside.elect.logical", append = FALSE, delete_dsn = TRUE
   )

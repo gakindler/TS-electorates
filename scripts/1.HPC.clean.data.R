@@ -43,9 +43,18 @@ elect <- elect %>%
         )) %>%
         st_make_valid() %>%
         st_crop(
-                xmin = 112.921114, ymin = -43.740510, # drop those pesky islands
-                xmax = 153.638727, ymax = -9.115517
-        ) %T>%
+                xmin = 111.921114, ymin = -44.740510, # drop those pesky islands
+                xmax = 154.638727, ymax = -8.115517
+                # for some unknown reason, the ymax of qgis bounding box
+                # measure was still cutting the top off of Aus, so I
+                # spread the bbox by 1 in every direction
+                # xmin       ymin       xmax       ymax
+                # 112.921114 -43.740510 153.638727  -9.115517
+        ) %>%
+        mutate(
+                elect_area_sqkm = units::set_units(st_area(.), km^2
+        ) %>%
+        as.numeric()) %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/clean_data/elect.clean.gpkg",
                 layer = "aus.clean", append = FALSE
@@ -71,17 +80,33 @@ species <- species %>%
                 "Extinct in the wild"
         )) %>% # as Ward_database_2021(?)
         filter(!MARINE %in% "Listed") %>%
+        # filter(!SCIENTIFIC_NAME %in% c(
+        #         "Carcharias taurus (east coast population)",
+        #         "Carcharias taurus (west coast population)",
+        #         "Carcharodon carcharias", "Epinephelus daemelii",
+        #         "Glyphis garricki", "Glyphis glyphis",
+        #         "Pristis clavata", "Pristis zijsron",
+        #         "Rhincodon typus"
+        # )) %>%
+        # Grey Nurse Shark (east coast population);
+        # Grey Nurse Shark (west coast population);
+        # White Shark, Great White Shark;
+        # Black Rockcod, Black Cod, Saddled Rockcod;
+        # Northern River Shark, New Guinea River Shark;
+        # Speartooth Shark; Dwarf Sawfish, Queensland Sawfish;
+        # Green Sawfish, Dindagubba, Narrowsnout Sawfish;
+        # Whale Shark [some marine species were not being filtered out]
         filter(!SCIENTIFIC_NAME %in% c(
                 "Calidris canutus", "Calidris ferruginea",
                 "Calidris tenuirostris", "Hirundapus caudacutus"
         )) %>%
-        # 1 - Red Knot, Knot; 2 - Curlew Sandpiper;
-        # 4 - Great Knot; 6 - White-throated Needletail
-        # of the MARINE == "Listed - overfly marine area"
+        # Red Knot, Knot; Curlew Sandpiper;
+        # Great Knot; White-throated Needletail
+        # [MARINE == "Listed - overfly marine area"]
         filter(!CETACEAN %in% "Cetacean") %>%
         select(c(
                 "SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
-                "MIGRATORY_STATUS", "TAXON_GROUP", "Shape_Area", "Shape"
+                "MIGRATORY_STATUS", "TAXON_GROUP", "Shape"
         )) %>%
         st_make_valid() %>%
         # Merge species at the broad taxa as there are duplicate polygons
@@ -92,7 +117,11 @@ species <- species %>%
         ) %>%
         summarise() %>%
         ungroup() %>%
-        st_make_valid() %T>%
+        st_make_valid() %>%
+        mutate(
+                spec_area_sqkm = units::set_units(st_area(.), km^2
+        ) %>%
+        as.numeric()) %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/clean_data/species.clean.gpkg",
                 layer = "species.clean", append = FALSE
