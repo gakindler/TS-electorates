@@ -41,128 +41,114 @@ pop$Elect_div <- gsub("O'connor", "O'Connor", pop$Elect_div)
 
 #### Import HPC outputs ####
 
-spec.per.elect <- st_read(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/spec.per.elect.gpkg"
+spec.per.elect.counts <- st_read(
+  "analysed_data/21-12-18_HPC_spatial_ops_output/spec.per.elect.counts.gpkg"
 )
 spec.per.elect.indiv <- fromJSON(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/spec.per.elect.indiv.json"
-)
-spec.endemic.elect <- st_read(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/spec.endemic.elect.gpkg"
+  "analysed_data/21-12-18_HPC_spatial_ops_output/spec.per.elect.indiv.json"
 )
 spec.eighty.elect <- st_read(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/spec.eighty.elect.gpkg"
+  "analysed_data/21-12-18_HPC_spatial_ops_output/spec.eighty.elect.gpkg"
+)
+spec.endemic.elect <- st_read(
+  "analysed_data/21-12-18_HPC_spatial_ops_output/spec.endemic.elect.gpkg"
 )
 elect.spec.cover <- fromJSON(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/elect.spec.cover.json"
-)
-spec.outside.elect <- st_read(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/spec.outside.elect.gpkg"
-)
-spec.outside.elect.logical <- st_read(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/spec.outside.elect.logical.gpkg"
+  "analysed_data/21-12-18_HPC_spatial_ops_output/elect.spec.cover.json"
 )
 
 #### Elect.info ####
 
-elect.info <- demo %>%
+elect.info <- elect %>%
+  st_set_geometry(NULL) %>%
+  rename(State_territory_abbrev = State) %>%
   inner_join(pop) %>%
-  inner_join(elect) %>%
-  # inner_join(spec.per.elect) %>%
-  # mutate(Elect_div_abbrev = substr(Elect_div, start = 1, stop = 2)) %>%
+  inner_join(demo) %>%
   mutate(Elect_div_abbrev = abbreviate(Elect_div, minlength = 4L))
 
-#### spec.per.elect - no. of species per electorates, demography, and concentration ####
+#### spec.per.elect.counts - no. of species per electorates, demography, and concentration ####
 
-spec.per.elect <- spec.per.elect %>%
-  inner_join(elect) %>%
+spec.per.elect.counts.elect.info <- spec.per.elect.counts %>%
+  inner_join(elect.info) %>%
   mutate(
     species_per_sqkm = total_unique_spec / elect_area_sqkm
-  )
-  inner_join(demo.pop)  %>%
-  relocate(
-    Elect_div, Elect_div_abbrev, Demographic_class,
-    Electors, elect_area_sqkm, total_unique_spec,
-    species_per_sqkm, geom
-  ) %T>%
-  st_write(
-    "analysed_data/21-12-06_local_analysis_output/spec.per.elect.gpkg",
-    layer = "spec.per.elect", append = FALSE
-  ) %>%
-  st_set_geometry(NULL) %T>%
-  write.csv(
-    "analysed_data/21-12-06_local_analysis_output/spec.per.elect.csv",
-    row.names = FALSE
   )
 
 #### spec.endemic.elect/spec.eighty.elect - species range completely/80% within each electorate ####
 
-spec.endemic.elect <- spec.endemic.elect %>%
-  inner_join(demo.pop) %>%
-  rename(total_endemic_unique_spec = total_unique_spec) %T>%
-  st_write(
-    "analysed_data/21-12-06_local_analysis_output/spec.endemic.elect.gpkg",
-    layer = "spec.endemic.elect", append = FALSE
-  ) %>%
-  st_set_geometry(NULL)
+st_write(spec.eighty.elect,
+  "analysed_data/21-12-18_local_analysis_output/spec.eighty.elect.gpkg",
+  layer = "spec.eighty.elect", append = FALSE
+)
+st_write(spec.endemic.elect,
+  "analysed_data/21-12-18_local_analysis_output/spec.endemic.elect.gpkg",
+  layer = "spec.endemic.elect", append = FALSE
+)
 
 spec.eighty.elect <- spec.eighty.elect %>%
-  inner_join(demo.pop) %>%
-  rename(total_eighty_unique_spec = total_unique_spec) %T>%
-  st_write(
-    "analysed_data/21-12-06_local_analysis_output/spec.eighty.elect.gpkg",
-    layer = "spec.eighty.elect", append = FALSE
-  ) %>%
-  st_set_geometry(NULL)
+  st_set_geometry(NULL) %>%
+  group_by(Elect_div) %>%
+  summarise(total_eighty_unique_spec = n_distinct(SCIENTIFIC_NAME))
 
-spec.endemic.eighty.elect <- spec.endemic.elect %>%
-  full_join(spec.eighty.elect) %>%
+spec.endemic.elect <- spec.endemic.elect %>%
+  st_set_geometry(NULL) %>%
+  group_by(Elect_div) %>%
+  summarise(total_endemic_unique_spec = n_distinct(SCIENTIFIC_NAME))
+  
+spec.per.elect.counts <- spec.per.elect.counts.elect.info %>%
+  left_join(spec.eighty.elect) %>%
+  left_join(spec.endemic.elect) %>%
   relocate(
-    Elect_div, Demographic_class, Electors,
-    total_endemic_unique_spec, total_eighty_unique_spec
+    Elect_div, Elect_div_abbrev, State_territory,
+    State_territory_abbrev, Demographic_class,
+    Electors, elect_area_sqkm, total_unique_spec,
+    species_per_sqkm, total_eighty_unique_spec,
+    total_endemic_unique_spec, geom
   ) %T>%
+  st_write(
+    "analysed_data/21-12-18_local_analysis_output/spec.per.elect.counts.gpkg",
+    layer = "spec.per.elect.counts", append = FALSE
+  ) %>%
+  st_set_geometry(NULL) %T>%
   write.csv(
-    "analysed_data/21-12-06_local_analysis_output/spec.endemic.eighty.elect.csv",
+    "analysed_data/21-12-18_local_analysis_output/spec.per.elect.counts.csv",
     row.names = FALSE
   )
-
 
 #### spec.per.elect.indiv - indivdual species per electorate ####
 
-spec.per.elect.indiv <- spec.per.elect.indiv %>%
-  inner_join(demo.pop) %>%
-  select(c("Elect_div", "total_unique_spec", "")) %T>%
+spec.per.elect.indiv <- spec.per.elect.indiv %T>%
+  # left_join(elect.info)
   write.csv(
-    "analysed_data/21-12-06_local_analysis_output/spec.per.elect.indiv.csv",
-    row.names = FALSE
-  ) %>%
-  nest_by(Elect_div, State, Demographic_class, total_unique_spec)
-
-
-spec.per.elect.indiv.wide <- spec.per.elect.indiv %>%
-  unite(
-    "VERNACULAR_NAME-SCIENTIFIC_NAME",
-    VERNACULAR_NAME:SCIENTIFIC_NAME,
-    sep = "-"
-  ) %>%
-  pivot_wider(
-    names_from = Elect_div,
-    values_from = SCIENTIFIC_NAME
-  ) %T>%
-  write.csv(
-    "analysed_data/21-12-06_local_analysis_output/spec.per.elect.indiv.wide.csv",
+    "analysed_data/21-12-18_local_analysis_output/spec.per.elect.indiv.csv",
     row.names = FALSE
   )
+  # nest_by(Elect_div, State, Demographic_class, total_unique_spec)
 
+# spec.per.elect.indiv.wide <- spec.per.elect.indiv %>%
+#   unite(
+#     "VERNACULAR_NAME-SCIENTIFIC_NAME",
+#     VERNACULAR_NAME:SCIENTIFIC_NAME,
+#     sep = "-"
+#   ) %>%
+#   select(!c("", ""))
+#   pivot_wider(
+#     names_from = Elect_div,
+#     values_from = "VERNACULAR_NAME-SCIENTIFIC_NAME"
+#   ) %T>%
+#   write.csv(
+#     "analysed_data/21-12-18_local_analysis_output/spec.per.elect.indiv.wide.csv",
+#     row.names = FALSE
+#   )
 
 #### elect.spec.cover - How many electorates does each species's range cover? ####
 
 elect.spec.cover <- elect.spec.cover %>%
-  relocate()
-
-write.csv(
-  elect.spec.cover,
-  "analysed_data/21-12-06_local_analysis_output/elect.spec.cover.csv",
+  relocate(SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
+  TAXON_GROUP, VERNACULAR_NAME, MIGRATORY_STATUS,
+  elect_range_covers) %T>%
+  write.csv(
+  "analysed_data/21-12-18_local_analysis_output/elect.spec.cover.csv",
   row.names = FALSE
 )
 
@@ -170,18 +156,18 @@ write.csv(
 #   elect.spec.cover$elect_range_covers %>%
 #   replace_na(0)
 
-#### spec.eighty.outside.elect ####
+# #### spec.eighty.outside.elect ####
 
-write.csv(
-  spec.outside.elect,
-  "analysed_data/21-12-06_local_analysis_output/spec.outside.elect.csv",
-  row.names = FALSE
-)
+# write.csv(
+#   spec.outside.elect,
+#   "analysed_data/21-12-18_local_analysis_output/spec.outside.elect.csv",
+#   row.names = FALSE
+# )
 
 
 
-write.csv(
-  spec.outside.elect.logical,
-  "analysed_data/21-12-06_local_analysis_output/spec.outside.elect.logical.csv",
-  row.names = FALSE
-)
+# write.csv(
+#   spec.outside.elect.logical,
+#   "analysed_data/21-12-18_local_analysis_output/spec.outside.elect.logical.csv",
+#   row.names = FALSE
+# )
