@@ -10,11 +10,16 @@ library(units)
 
 # To get the right bounding box of the spatial data we needed to trim
 # the annoying islands, this meant loading the data into QGIS, single part
-# features, then selecting, exporting, then reading into sf, st_bbox
+# features, then selecting, exporting, then reading into sf, st_bbox,
+# yet this didn't work so I spread the box by 1 in every direction
+# for some unknown reason, the ymax of qgis bounding box
+# measure was still cutting the top off of Aus
+# xmin       ymin       xmax       ymax
+# 112.921114 -43.740510 153.638727  -9.115517
 
 #### Aus boundary: Import/clean ####
 
-aus <- st_read("/QRISdata/Q4107/raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
+aus <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
 aus <- aus %>%
         select(geometry) %>%
         slice(1) %>%
@@ -23,13 +28,17 @@ aus <- aus %>%
                 xmax = 153.638727, ymax = -9.115517
         ) %T>%
         st_write(
-                dsn = "/QRISdata/Q4107/clean_data/aus.clean.gpkg",
-                layer = "aus.clean", append = FALSE
+                dsn = "/QRISdata/Q4107/TS_electorates/clean_data/aus.clean.gpkg",
+                layer = "aus.clean", append = FALSE, delete_dsn = TRUE
         )
+
+aus.union <- aus %>%
+  st_union(by_feature = FALSE) %>%
+  st_sf()
 
 #### Electorates: Import/clean ####
 
-elect <- st_read("/QRISdata/Q4107/raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
+elect <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
 # The 'elect' file has a couple of contractions that do not match 'demo' file
 elect$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", elect$Elect_div)
 elect$Elect_div <- gsub("Mcewen", "McEwen", elect$Elect_div)
@@ -43,33 +52,30 @@ elect <- elect %>%
         )) %>%
         st_make_valid() %>%
         st_crop(
-                xmin = 111.921114, ymin = -44.740510, # drop those pesky islands
+                xmin = 111.921114, ymin = -44.740510,
                 xmax = 154.638727, ymax = -8.115517
-                # for some unknown reason, the ymax of qgis bounding box
-                # measure was still cutting the top off of Aus, so I
-                # spread the bbox by 1 in every direction
-                # xmin       ymin       xmax       ymax
-                # 112.921114 -43.740510 153.638727  -9.115517
+                # remove the islands
         ) %>%
         mutate(
-                elect_area_sqkm = units::set_units(st_area(.), km^2
-        ) %>%
-        as.numeric()) %T>%
+                elect_area_sqkm = units::set_units(st_area(.), km^2) %>%
+                        as.numeric()
+        ) %T>%
         st_write(
-                dsn = "/QRISdata/Q4107/clean_data/elect.clean.gpkg",
-                layer = "aus.clean", append = FALSE
+                dsn = "/QRISdata/Q4107/TS_electorates/clean_data/elect.clean.gpkg",
+                layer = "aus.clean", append = FALSE, delete_dsn = TRUE
         )
 
-elect.union <- st_union(elect, by_feature = FALSE) %>%
+elect.union <- elect %>%
+        st_union(by_feature = FALSE) %>%
         st_sf() %T>%
         st_write(
-                dsn = "/QRISdata/Q4107/clean_data/elect.union.clean.gpkg",
-                layer = "elect.union.clean", append = FALSE
+                dsn = "/QRISdata/Q4107/TS_electorates/clean_data/elect.union.clean.gpkg",
+                layer = "elect.union.clean", append = FALSE, delete_dsn = TRUE
         )
 
-#### Species: Import/clean/crop ####
+#### Species: Import/clean ####
 
-species <- st_read("/QRISdata/Q4107/raw_data/SNES_public_1july2021.gdb")
+species <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/SNES_public_1july2021.gdb")
 species <- species %>%
         filter(PRESENCE_RANK == 2) %>%
         filter(!is.na(THREATENED_STATUS)) %>%
@@ -78,31 +84,30 @@ species <- species %>%
                 "Endangered",
                 "Critically Endangered",
                 "Extinct in the wild"
-        )) %>% # as Ward_database_2021(?)
+        )) %>% # as in wardNationalscaleDatasetThreats2021
         filter(!MARINE %in% "Listed") %>%
-        # filter(!SCIENTIFIC_NAME %in% c(
-        #         "Carcharias taurus (east coast population)",
-        #         "Carcharias taurus (west coast population)",
-        #         "Carcharodon carcharias", "Epinephelus daemelii",
-        #         "Glyphis garricki", "Glyphis glyphis",
-        #         "Pristis clavata", "Pristis zijsron",
-        #         "Rhincodon typus"
-        # )) %>%
-        # Grey Nurse Shark (east coast population);
-        # Grey Nurse Shark (west coast population);
-        # White Shark, Great White Shark;
-        # Black Rockcod, Black Cod, Saddled Rockcod;
-        # Northern River Shark, New Guinea River Shark;
-        # Speartooth Shark; Dwarf Sawfish, Queensland Sawfish;
-        # Green Sawfish, Dindagubba, Narrowsnout Sawfish;
-        # Whale Shark [some marine species were not being filtered out]
         filter(!SCIENTIFIC_NAME %in% c(
-                "Calidris canutus", "Calidris ferruginea",
-                "Calidris tenuirostris", "Hirundapus caudacutus"
+                "Brachionichthys hirsutus", # Spotted Handfish
+                "Brachiopsilus ziebelli", # Ziebell's Handfish, Waterfall Bay Handfish
+                "Carcharias taurus (east coast population)", # Grey Nurse Shark (east coast population)
+                "Carcharias taurus (west coast population)", # Grey Nurse Shark (west coast population)
+                "Carcharodon carcharias", # White Shark, Great White Shark
+                "Epinephelus daemelii", # Black Rockcod, Black Cod, Saddled Rockcod
+                "Glyphis garricki", # Northern River Shark, New Guinea River Shark
+                "Glyphis glyphis", # Speartooth Shark
+                "Pristis clavata", # Dwarf Sawfish, Queensland Sawfish
+                "Rhincodon typus", # Whale Shark
+                "Thymichthys politus", # Red Handfish
+                "Zearaja maugeana" # Maugean Skate, Port Davey Skate
         )) %>%
-        # Red Knot, Knot; Curlew Sandpiper;
-        # Great Knot; White-throated Needletail
-        # [MARINE == "Listed - overfly marine area"]
+        # some marine species were not being filtered out, remove all marine species, keep inland freshwater species
+        filter(!SCIENTIFIC_NAME %in% c(
+                "Calidris canutus", # Red Knot, Knot
+                "Calidris ferruginea", # Curlew Sandpiper
+                "Calidris tenuirostris", # Great Knot
+                "Hirundapus caudacutus" # White-throated Needletail
+        )) %>%
+        # MARINE == "Listed - overfly marine area"
         filter(!CETACEAN %in% "Cetacean") %>%
         select(c(
                 "SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
@@ -119,10 +124,10 @@ species <- species %>%
         ungroup() %>%
         st_make_valid() %>%
         mutate(
-                spec_area_sqkm = units::set_units(st_area(.), km^2
-        ) %>%
-        as.numeric()) %T>%
+                species_area_sqkm = units::set_units(st_area(.), km^2) %>%
+                        as.numeric()
+        ) %T>%
         st_write(
-                dsn = "/QRISdata/Q4107/clean_data/species.clean.gpkg",
-                layer = "species.clean", append = FALSE
+                dsn = "/QRISdata/Q4107/TS_electorates/clean_data/species.clean.gpkg",
+                layer = "species.clean", append = FALSE, delete_dsn = TRUE
         )

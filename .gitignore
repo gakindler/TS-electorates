@@ -16,3 +16,4 @@
 /**/*.bib
 /writing/word
 !/writing/latex/**/*.tex
+/**/*.qgz
