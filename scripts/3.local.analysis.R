@@ -161,7 +161,7 @@ elect.spec.cover$elect_range_covers <-
   elect.spec.cover$elect_range_covers %>%
   replace_na(0)
 
-#### spec.eighty.outside.elect ####
+# #### spec.eighty.outside.elect ####
 
 spec.outside.elect <-
   filter(percent_range_outside >= .8) # 80%, who chose this? Did you? Did I?
