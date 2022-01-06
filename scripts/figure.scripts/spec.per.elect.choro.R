@@ -16,7 +16,7 @@ library(rmapshaper)
 #### Import and simplify data ####
 
 spec.per.elect <- st_read(
-  dsn = "analysed_data/21-12-06_local_analysis_output/spec.per.elect.gpkg"
+  dsn = "analysed_data/21-12-18_local_analysis_output/spec.per.elect.gpkg"
 )
 aus <- st_read(
   "clean_data/aus.clean.gpkg"

@@ -12,11 +12,12 @@ library(viridis)
 library(grid)
 library(cartogram)
 library(rmapshaper)
+library(tmaptools)
 
 #### Import and simplify data ####
 
 spec.per.elect <- st_read(
-  dsn = "analysed_data/21-12-06_local_analysis_output/spec.per.elect.gpkg"
+  dsn = "analysed_data/21-12-18_local_analysis_output/spec.per.elect.counts.gpkg"
 )
 aus <- st_read(
   "clean_data/aus.clean.gpkg"
@@ -29,22 +30,39 @@ print(object.size(spec.per.elect), units = "Kb")
 print(object.size(aus), units = "Kb")
 print(object.size(elect), units = "Kb")
 
-spec.per.elect <- ms_simplify(
+spec.per.elect <- simplify_shape(
   spec.per.elect,
-  keep = 0.001,
-  keep_shape = TRUE
+  0.001,
+  keep.units = TRUE
 )
 aus <- ms_simplify(
   aus,
-  keep = 0.001,
-  keep_shape = TRUE
+  0.001,
+  keep.units = TRUE
 )
 elect <- ms_simplify(
   elect,
-  keep = 0.001,
-  keep_shape = TRUE
+  0.001,
+  keep.units = TRUE
 ) %>%
   st_make_valid()
+
+# spec.per.elect <- ms_simplify(
+#   spec.per.elect,
+#   keep = 0.001,
+#   keep_shape = TRUE
+# )
+# aus <- ms_simplify(
+#   aus,
+#   keep = 0.001,
+#   keep_shape = TRUE
+# )
+# elect <- ms_simplify(
+#   elect,
+#   keep = 0.001,
+#   keep_shape = TRUE
+# ) %>%
+#   st_make_valid()
 
 print(object.size(spec.per.elect), units = "Kb")
 print(object.size(aus), units = "Kb")

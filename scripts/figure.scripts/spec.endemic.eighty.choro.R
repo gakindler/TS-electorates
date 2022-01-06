@@ -11,14 +11,15 @@ library(grid)
 library(cartogram)
 library(rmapshaper)
 library(httpgd)
+library(tmaptools)
 
 #### Import and simplify data ####
 
 spec.endemic.elect <- st_read(
-  dsn = "analysed_data/21-12-06_local_analysis_output/spec.eighty.elect.gpkg"
+  "analysed_data/21-12-18_local_analysis_output/spec.endemic.elect.gpkg"
 )
 spec.eighty.elect <- st_read(
-  dsn = "analysed_data/21-12-06_local_analysis_output/spec.eighty.elect.gpkg"
+  "analysed_data/21-12-18_local_analysis_output/spec.eighty.elect.gpkg"
 )
 elect <- st_read("clean_data/elect.clean.gpkg")
 
@@ -26,21 +27,38 @@ print(object.size(spec.endemic.elect), units = "Kb")
 print(object.size(spec.eighty.elect), units = "Kb")
 print(object.size(elect), units = "Kb")
 
-spec.endemic.elect <- ms_simplify(spec.endemic.elect,
-  keep = 0.01,
-  keep_shape = TRUE
+spec.endemic.elect <- simplify_shape(
+  spec.endemic.elect,
+  0.001,
+  keep.units = TRUE
+)
+spec.eighty.elect <- simplify_shape(
+  spec.eighty.elect,
+  0.001,
+  keep.units = TRUE
+)
+elect <- simplify_shape(
+  elect,
+  0.001,
+  keep.units = TRUE
 ) %>%
   st_make_valid()
-spec.eighty.elect <- ms_simplify(spec.eighty.elect,
-  keep = 0.01,
-  keep_shape = TRUE
-) %>%
-  st_make_valid()
-elect <- ms_simplify(elect,
-  keep = 0.01,
-  keep_shape = TRUE
-) %>%
-  st_make_valid()
+
+# spec.endemic.elect <- ms_simplify(spec.endemic.elect,
+#   keep = 0.01,
+#   keep_shape = TRUE
+# ) %>%
+#   st_make_valid()
+# spec.eighty.elect <- ms_simplify(spec.eighty.elect,
+#   keep = 0.01,
+#   keep_shape = TRUE
+# ) %>%
+#   st_make_valid()
+# elect <- ms_simplify(elect,
+#   keep = 0.01,
+#   keep_shape = TRUE
+# ) %>%
+#   st_make_valid()
 
 print(object.size(spec.endemic.elect), units = "Kb")
 print(object.size(spec.eighty.elect), units = "Kb")

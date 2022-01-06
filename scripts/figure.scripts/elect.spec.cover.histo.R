@@ -9,7 +9,7 @@ library(httpgd)
 #### elect.spec.cover.status ####
 
 elect.spec.cover <- read.csv(
-  "analysed_data/21-12-06_HPC_spatial_ops_output/elect.spec.cover.csv"
+  "analysed_data/21-12-18_local_analysis_output/elect.spec.cover.csv"
 )
 
 # elect.spec.cover$THREATENED_STATUS <- factor(
@@ -72,7 +72,7 @@ ggplot(elect.spec.cover) +
   theme_classic()
 
 
-ggsave("figures/elect_spec_cover_density.png",
+ggsave("figures/elect_spec_cover_density.pdf",
   width = 20, height = 15, units = "cm"
 )
 
@@ -80,17 +80,21 @@ ggsave("figures/elect_spec_cover_density.png",
 
 summary(elect.spec.cover)
 
+table(elect.spec.cover$elect_range_covers)
+
 prop.table(table(elect.spec.cover$elect_range_covers))
 0.4499478624 + 0.1892596455 + 0.0740354536 + 0.0464025026
 
 elect.spec.cover.4.greater.cover <- elect.spec.cover %>%
   filter(elect_range_covers > 3)
 
+table(elect.spec.cover.4.greater.cover$elect_range_covers)
+
 elect.spec.cover.4.less.cover <- elect.spec.cover %>%
   filter(elect_range_covers < 4)
 
 elect.spec.cover.migratory <- elect.spec.cover %>%
-  filter(MIGRATORY_STATUS == "Migratory")
+  filter(MIGRATORY_STATUS %in% "Migratory")
 
 elect.spec.cover.fishes <- elect.spec.cover %>%
   filter(TAXON_GROUP == "fishes")

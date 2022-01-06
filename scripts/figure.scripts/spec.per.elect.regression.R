@@ -12,29 +12,32 @@ library(jsonlite)
 
 #### Import ####
 
-spec.per.elect <- st_read(
-  dsn = "analysed_data/21-12-06_local_analysis_output/spec.per.elect.gpkg"
+spec.per.elect.counts <- read.csv(
+  "analysed_data/21-12-18_local_analysis_output/spec.per.elect.counts.csv"
+)
+spec.per.elect.indiv <- read.csv(
+  "analysed_data/21-12-18_local_analysis_output/spec.per.elect.indiv.csv"
 )
 
-print(object.size(spec.per.elect), units = "Kb")
+print(object.size(spec.per.elect.counts), units = "Kb")
 
-#### Regression model ####
+# #### Regression model ####
 
-model <- lm(total_unique_spec ~ elect_area_sqkm, data = spec.per.elect)
+# model <- lm(total_unique_spec ~ elect_area_sqkm, data = spec.per.elect)
 
-summary(model)
+# summary(model)
 
-#### Fitting existing model to a plot ####
+# #### Fitting existing model to a plot ####
 
-xmin <- min(spec.per.elect$elect_area_sqkm)
-xmax <- max(spec.per.elect$elect_area_sqkm)
+# xmin <- min(spec.per.elect$elect_area_sqkm)
+# xmax <- max(spec.per.elect$elect_area_sqkm)
 
-predicted <- data.frame(elect_area_sqkm = seq(xmin, xmax, length.out = 100))
+# predicted <- data.frame(elect_area_sqkm = seq(xmin, xmax, length.out = 100))
 
 #### Scatter plot with regression line ####
 
 # spec.per.elect.point.smooth <-
-ggplot(spec.per.elect) +
+ggplot(spec.per.elect.counts) +
   aes(
     x = elect_area_sqkm,
     y = total_unique_spec
@@ -86,7 +89,7 @@ ggplot(spec.per.elect) +
   ) +
   theme_classic()
 
-ggsave("figures/spec_per_elect_point_smooth.png",
+ggsave("figures/spec_per_elect_point_smooth.pdf",
   width = 20, height = 15, units = "cm"
 )
 
@@ -105,12 +108,20 @@ ggplot(spec.per.elect) +
 #### Calculations ####
 
 spec.per.elect <- read.csv(
-  "analysed_data/21-12-06_local_analysis_output/spec.per.elect.csv"
+  "analysed_data/21-12-18_local_analysis_output/spec.per.elect.csv"
 )
 
 summary(spec.per.elect)
 
-proportions(table(spec.per.elect$Demographic_class))
+proportions(table(spec.per.elect.indiv$Demographic_class))
+
+spec.per.elect.demo.counts <- spec.per.elect.indiv %>%
+  group_by(Demographic_class) %>%
+  summarise(total_unique_species = n_distinct(SCIENTIFIC_NAME))
+
+spec.per.elect.top.ten.counts <- spec.per.elect.indiv %>%
+  filter(Elect_div %in% c("Durack", "O'Connor", "Maranoa", "Kennedy", "New England", "Eden-Monaro", "Page", "Leichhardt", "Lyons", "Grey")) %>%
+  summarise(total_unique_species = n_distinct(SCIENTIFIC_NAME))
 
 spec.per.elect.demo.area <- spec.per.elect %>%
   group_by(Demographic_class) %>%
