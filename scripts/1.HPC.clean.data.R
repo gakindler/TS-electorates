@@ -20,7 +20,8 @@ library(units)
 #### Aus boundary: Import/clean ####
 
 aus <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
-aus <- aus %>%
+
+aus.clean <- aus %>%
         select(geometry) %>%
         slice(1) %>%
         st_crop(
@@ -33,13 +34,19 @@ aus <- aus %>%
                 layer = "aus.clean", append = FALSE, delete_dsn = TRUE
         )
 
-aus.union <- aus %>%
+aus.union.clean <- aus.clean %>%
         st_union(by_feature = FALSE) %>%
-        st_sf()
+        st_sf() %T>%
+        st_write(
+                dsn = "/QRISdata/Q4107/TS_electorates/clean_data/aus.union.clean.gpkg",
+                layer = "aus.union.clean", append = FALSE, delete_dsn = TRUE
+        )
 
 #### Electorates: Import/clean ####
+
 elect <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/2021-Cwlth_electoral_boundaries_ESRI/2021_ELB_region.shp")
-elect <- elect %>%
+
+elect.clean <- elect %>%
         select(
                 Elect_div, geometry
         ) %>%
@@ -58,7 +65,7 @@ elect <- elect %>%
                 layer = "aus.clean", append = FALSE, delete_dsn = TRUE
         )
 
-elect.union <- elect %>%
+elect.union.clean <- elect.clean %>%
         st_union(by_feature = FALSE) %>%
         st_sf() %T>%
         st_write(
@@ -69,7 +76,7 @@ elect.union <- elect %>%
 #### Species: Import/clean ####
 
 species <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/SNES_public_1july2021.gdb")
-species <- species %>%
+species.clean <- species %>%
         filter(PRESENCE_RANK == 2) %>%
         filter(!is.na(THREATENED_STATUS)) %>%
         filter(THREATENED_STATUS %in% c(
