@@ -24,8 +24,9 @@ aus <- aus %>%
         select(geometry) %>%
         slice(1) %>%
         st_crop(
-                xmin = 112.921114, ymin = -43.740510, # drop those pesky islands
+                xmin = 112.921114, ymin = -43.740510,
                 xmax = 153.638727, ymax = -9.115517
+                # remove external islands
         ) %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/TS_electorates/clean_data/aus.clean.gpkg",
@@ -33,23 +34,15 @@ aus <- aus %>%
         )
 
 aus.union <- aus %>%
-  st_union(by_feature = FALSE) %>%
-  st_sf()
+        st_union(by_feature = FALSE) %>%
+        st_sf()
 
 #### Electorates: Import/clean ####
-
-elect <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/AEC_electoral_boundaries_2019/COM_ELB_region.shp")
-# The 'elect' file has a couple of contractions that do not match 'demo' file
-elect$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", elect$Elect_div)
-elect$Elect_div <- gsub("Mcewen", "McEwen", elect$Elect_div)
-elect$Elect_div <- gsub("Mcmahon", "McMahon", elect$Elect_div)
-elect$Elect_div <- gsub("Mcpherson", "McPherson", elect$Elect_div)
-elect$Elect_div <- gsub("O'connor", "O'Connor", elect$Elect_div)
+elect <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/2021-Cwlth_electoral_boundaries_ESRI/2021_ELB_region.shp")
 elect <- elect %>%
-        select(-c(
-                "Numccds", "Actual", "Projected", "Area_SqKm",
-                "Total_Popu", "Australian", "Sortname"
-        )) %>%
+        select(
+                Elect_div, geometry
+        ) %>%
         st_make_valid() %>%
         st_crop(
                 xmin = 111.921114, ymin = -44.740510,
@@ -82,8 +75,7 @@ species <- species %>%
         filter(THREATENED_STATUS %in% c(
                 "Vulnerable",
                 "Endangered",
-                "Critically Endangered",
-                "Extinct in the wild"
+                "Critically Endangered"
         )) %>% # as in wardNationalscaleDatasetThreats2021
         filter(!MARINE %in% "Listed") %>%
         filter(!SCIENTIFIC_NAME %in% c(
