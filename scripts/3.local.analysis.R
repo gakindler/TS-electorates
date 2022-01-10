@@ -36,32 +36,33 @@ spec.outside.elect <- st_read(
 #### Aus, elect, species: Import clean data ####
 
 aus <- st_read("clean_data/aus.clean.gpkg")
+aus.union <- st_read("clean_data/aus.union.clean.gpkg")
 elect <- st_read("clean_data/elect.clean.gpkg")
 elect.union <- st_read("clean_data/elect.union.clean.gpkg")
 species <- st_read("clean_data/species.clean.gpkg")
 
-#### Demography, population: Import and clean ####
+# #### Demography: Import and clean ####
 
-demo <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
-demo <- demo %>%
-  rename(
-    State_territory = "State or territory",
-    Demographic_class = "Demographic classification",
-    Elect_div = "Electoral division"
-  )
+# demo <- readxl::read_xlsx("raw_data/AEC_demographic-classification-1-january-2019/01-demographic-classification-as-at-1-january-2019.xlsx")
+# demo <- demo %>%
+#   rename(
+#     State_territory = "State or territory",
+#     Demographic_class = "Demographic classification",
+#     Elect_div = "Electoral division"
+#   )
 
-pop <- read.csv("raw_data/AEC_elector_count_2019.csv", skip = 2)
-pop <- pop %>%
-  rename(Elect_div = Division, Electors = Electors.on.2019.Certified.list) %>%
-  select(Elect_div, Electors)
-pop$Electors <- as.numeric(gsub(",", "", pop$Electors))
-pop$Elect_div <- str_to_title(pop$Elect_div)
-pop$Elect_div <- str_squish(pop$Elect_div)
-pop$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", pop$Elect_div)
-pop$Elect_div <- gsub("Mcewen", "McEwen", pop$Elect_div)
-pop$Elect_div <- gsub("Mcmahon", "McMahon", pop$Elect_div)
-pop$Elect_div <- gsub("Mcpherson", "McPherson", pop$Elect_div)
-pop$Elect_div <- gsub("O'connor", "O'Connor", pop$Elect_div)
+# pop <- read.csv("raw_data/AEC_elector_count_2019.csv", skip = 2)
+# pop <- pop %>%
+#   rename(Elect_div = Division, Electors = Electors.on.2019.Certified.list) %>%
+#   select(Elect_div, Electors)
+# pop$Electors <- as.numeric(gsub(",", "", pop$Electors))
+# pop$Elect_div <- str_to_title(pop$Elect_div)
+# pop$Elect_div <- str_squish(pop$Elect_div)
+# pop$Elect_div <- gsub("Eden-monaro", "Eden-Monaro", pop$Elect_div)
+# pop$Elect_div <- gsub("Mcewen", "McEwen", pop$Elect_div)
+# pop$Elect_div <- gsub("Mcmahon", "McMahon", pop$Elect_div)
+# pop$Elect_div <- gsub("Mcpherson", "McPherson", pop$Elect_div)
+# pop$Elect_div <- gsub("O'connor", "O'Connor", pop$Elect_div)
 
 #### Elect.info ####
 
@@ -71,6 +72,33 @@ elect.info <- elect %>%
   inner_join(pop) %>%
   inner_join(demo) %>%
   mutate(Elect_div_abbrev = abbreviate(Elect_div, minlength = 4L))
+
+#### elect.aus.union.difference ####
+
+aus.union.simp <- aus.union %>%
+  ms_simplify(
+    keep = 0.01,
+    keep_shape = TRUE
+  ) %>%
+  st_make_valid()
+
+elect.union.simp <- elect.union %>%
+  ms_simplify(
+    keep = 0.01,
+    keep_shape = TRUE
+  ) %>%
+  st_make_valid()
+
+elect.aus.union.difference <- elect.union.simp %>%
+  mutate(elect_union_sqkm = units::set_units(st_area(.), km^2) %>%
+    as.numeric()) %>%
+  st_sym_difference(aus.union.simp) %>%
+  mutate(aus_union_difference_sqkm = units::set_units(st_area(.), km^2) %>%
+    as.numeric()) %T>%
+  st_write(
+    "analysed_data/HPC_spatial_ops_output/elect.aus.union.difference.gpkg",
+    layer = "elect.aus.union.difference", append = FALSE, delete_dsn = TRUE
+  )
 
 #### spec.per.elect ####
 
