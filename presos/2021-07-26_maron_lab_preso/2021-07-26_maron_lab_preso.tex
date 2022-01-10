@@ -1,0 +1,74 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usetheme{Boadilla}
+\usecolortheme{seagull}
+
+\title{Electoral Analysis, revitalised}
+\author{Gareth Kindler}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{What is the Electoral Analysis?}
+    \includegraphics[width=\framewidth]{TheConversation_snapshot.png}
+\end{frame}
+
+\begin{frame}{What is the rationale behind it?}
+\begin{itemize}
+    \item<1-> Federal members wield enormous power
+    \item<2-> Imagining threatened species as local constituents
+    \item<3-> Parliamentarians are not implementing the scale of reform science is recommending
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Methods and data sets}
+\begin{itemize}
+    \item<1-> SNES - EPBCA-listed species distributions
+    \begin{itemize}
+        \item Name/taxon info, threatened status, geometry
+    \end{itemize}
+    \item<2-> AEC - federal electoral boundaries
+    \begin{itemize}
+        \item Geometry + temporal political grouping
+    \end{itemize}
+    \item<3-> Additional data sets worth exploring: habitat clearing, project funding, species projections
+\end{itemize}
+\end{frame}
+
+\begin{frame}{How represented are threatened species by members?}
+    \onslide<+->{\begin{block}{Question 1}
+    How many threatened species reside within each electorate?
+    \end{block}}
+    \onslide<+->{\begin{block}{Question 2}
+    How many electorates does each threatened species's range cover?
+    \end{block}}
+    \onslide<+->{\begin{block}{Question 3}
+    Which threatened species do not reside in any electorates?
+    \end{block}}
+    \onslide<+->{\begin{block}{Question 4}
+    How does the number of electorates/area size covered in a species's range relate to their status?
+    \end{block}}
+\end{frame}
+
+\begin{frame}{How represented are threatened species by political groupings?}
+    \onslide<+->{\begin{block}{Question 1}
+    How much threatened species range does each political grouping (e.g. party, independent) control?
+    \end{block}}
+    \onslide<+->{\begin{block}{Question 2}
+    How does political grouping relate to the status of species?
+    \end{block}}
+\end{frame}
+
+\begin{frame}{How represented are threatened species temporally?}
+    \onslide<+->{\begin{block}{Question 1}
+    How do temporal electorate affiliations (long-held VS swing seats) relate to the status of species?
+    \end{block}}
+\end{frame}
+
+\begin{frame}
+    \includegraphics[width=\framewidth]{senate.violin.png}
+\end{frame}
+
+\end{document}
