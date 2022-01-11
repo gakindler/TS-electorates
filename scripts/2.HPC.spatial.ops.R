@@ -12,24 +12,21 @@ library(units)
 
 #### Import data - aus, elect, species ####
 
-aus <- st_read("/QRISdata/Q4107/TS_electorates/clean_data/aus.clean.gpkg")
-elect <- st_read("/QRISdata/Q4107/TS_electorates/clean_data/elect.clean.gpkg")
-elect.union <- st_read("/QRISdata/Q4107/TS_electorates/clean_data/elect.union.clean.gpkg")
-species <- st_read("/QRISdata/Q4107/TS_electorates/clean_data/species.clean.gpkg")
-
-#### elect.aus.union.difference ####
-# Quantifying the difference between electorates and terrestrial Aus
-
-elect.aus.union.difference <- elect.union %>%
-  mutate(elect_union_sqkm = units::set_units(st_area(.), km^2) %>%
-    as.numeric()) %>%
-  st_sym_difference(aus.union) %>%
-  mutate(aus_union_difference_sqkm = units::set_units(st_area(.), km^2) %>%
-    as.numeric()) %T>%
-  st_write(
-    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/elect.aus.union.difference.gpkg",
-    layer = "elect.aus.union.difference", append = FALSE, delete_dsn = TRUE
-  )
+aus <- st_read(
+  "/QRISdata/Q4107/TS_electorates/clean_data/aus.clean.gpkg"
+)
+aus.union <- st_read(
+  "/QRISdata/Q4107/TS_electorates/clean_data/aus.union.clean.gpkg"
+)
+elect <- st_read(
+  "/QRISdata/Q4107/TS_electorates/clean_data/elect.clean.gpkg"
+)
+elect.union <- st_read(
+  "/QRISdata/Q4107/TS_electorates/clean_data/elect.union.clean.gpkg"
+)
+species <- st_read(
+  "/QRISdata/Q4107/TS_electorates/clean_data/species.clean.gpkg"
+)
 
 #### spec.per.elect ####
 
@@ -56,7 +53,7 @@ spec.per.elect.indiv <- spec.per.elect %>%
 
 #### elect.spec.cover ####
 
-elect.spec.cover.counts <- spec.per.elect  %>%
+elect.spec.cover.counts <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
     SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
@@ -67,7 +64,7 @@ elect.spec.cover.counts <- spec.per.elect  %>%
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/elect.spec.cover.counts.json"
   )
 
-elect.spec.cover.indiv <- spec.per.elect  %>%
+elect.spec.cover.indiv <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
     SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
@@ -87,14 +84,9 @@ spec.range.elect <- species %>%
     intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()
   ) %>%
   mutate(percent_range_within = intersection_area_sqkm / species_area_sqkm) %>%
-  # Negates floating point problems (hopefully)
-  mutate(across(percent_range_within, round, digits = 2)) %>%
-  st_set_geometry(NULL) %>%
-  inner_join(elect) %>%
-  st_as_sf() %T>%
-  st_write(
-    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.gpkg",
-    layer = "spec.range.elect", append = FALSE, delete_dsn = TRUE
+  st_set_geometry(NULL) %T>%
+  write_json(
+    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
   )
 
 #### spec.outside.elect ####
@@ -104,7 +96,7 @@ spec.outside.elect <- species %>%
   st_make_valid() %>%
   mutate(species_difference_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
   mutate(percent_range_difference = species_difference_area_sqkm / species_area_sqkm) %>%
-  mutate(across(percent_range_outside, round, digits = 2)) %T>%
+  mutate(across(percent_range_difference, round, digits = 2)) %T>%
   st_write(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg",
     layer = "spec.outside.elect", append = FALSE, delete_dsn = TRUE
