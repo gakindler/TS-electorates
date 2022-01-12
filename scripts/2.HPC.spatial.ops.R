@@ -34,8 +34,8 @@ spec.per.elect <- elect %>%
   st_join(species)
 
 spec.per.elect.counts <- spec.per.elect %>%
-  group_by(Elect_div) %>%
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
+  group_by(electorate) %>%
+  summarise(total_unique_species = n_distinct(scientific_name)) %>%
   ungroup() %T>%
   st_write(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.per.elect.counts.gpkg",
@@ -44,8 +44,8 @@ spec.per.elect.counts <- spec.per.elect %>%
 
 spec.per.elect.indiv <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
-  group_by(Elect_div) %>%
-  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
+  group_by(electorate) %>%
+  mutate(total_unique_species = n_distinct(scientific_name)) %>%
   ungroup() %T>%
   write_json(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
@@ -56,10 +56,10 @@ spec.per.elect.indiv <- spec.per.elect %>%
 elect.spec.cover.counts <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
-    SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
-    MIGRATORY_STATUS, TAXON_GROUP
+    scientific_name, vernacular_name, threatened_status,
+    migratory_status, taxon_group
   ) %>%
-  summarise(elect_range_covers = n_distinct(Elect_div)) %T>%
+  summarise(species_range_covers_n_electorates = n_distinct(electorate)) %T>%
   write_json(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/elect.spec.cover.counts.json"
   )
@@ -67,10 +67,10 @@ elect.spec.cover.counts <- spec.per.elect %>%
 elect.spec.cover.indiv <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
-    SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
-    MIGRATORY_STATUS, TAXON_GROUP
+    scientific_name, vernacular_name, threatened_status,
+    migratory_status, taxon_group
   ) %>%
-  mutate(elect_range_covers = n_distinct(Elect_div)) %T>%
+  mutate(species_range_covers_n_electorates = n_distinct(electorate)) %T>%
   write_json(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/elect.spec.cover.indiv.json"
   )
@@ -83,7 +83,7 @@ spec.range.elect <- species %>%
   mutate(
     intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()
   ) %>%
-  mutate(percent_range_within = intersection_area_sqkm / species_area_sqkm) %>%
+  mutate(percent_range_within = intersection_area_sqkm / species_range_area_sqkm) %>%
   st_set_geometry(NULL) %T>%
   write_json(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
@@ -95,7 +95,7 @@ spec.outside.elect <- species %>%
   st_difference(elect.union) %>%
   st_make_valid() %>%
   mutate(species_difference_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
-  mutate(percent_range_difference = species_difference_area_sqkm / species_area_sqkm) %>%
+  mutate(percent_range_difference = species_difference_area_sqkm / species_range_area_sqkm) %>%
   mutate(across(percent_range_difference, round, digits = 2)) %T>%
   st_write(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg",
