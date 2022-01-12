@@ -17,7 +17,7 @@ library(units)
 # xmin       ymin       xmax       ymax
 # 112.921114 -43.740510 153.638727  -9.115517
 
-#### Aus boundary: Import/clean ####
+#### Import & clean: Aus ####
 
 aus <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/ASGS_Edition_3_Aust_2021_shapefile/AUS_2021_AUST_GDA94.shp")
 
@@ -36,19 +36,23 @@ aus.clean <- aus %>%
 
 aus.union.clean <- aus.clean %>%
         st_union(by_feature = FALSE) %>%
-        st_sf() %T>%
+        st_sf() %>%
+        st_make_valid() %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/TS_electorates/clean_data/aus.union.clean.gpkg",
                 layer = "aus.union.clean", append = FALSE, delete_dsn = TRUE
         )
 
-#### Electorates: Import/clean ####
+#### Import & clean: Electorates ####
 
 elect <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/2021-Cwlth_electoral_boundaries_ESRI/2021_ELB_region.shp")
 
 elect.clean <- elect %>%
         select(
                 Elect_div, geometry
+        ) %>%
+        rename(
+                electorate = Elect_div
         ) %>%
         st_make_valid() %>%
         st_crop(
@@ -57,8 +61,13 @@ elect.clean <- elect %>%
                 # remove the islands
         ) %>%
         mutate(
-                elect_area_sqkm = units::set_units(st_area(.), km^2) %>%
+                electorate_area_sqkm = units::set_units(st_area(.), km^2) %>%
                         as.numeric()
+        ) %>%
+        relocate(
+                electorate,
+                electorate_area_sqkm,
+                geometry
         ) %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/TS_electorates/clean_data/elect.clean.gpkg",
@@ -67,13 +76,14 @@ elect.clean <- elect %>%
 
 elect.union.clean <- elect.clean %>%
         st_union(by_feature = FALSE) %>%
-        st_sf() %T>%
+        st_sf() %>%
+        st_make_valid() %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/TS_electorates/clean_data/elect.union.clean.gpkg",
                 layer = "elect.union.clean", append = FALSE, delete_dsn = TRUE
         )
 
-#### Species: Import/clean ####
+#### Import & clean: Species ####
 
 species <- st_read("/QRISdata/Q4107/TS_electorates/raw_data/SNES_public_1july2021.gdb")
 species.clean <- species %>%
@@ -112,21 +122,54 @@ species.clean <- species %>%
                 "SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
                 "MIGRATORY_STATUS", "TAXON_GROUP", "Shape"
         )) %>%
+        rename(
+                scientific_name = SCIENTIFIC_NAME,
+                vernacular_name = VERNACULAR_NAME,
+                threatened_status = THREATENED_STATUS,
+                migratory_status = MIGRATORY_STATUS,
+                taxon_group = TAXON_GROUP,
+                geometry = Shape
+        ) %>%
         st_make_valid() %>%
         # Merge species at the broad taxa as there are duplicate polygons
         # Probably attributable to subspecies populations, but still ¯\_(ツ)_/¯
         group_by(
-                SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
-                MIGRATORY_STATUS, TAXON_GROUP
+                scientific_name,
+                vernacular_name,
+                threatened_status,
+                migratory_status,
+                taxon_group
         ) %>%
         summarise() %>%
         ungroup() %>%
         st_make_valid() %>%
         mutate(
-                species_area_sqkm = units::set_units(st_area(.), km^2) %>%
+                species_range_area_sqkm = units::set_units(st_area(.), km^2) %>%
                         as.numeric()
+        ) %>%
+        relocate(
+                scientific_name, vernacular_name,
+                threatened_status, migratory_status,
+                taxon_group, species_range_area_sqkm, geometry
         ) %T>%
         st_write(
                 dsn = "/QRISdata/Q4107/TS_electorates/clean_data/species.clean.gpkg",
                 layer = "species.clean", append = FALSE, delete_dsn = TRUE
+        )
+
+#### Import & clean: Demography ####
+
+demo <- readxl::read_xlsx(
+        "/QRISdata/Q4107/TS_electorates/raw_data/demographic-classification-as-at-2-august-2021.xlsx"
+)
+
+demo <- demo %>%
+        rename(
+                state_territory = "State or territory",
+                demographic_class = "Demographic classification",
+                electorate = "Electoral division"
+        ) %T>%
+        write.csv(
+                "/QRISdata/Q4107/TS_electorates/clean_data/demo.clean.csv",
+                row.names = FALSE
         )
