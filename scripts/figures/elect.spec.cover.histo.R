@@ -6,48 +6,41 @@ library(tidyverse)
 library(viridis)
 library(httpgd)
 
-#### elect.spec.cover.status ####
+#### Import ####
 
-elect.spec.cover <- read.csv(
-  "analysed_data/21-12-18_local_analysis_output/elect.spec.cover.csv"
+spec.range.elect.counts <- read.csv(
+  "analysed_data/local_analysis_output/spec.range.elect.counts.csv"
 )
 
-# elect.spec.cover$THREATENED_STATUS <- factor(
-#   elect.spec.cover$THREATENED_STATUS,
-#   levels = c("Extinct in the wild",
-# "Critically Endangered",
-# "Endangered",
-# "Vulnerable",
-#              "Unknown"))
+table(spec.range.elect.counts$species_range_covers_n_electorates, useNA = "ifany")
 
-table(elect.spec.cover$elect_range_covers, useNA = "ifany")
-table(elect.spec.cover$MIGRATORY_STATUS, useNA = "ifany")
+table(spec.range.elect.counts$migratory_status, useNA = "ifany")
 
 #### Histogram ####
 
-ggplot(elect.spec.cover) +
-  aes(x = elect_range_covers) +
+ggplot(spec.range.elect.counts) +
+  aes(x = species_range_covers_n_electorates) +
   geom_histogram(binwidth = 1) +
-  geom_vline(aes(xintercept = median(elect_range_covers)),
+  geom_vline(aes(xintercept = median(species_range_covers_n_electorates)),
     col = "red",
     size = 0.6,
     linetype = "dashed"
   ) +
   labs(
-    x = "Electorates within species's range",
+    x = "Electorate coverage",
     y = "Number of threatened species"
   ) +
   theme_classic()
 
-ggsave("figures/elect_spec_cover_status_histo.pdf",
+ggsave("figures/spec.range.elect.status.histo.pdf",
   width = 8, height = 8, units = "cm"
 )
 
 #### Histogram, density curve ####
 
-ggplot(elect.spec.cover) +
+ggplot(spec.range.elect.counts) +
   aes(
-    x = elect_range_covers
+    x = species_range_covers_n_electorates
   ) +
   # geom_histogram(
   #   binwidth = 1
@@ -59,49 +52,95 @@ ggplot(elect.spec.cover) +
   ) +
   # geom_vline(
   #   aes(
-  #     xintercept = median(elect_range_covers)
+  #     xintercept = median(species_range_covers_n_electorates)
   #     ),
   #   col = "red",
   #   size = 0.6,
   #   linetype = "dashed"
   # ) +
   labs(
-    x = "Electorates within species's range",
+    x = "Electorate coverage",
     y = "Threatened species density"
   ) +
   theme_classic()
 
 
-ggsave("figures/elect_spec_cover_density.pdf",
-  width = 20, height = 15, units = "cm"
+ggsave("figures/spec.range.elect.density.pdf",
+  width = 15, height = 10, units = "cm"
+)
+
+#### ECDF function ####
+
+ggplot(
+  spec.range.elect.counts
+) +
+  aes(
+    x = species_range_covers_n_electorates
+  ) +
+  stat_ecdf(
+    geom = "step",
+    pad = FALSE
+  ) +
+  # geom_vline(
+  #   aes(
+  #     xintercept = quantile(
+  #       species_range_covers_n_electorates
+  #     )[3],
+  #     col = "red",
+  #     size = 0.0001,
+  #     linetype = "dashed"
+  #   )
+  # ) +
+  # geom_vline(
+  #   aes(
+  #     xintercept = quantile(
+  #       species_range_covers_n_electorates
+  #     )[4],
+  #     col = "red",
+  #     size = 0.1,
+  #     linetype = "dashed"
+  #   )
+  # ) +
+  labs(
+    x = "Electorate coverage",
+    y = "Threatened species cumulative proportion"
+  ) +
+  scale_x_continuous(
+    breaks = seq(0, 150, by = 5)
+  ) +
+  scale_y_continuous(
+    breaks = seq(0.5, 1.0, by = 0.05)
+  ) +
+  theme_classic()
+
+ggsave("figures/spec.range.elect.ecdf.pdf",
+  width = 15, height = 10, units = "cm"
 )
 
 #### Calculations ####
 
-summary(elect.spec.cover)
+summary(spec.range.elect.counts)
 
-table(elect.spec.cover$elect_range_covers)
+table(spec.range.elect.counts$species_range_covers_n_electorates)
 
-prop.table(table(elect.spec.cover$elect_range_covers))
+prop.table(table(spec.range.elect.counts$species_range_covers_n_electorates))
 0.4499478624 + 0.1892596455 + 0.0740354536 + 0.0464025026
 
-elect.spec.cover.4.greater.cover <- elect.spec.cover %>%
-  filter(elect_range_covers > 3)
+spec.range.elect.counts.4.greater.cover <- spec.range.elect.counts %>%
+  filter(species_range_covers_n_electorates > 3)
 
-table(elect.spec.cover.4.greater.cover$elect_range_covers)
+table(spec.range.elect.counts.4.greater.cover$species_range_covers_n_electorates)
 
-elect.spec.cover.4.less.cover <- elect.spec.cover %>%
-  filter(elect_range_covers < 4)
+spec.range.elect.counts.4.less.cover <- spec.range.elect.counts %>%
+  filter(species_range_covers_n_electorates < 4)
 
-elect.spec.cover.migratory <- elect.spec.cover %>%
-  filter(MIGRATORY_STATUS %in% "Migratory")
+spec.range.elect.counts.migratory <- spec.range.elect.counts %>%
+  filter(migratory_status %in% "Migratory")
 
-elect.spec.cover.fishes <- elect.spec.cover %>%
-  filter(TAXON_GROUP == "fishes")
+spec.range.elect.counts.fishes <- spec.range.elect.counts %>%
+  filter(taxon_group == "fishes")
 
-table(elect.spec.cover$MIGRATORY_STATUS)
-table(elect.spec.cover.4.greater.cover$MIGRATORY_STATUS)
-table(elect.spec.cover.4.less.cover$MIGRATORY_STATUS)
-table(elect.spec.cover.4.cover$MIGRATORY_STATUS)
-
-0.0811298077 + 0.2133413462 +0.4663461538
+table(spec.range.elect.counts$migratory_status)
+table(spec.range.elect.counts.4.greater.cover$migratory_status)
+table(spec.range.elect.counts.4.less.cover$migratory_status)
+table(spec.range.elect.counts.4.cover$migratory_status)
