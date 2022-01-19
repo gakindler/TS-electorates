@@ -1,7 +1,5 @@
 # Creating maps of Australia using spatial.ops data
 
-# https://jforbes14.github.io/eechidna/articles/plotting-electorates.html
-
 #### Libraries ####
 
 library(tidyverse)
@@ -13,6 +11,7 @@ library(grid)
 library(cartogram)
 library(rmapshaper)
 library(tmaptools)
+library(magrittr)
 
 #### Import and simplify data ####
 
@@ -51,159 +50,51 @@ print(object.size(spec.per.elect.counts.summary), units = "Kb")
 print(object.size(aus), units = "Kb")
 print(object.size(elect), units = "Kb")
 
-#### Balooning the population hotspots ####
+# https://jforbes14.github.io/eechidna/articles/plotting-electorates.html
+# one could do it like Forbes but the dorling cartogram option seems easier and  better
 
-elect.centroid <- elect %>%
-  st_centroid()
+#### Calc: dorling cartogram ####
 
-st_write(
-  elect.centroid,
-  "analysed_data/DC_balloon/elect.centroid.gpkg",
-  layer = "elect.centroid",
-  append = FALSE
-)
-
-# Select those centroids from each city location in QGIS then export to individual files
-
-# Import those files
-
-elect.centroid.cities <- st_read(
-  "analysed_data/DC_balloon/cities.balloon.gpkg"
-)
-
-
-
-
-
-
-elect.centroid.brisbane <- st_read(
-  "analysed_data/DC_balloon/brisbane.gpkg"
-)
-elect.centroid.sydney.ACT <- st_read(
-  "analysed_data/DC_balloon/sydney_ACT.gpkg"
-)
-elect.centroid.adelaide <- st_read(
-  "analysed_data/DC_balloon/adelaide.gpkg"
-)
-elect.centroid.perth <- st_read(
-  "analysed_data/DC_balloon/perth.gpkg"
-)
-elect.centroid.melbourne <- st_read(
-  "analysed_data/DC_balloon/melbourne.gpkg"
-)
-
-elect.centroid.brisbane <- elect.centroid.brisbane %>%
-  mutate(electorate_toy_dorling = 1)
-
-spec.per.elect.counts.summary <- spec.per.elect.counts.summary %>%
-  mutate(electorate_toy_dorling = 1)
-
-#### Calculations: dorling cartogram ####
-
-elect.centroid.brisbane.unique.spec.dorl.weight <- elect.centroid.brisbane %>%
-  mutate(electorate_toy_dorling = 1) %>%
-  st_transform(3112) %>%
-  cartogram_dorling(weight = "electorate_toy_dorling")
-elect.centroid.sydney.ACT.unique.spec.dorl.weight <- elect.centroid.sydney.ACT %>%
-  mutate(electorate_toy_dorling = 1) %>%
-  st_transform(3112) %>%
-  cartogram_dorling(weight = "electorate_toy_dorling")
-elect.centroid.adelaide.unique.spec.dorl.weight <- elect.centroid.adelaide %>%
-  mutate(electorate_toy_dorling = 1) %>%
-  st_transform(3112) %>%
-  cartogram_dorling(weight = "electorate_toy_dorling")
-elect.centroid.perth.unique.spec.dorl.weight <- elect.centroid.perth %>%
-  mutate(electorate_toy_dorling = 1) %>%
-  st_transform(3112) %>%
-  cartogram_dorling(weight = "electorate_toy_dorling")
-elect.centroid.melbourne.unique.spec.dorl.weight <- elect.centroid.melbourne %>%
-  mutate(electorate_toy_dorling = 1) %>%
-  st_transform(3112) %>%
-  cartogram_dorling(weight = "electorate_toy_dorling")
-
-spec.per.elect.unique.spec.dorl.weight <- st_transform(spec.per.elect.counts.summary, 3112) %>%
-  cartogram_dorling(weight = "total_unique_spec")
-
-spec.per.elect.elect.size.dorl.weight <- st_transform(spec.per.elect.counts.summary, 3112) %>%
-  cartogram_dorling(weight = "electorate_area_sqkm")
-
-spec.per.elect.toy.dorl.weight <- st_transform(spec.per.elect.counts.summary, 3112) %>%
-  cartogram_dorling(weight = "electorate_toy_dorling")
-
-#### Join the centroids back together ####
-
-spec.per.elect.unique.spec.balloon.dorl.weight <- bind_rows(
-  elect.centroid.brisbane.unique.spec.dorl.weight,
-  elect.centroid.sydney.ACT.unique.spec.dorl.weight,
-  elect.centroid.adelaide.unique.spec.dorl.weight,
-  elect.centroid.perth.unique.spec.dorl.weight,
-  elect.centroid.melbourne.unique.spec.dorl.weight
-)
-
-spec.per.elect.unique.spec.balloon.dorl.weight <- spec.per.elect.unique.spec.balloon.dorl.weight %>%
-  st_join(
-    spec.per.elect.toy.dorl.weight,
-    left = TRUE
+spec.per.elect.unique.dorl.weight <- spec.per.elect.counts.summary %>%
+  st_transform(
+    3112
+  ) %>%
+  cartogram_dorling(
+    weight = "total_unique_spec",
+    k = 0.3,
+    m_weight = 1
   )
 
-# spec.per.elect.unique.spec.dorl <-
-  tm_shape(elect) +
-    tm_borders() +
-  tm_shape(spec.per.elect.unique.spec.balloon.dorl.weight) +
-  # tm_shape(spec.per.elect.elect.size.dorl.weight) +
-  # tm_bubbles(size = 0.5) +
+st_bbox(spec.per.elect.unique.dorl.weight)
+    xmin     ymin     xmax     ymax
+-1861273 -4972750  2105058 -1426405
+st_bbox(elect)
+      xmin       ymin       xmax       ymax
+112.929704 -43.627943 153.629864  -9.115517
 
-  tm_fill(
-    "total_unique_spec",
-    style = "jenks",
-    # style = "cont",
-    title = "Threatened species",
-    palette = "-inferno"
-  )
-  tm_text(
-    "electorate_abbrev",
-    size = "AREA"
-  ) +
-  tm_borders(
-    alpha = 0.7
-  ) +
-  tm_legend(
-    # legend.position = c("left", "top")
-    # title.position = c("left", "bottom")
-  ) +
-  # tm_compass(position = c("left", "bottom")) +
-  # tm_scale_bar(
-  #   position = c("left", "bottom"),
-  #   width = 0.2
-  # ) +
-  tm_layout(
-    frame = FALSE,
-    legend.width = 0.3,
-    legend.height = 0.3,
-    # legend.title.size = 1.5
-    # legend.outside = TRUE
-  )
-
-plot(spec.per.elect.unique.spec.balloon.dorl.weight$geom)
-
-exp <- spec.per.elect.toy.dorl.weight %>%
-  st_join(elect.centroid.brisbane.unique.spec.dorl.weight, left = TRUE)
-
-exp <- spec.per.elect.toy.dorl.weight %>%
-  rows_update(elect.centroid.brisbane.unique.spec.dorl.weight,
-    by = "electorate"
-  )
-
-plot(exp$geom)
 
 #### tmap ####
-# https://geocompr.robinlovelace.net/adv-map.html
-# https://github.com/sjewo/cartogram
 
-spec.per.elect.unique.spec.dorl <-
-  # tm_shape(elect) +
-  #   tm_borders() +
-  tm_shape(spec.per.elect.unique.spec.dorl.weight) +
+# spec.per.elect.unique.spec.dorl <-
+tm_shape(
+  elect,
+  bbox = st_bbox(c(
+    xmin = 112.929704,
+    ymin = -43.627943,
+    xmax = 154.629864,
+    ymax = -9.115517
+    )
+  )) +
+  tm_borders(
+    "white",
+    lwd = 1
+  ) +
+  tm_fill(
+    "#d8d8d8"
+  ) +
+  tm_shape(
+    spec.per.elect.unique.dorl.weight
+  ) +
   # tm_shape(spec.per.elect.elect.size.dorl.weight) +
   tm_fill(
     "total_unique_spec",
@@ -217,7 +108,7 @@ spec.per.elect.unique.spec.dorl <-
     size = "AREA"
   ) +
   tm_borders(
-    alpha = 0.7
+    alpha = 0.6
   ) +
   tm_legend(
     # legend.position = c("left", "top")
@@ -229,6 +120,7 @@ spec.per.elect.unique.spec.dorl <-
   #   width = 0.2
   # ) +
   tm_layout(
+    outer.margins = c(1, 1 ,1 , 1),
     frame = FALSE,
     legend.width = 0.3,
     legend.height = 0.3,
@@ -238,7 +130,7 @@ spec.per.elect.unique.spec.dorl <-
 
 tmap_save(spec.per.elect.unique.spec.dorl,
   file = "figures/spec.per.elect.unique.spec.dorl.pdf",
-  height = 10, width = 12, units = "cm"
+  # height = 10, width = 12, units = "cm"
 )
 
 #### ggplot ####
