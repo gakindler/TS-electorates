@@ -168,6 +168,46 @@ demo <- demo %>%
                 state_territory = "State or territory",
                 demographic_class = "Demographic classification",
                 electorate = "Electoral division"
+        ) %>%
+        mutate(
+                state_territory = replace(
+                        state_territory, state_territory == "ACT", "Australian Capital Territory"
+                )
+        ) %>%
+        mutate(
+                state_territory = replace(
+                        state_territory, state_territory == "NT", "Northern Territory"
+                )
+        ) %>%
+        mutate(
+                state_territory_abbrev = case_when(
+                        state_territory == "Australian Capital Territory" ~ "ACT",
+                        state_territory == "New South Wales" ~ "NSW",
+                        state_territory == "Northern Territory" ~ "NT",
+                        state_territory == "Queensland" ~ "QLD",
+                        state_territory == "South Australia" ~ "SA",
+                        state_territory == "Tasmania" ~ "TAS",
+                        state_territory == "Victoria" ~ "VIC",
+                        state_territory == "Western Australia" ~ "WA"
+                )
+        ) %>%
+        mutate(
+                demographic_class = str_to_sentence(demographic_class)
+        ) %>%
+        mutate(
+                electorate_abbrev = abbreviate(
+                        electorate,
+                        minlength = 2L
+                )
+        ) %>%
+        mutate(
+                electorate_abbrev = replace(
+                        electorate_abbrev, electorate_abbrev == "E-", "E-M"
+                )
+        ) %>%
+        relocate(
+                electorate_abbrev,
+                .after = electorate
         ) %T>%
         write.csv(
                 "/QRISdata/Q4107/TS_electorates/clean_data/demo.clean.csv",
