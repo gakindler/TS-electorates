@@ -12,6 +12,7 @@ library(cartogram)
 library(rmapshaper)
 library(tmaptools)
 library(magrittr)
+library(httpgd)
 
 #### Import and simplify data ####
 
@@ -62,7 +63,7 @@ spec.per.elect.unique.dorl.weight <- spec.per.elect.counts.summary %>%
   cartogram_dorling(
     weight = "total_unique_spec",
     k = 0.3,
-    m_weight = 1
+    # m_weight = 1
   )
 
 st_bbox(spec.per.elect.unique.dorl.weight)
@@ -75,16 +76,17 @@ st_bbox(elect)
 
 #### tmap ####
 
-# spec.per.elect.unique.spec.dorl <-
+spec.per.elect.unique.spec.dorl <-
 tm_shape(
   elect,
   bbox = st_bbox(c(
     xmin = 112.929704,
     ymin = -43.627943,
-    xmax = 154.629864,
+    xmax = 155.629864,
     ymax = -9.115517
     )
-  )) +
+  )
+  ) +
   tm_borders(
     "white",
     lwd = 1
@@ -93,9 +95,15 @@ tm_shape(
     "#d8d8d8"
   ) +
   tm_shape(
-    spec.per.elect.unique.dorl.weight
+    spec.per.elect.unique.dorl.weight,
+    bbox = st_bbox(c(
+      xmin = 112.929704,
+      ymin = -43.627943,
+      xmax = 155.629864,
+      ymax = -9.115517
+    )
+  )
   ) +
-  # tm_shape(spec.per.elect.elect.size.dorl.weight) +
   tm_fill(
     "total_unique_spec",
     style = "jenks",
@@ -110,20 +118,19 @@ tm_shape(
   tm_borders(
     alpha = 0.6
   ) +
-  tm_legend(
+  # tm_legend(
     # legend.position = c("left", "top")
     # title.position = c("left", "bottom")
-  ) +
+  # ) +
   # tm_compass(position = c("left", "bottom")) +
   # tm_scale_bar(
   #   position = c("left", "bottom"),
   #   width = 0.2
   # ) +
   tm_layout(
-    outer.margins = c(1, 1 ,1 , 1),
     frame = FALSE,
-    legend.width = 0.3,
-    legend.height = 0.3,
+    # legend.width = 1,
+    # legend.height = 0.8,
     # legend.title.size = 1.5
     # legend.outside = TRUE
   )
