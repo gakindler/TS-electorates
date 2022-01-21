@@ -17,11 +17,11 @@ spec.per.elect.counts <- st_read(
 spec.per.elect.indiv <- fromJSON(
   "analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
 )
-elect.spec.cover.counts <- fromJSON(
-  "analysed_data/HPC_spatial_ops_output/elect.spec.cover.counts.json"
+spec.elect.coverage.counts <- fromJSON(
+  "analysed_data/HPC_spatial_ops_output/spec.elect.coverage.counts.json"
 )
-elect.spec.cover.indiv <- fromJSON(
-  "analysed_data/HPC_spatial_ops_output/elect.spec.cover.indiv.json"
+spec.elect.coverage.indiv <- fromJSON(
+  "analysed_data/HPC_spatial_ops_output/spec.elect.coverage.indiv.json"
 )
 spec.range.elect <- fromJSON(
   "analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
@@ -39,14 +39,17 @@ elect.union <- st_read("clean_data/elect.union.clean.gpkg")
 species <- st_read("clean_data/species.clean.gpkg")
 demo <- read.csv("clean_data/demo.clean.csv")
 
-#### Join: Elect & demo ####
+#### elect.demo - summary ####
 
 elect.demo <- elect %>%
   st_set_geometry(NULL) %>%
-  inner_join(demo) %>%
-  mutate(electorate_abbrev = abbreviate(electorate, minlength = 4L))
+  inner_join(demo) %T>%
+  write.csv(
+    "analysed_data/local_analysis_output/elect.demo.summary.csv",
+    row.names = FALSE
+  )
 
-#### spec.per.elect.indiv.summary ####
+#### spec.per.elect.indiv - expanded.summary ####
 
 spec.per.elect.expanded.summary <- spec.per.elect.indiv %>%
   select(!electorate_area_sqkm) %>%
@@ -55,22 +58,27 @@ spec.per.elect.expanded.summary <- spec.per.elect.indiv %>%
     scientific_name, vernacular_name, threatened_status,
     taxon_group, migratory_status, species_range_area_sqkm,
     electorate, electorate_abbrev, state_territory,
-    demographic_class, electorate_area_sqkm, total_unique_spec
+    state_territory_abbrev, demographic_class,
+    electorate_area_sqkm, total_unique_species
   ) %T>%
   write.csv(
     "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv",
     row.names = FALSE
   )
 
-#### spec.range.elect.indiv.counts/elect.spec.cover.indiv ####
+#### spec.range.elect/spec.elect.coverage.indiv - expanded.summary ####
 
 spec.range.elect.expanded.summary <- spec.range.elect %>%
-  full_join(elect.spec.cover.indiv) %>%
+  full_join(spec.elect.coverage.indiv) %>%
+  select(!electorate_area_sqkm) %>%
+  inner_join(elect.demo) %>%
   relocate(
     scientific_name, vernacular_name, threatened_status,
     taxon_group, migratory_status, species_range_area_sqkm,
     species_range_covers_n_electorates,
-    electorate, electorate_area_sqkm, intersection_area_sqkm,
+    electorate, electorate_abbrev, state_territory,
+    state_territory_abbrev, demographic_class,
+    electorate_area_sqkm, intersection_area_sqkm,
     percent_range_within
   ) %T>%
   write.csv(
@@ -78,7 +86,7 @@ spec.range.elect.expanded.summary <- spec.range.elect %>%
     row.names = FALSE
   )
 
-#### spec.per.elect.counts.summary ####
+#### spec.per.elect - counts.summary ####
 
 spec.eighty.elect.counts <- spec.range.elect %>%
   mutate(across(percent_range_within, round, digits = 2)) %>%
@@ -100,13 +108,14 @@ spec.per.elect.counts.summary <- spec.per.elect.counts %>%
   full_join(spec.endemic.elect.counts) %>%
   inner_join(elect.demo) %>%
   mutate(
-    species_per_sqkm = total_unique_spec / electorate_area_sqkm
+    species_per_sqkm = total_unique_species / electorate_area_sqkm
   ) %>%
   inner_join(elect) %>%
   st_as_sf() %>%
   relocate(
     electorate, electorate_abbrev, state_territory,
-    demographic_class, electorate_area_sqkm, total_unique_spec,
+    state_territory_abbrev, demographic_class,
+    electorate_area_sqkm, total_unique_species,
     species_per_sqkm, total_eighty_unique_spec,
     total_endemic_unique_spec, geom
   ) %T>%
@@ -122,33 +131,53 @@ spec.per.elect.counts.summary <- spec.per.elect.counts %>%
 
 #### spec.eighty.elect.indiv ####
 
-spec.eighty.elect.expanded <- spec.range.elect %>%
+spec.range.elect.eighty.expanded <- spec.range.elect %>%
+  select(!electorate_area_sqkm) %>%
+  inner_join(elect.demo) %>%
   mutate(across(percent_range_within, round, digits = 2)) %>%
   filter(percent_range_within >= 0.8) %>%
   group_by(electorate) %>%
   mutate(total_eighty_unique_spec = n_distinct(scientific_name)) %>%
-  ungroup() %T>%
+  ungroup() %>%
+  relocate(
+    scientific_name, vernacular_name, threatened_status,
+    taxon_group, migratory_status, species_range_area_sqkm,
+    electorate, electorate_abbrev, state_territory,
+    state_territory_abbrev, demographic_class,
+    electorate_area_sqkm, intersection_area_sqkm,
+    percent_range_within
+  ) %T>%
   write.csv(
-    "analysed_data/local_analysis_output/spec.eighty.elect.expanded.csv",
+    "analysed_data/local_analysis_output/spec.range.elect.eighty.expanded.csv",
     row.names = FALSE
   )
 
-spec.endemic.elect.expanded <- spec.range.elect %>%
+spec.range.elect.endemic.expanded <- spec.range.elect %>%
+  select(!electorate_area_sqkm) %>%
+  inner_join(elect.demo) %>%
   filter(percent_range_within == 1) %>%
   group_by(electorate) %>%
   mutate(total_endemic_unique_spec = n_distinct(scientific_name)) %>%
-  ungroup() %T>%
+  ungroup() %>%
+  relocate(
+    scientific_name, vernacular_name, threatened_status,
+    taxon_group, migratory_status, species_range_area_sqkm,
+    electorate, electorate_abbrev, state_territory,
+    state_territory_abbrev, demographic_class,
+    electorate_area_sqkm, intersection_area_sqkm,
+    percent_range_within
+  ) %T>%
   write.csv(
-    "analysed_data/local_analysis_output/spec.endemic.elect.expanded.csv",
+    "analysed_data/local_analysis_output/spec.range.elect.endemic.expanded.csv",
     row.names = FALSE
   )
 
 #### spec.eighty.outside.elect ####
 
-spec.outside.elect <- spec.outside.elect %>%
+spec.outside.elect.expanded <- spec.outside.elect %>%
   st_set_geometry(NULL) %T>%
   write.csv(
-    "analysed_data/local_analysis_output/spec.outside.elect.csv",
+    "analysed_data/local_analysis_output/spec.outside.elect.expanded.csv",
     row.names = FALSE
   )
 
@@ -177,5 +206,18 @@ elect.aus.union.difference <- elect.union.simp %>%
   st_set_geometry(NULL) %T>%
   write.csv(
     "analysed_data/local_analysis_output/elect.aus.union.difference.csv",
+    row.names = FALSE
+  )
+
+#### spec.elect.coverage ####
+
+spec.elect.coverage.expanded <- spec.elect.coverage.counts %>%
+  relocate(
+    scientific_name, vernacular_name,
+    threatened_status, taxon_group,
+    migratory_status, species_range_covers_n_electorates
+  ) %T>%
+  write.csv(
+    "analysed_data/local_analysis_output/spec.elect.coverage.expanded.csv",
     row.names = FALSE
   )
