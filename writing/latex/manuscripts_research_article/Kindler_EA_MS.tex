@@ -102,7 +102,6 @@ We used public grids of Species of National Environmental Significance (SNES), l
 \subsection{Spatial analysis of federal electorates and threatened species}
 
 After cropping the threatened species data to the federal electorate data, 1651 species remained to be used in this study. Spatial analysis was conducted in R (\cite{rcoreteamLanguageEnvironmentStatistical2021}), using tidyverse (\cite{wickhamWelcomeTidyverse2019}) and the sf (\cite{pebesmaSimpleFeaturesStandardized2018}) package. We identified the species with range that intersected with each electorate to create a list of each electorate's species. From this, we summed the electorate coverage of each species based on the number of electorates they intersected with. To quanitfy the spatial overlap, we caluclated the intersection of the species and electorate, and used this to filter for endemism. Species with 100\% of their range within an electorate are considered to be endemic to that electorate. Attributes of electorates such as demographic classification was used as a label to highlight the geography of an electorate.
-We used the Australian terrestrial land boundary spatial data from the Australian Statistical Geography Standard (ASGS) Edition 3 \cite{australianbureauofstatisticsAustralianStatisticalGeography2021} to calculate the spatial difference of electoral boundaries to terrestrial Australia. There was xx difference, primarily attributable to the marine areas of North East Queensland.
 
 \subsection{Modelling of federal electorates and threatened species}
 
