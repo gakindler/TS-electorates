@@ -88,18 +88,30 @@ spec.range.elect.expanded.summary <- spec.range.elect %>%
 
 #### spec.per.elect - counts.summary ####
 
+# the species data does not cover the terrestrial regions perfectly
+# there is overflow into marine areas
+# therefore if we filter for "percent_range_within == 1" we are going to
+# miss species
+# I guess we are only interested in the species range within the elects
+
+spec.data.limitation.capture <- spec.range.elect %>%
+  full_join(spec.elect.coverage.indiv) %>%
+  filter(species_range_covers_n_electorates == 1)
+
+
+
 spec.eighty.elect.counts <- spec.range.elect %>%
   mutate(across(percent_range_within, round, digits = 2)) %>%
   filter(percent_range_within >= 0.8) %>%
   group_by(electorate) %>%
-  summarise(total_eighty_unique_spec = n_distinct(scientific_name)) %>%
+  summarise(total_eighty_unique_species = n_distinct(scientific_name)) %>%
   ungroup()
 
 spec.endemic.elect.counts <- spec.range.elect %>%
   mutate(across(percent_range_within, round, digits = 2)) %>%
   filter(percent_range_within == 1) %>%
   group_by(electorate) %>%
-  summarise(total_endemic_unique_spec = n_distinct(scientific_name)) %>%
+  summarise(total_endemic_unique_species = n_distinct(scientific_name)) %>%
   ungroup()
 
 spec.per.elect.counts.summary <- spec.per.elect.counts %>%
@@ -116,8 +128,8 @@ spec.per.elect.counts.summary <- spec.per.elect.counts %>%
     electorate, electorate_abbrev, state_territory,
     state_territory_abbrev, demographic_class,
     electorate_area_sqkm, total_unique_species,
-    species_per_sqkm, total_eighty_unique_spec,
-    total_endemic_unique_spec, geom
+    species_per_sqkm, total_eighty_unique_species,
+    total_endemic_unique_species, geom
   ) %T>%
   st_write(
     "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg",

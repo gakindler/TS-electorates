@@ -51,9 +51,9 @@ spec.per.elect.indiv <- spec.per.elect %>%
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
   )
 
-#### elect.spec.cover ####
+#### spec.elect.coverage - species electorate coverage  ####
 
-elect.spec.cover.counts <- spec.per.elect %>%
+spec.elect.coverage.counts <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
     scientific_name, vernacular_name, threatened_status,
@@ -61,10 +61,10 @@ elect.spec.cover.counts <- spec.per.elect %>%
   ) %>%
   summarise(species_range_covers_n_electorates = n_distinct(electorate)) %T>%
   write_json(
-    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/elect.spec.cover.counts.json"
+    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.elect.coverage.counts.json"
   )
 
-elect.spec.cover.indiv <- spec.per.elect %>%
+spec.elect.coverage.indiv <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
     scientific_name, vernacular_name, threatened_status,
@@ -72,21 +72,46 @@ elect.spec.cover.indiv <- spec.per.elect %>%
   ) %>%
   mutate(species_range_covers_n_electorates = n_distinct(electorate)) %T>%
   write_json(
-    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/elect.spec.cover.indiv.json"
+    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.elect.coverage.indiv.json"
   )
 
 #### spec.range.elect - species range within each electorate ####
-# Calculate the percentage of species area within each electorate
+
 spec.range.elect <- species %>%
   st_intersection(elect) %>%
   st_make_valid() %>%
   mutate(
     intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()
   ) %>%
-  mutate(percent_range_within = intersection_area_sqkm / species_range_area_sqkm) %>%
+  mutate(
+    percent_range_within = intersection_area_sqkm / species_range_area_sqkm
+  ) %>%
   st_set_geometry(NULL) %T>%
   write_json(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
+  )
+
+spec.range.elect.clipped <- species %>%
+  st_intersection(elect.union) %>%
+  st_make_valid() %>%
+  mutate(
+    species_elect_clipped_range_area = units::set_units(
+      st_area(.), km^2
+    ) %>% as.numeric()
+  ) %>%
+  st_intersection(elect) %>%
+  st_make_valid() %>%
+  mutate(
+    intersection_area_sqkm = units::set_units(
+      st_area(.), km^2
+    ) %>% as.numeric()
+  ) %>%
+  mutate(
+    percent_range_within = intersection_area_sqkm / species_elect_clipped_range_area
+  ) %>%
+  st_set_geometry(NULL) %T>%
+  write_json(
+    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.clipped.json"
   )
 
 #### spec.outside.elect ####
