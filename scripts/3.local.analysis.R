@@ -26,6 +26,9 @@ spec.elect.coverage.indiv <- fromJSON(
 spec.range.elect <- fromJSON(
   "analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
 )
+spec.range.elect.clipped <- fromJSON(
+  "analysed_data/HPC_spatial_ops_output/spec.range.elect.clipped.json"
+)
 spec.outside.elect <- st_read(
   "analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg"
 )
@@ -94,22 +97,22 @@ spec.range.elect.expanded.summary <- spec.range.elect %>%
 # miss species
 # I guess we are only interested in the species range within the elects
 
-spec.data.limitation.capture <- spec.range.elect %>%
-  full_join(spec.elect.coverage.indiv) %>%
-  filter(species_range_covers_n_electorates == 1)
-
-
-
 spec.eighty.elect.counts <- spec.range.elect %>%
+  full_join(spec.elect.coverage.indiv) %>%
   mutate(across(percent_range_within, round, digits = 2)) %>%
-  filter(percent_range_within >= 0.8) %>%
+  filter(
+    percent_range_within >= 0.8 | species_range_covers_n_electorates == 1
+  ) %>%
   group_by(electorate) %>%
   summarise(total_eighty_unique_species = n_distinct(scientific_name)) %>%
   ungroup()
 
 spec.endemic.elect.counts <- spec.range.elect %>%
+  full_join(spec.elect.coverage.indiv) %>%
   mutate(across(percent_range_within, round, digits = 2)) %>%
-  filter(percent_range_within == 1) %>%
+  filter(
+    percent_range_within == 1 | species_range_covers_n_electorates == 1
+  ) %>%
   group_by(electorate) %>%
   summarise(total_endemic_unique_species = n_distinct(scientific_name)) %>%
   ungroup()
