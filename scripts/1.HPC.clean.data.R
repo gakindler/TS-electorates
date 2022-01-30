@@ -205,6 +205,11 @@ demo <- demo %>%
                         electorate_abbrev, electorate_abbrev == "E-", "E-M"
                 )
         ) %>%
+        mutate(
+        electorate_abbrev = replace(
+                electorate_abbrev, electorate_abbrev == "O'", "O'C"
+        )
+        ) %>%
         relocate(
                 electorate_abbrev,
                 .after = electorate
@@ -212,4 +217,17 @@ demo <- demo %>%
         write.csv(
                 "/QRISdata/Q4107/TS_electorates/clean_data/demo.clean.csv",
                 row.names = FALSE
+        )
+
+#### Import & clean: States ####
+
+state.clean <- elect %>%
+        full_join(demo) %>%
+        group_by(
+                state_territory, state_territory_abbrev
+        ) %>%
+        summarise() %T>%
+        st_write(
+                dsn = "/QRISdata/Q4107/TS_electorates/clean_data/state.clean.gpkg",
+                layer = "state.clean", append = FALSE, delete_dsn = TRUE
         )
