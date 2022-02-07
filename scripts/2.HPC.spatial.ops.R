@@ -93,6 +93,33 @@ spec.range.elect <- species %>%
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
   )
 
+spec.range.elect.clipped <- species %>%
+  st_intersection(elect.union) %>%
+  st_make_valid() %>%
+  mutate(
+    species_elect_clipped_range_area_sqkm = units::set_units(
+      st_area(.), km^2
+    ) %>% as.numeric()
+  ) %>%
+  st_intersection(elect) %>%
+  st_make_valid() %>%
+  mutate(
+    intersection_area_sqkm = units::set_units(
+      st_area(.), km^2
+    ) %>% as.numeric()
+  ) %>%
+  mutate(
+    percent_range_within = intersection_area_sqkm / species_elect_clipped_range_area_sqkm
+  ) %T>%
+  st_write(
+    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.clipped.gpkg",
+    layer = "spec.range.elect.clipped", append = FALSE, delete_dsn = TRUE
+  ) %>%
+  st_set_geometry(NULL) %T>%
+  write_json(
+    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.clipped.json"
+  )
+
 #### spec.outside.elect ####
 
 spec.outside.elect <- species %>%
