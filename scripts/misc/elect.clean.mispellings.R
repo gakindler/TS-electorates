@@ -36,6 +36,6 @@ demo.2021 <- demo.2021 %>%
     Elect_div = "Electoral division"
   )
 
-difference <- elect.2021 %>% anti_join(demo.2021)
+difference <- elect.2021 %>% inner_join(demo.2021)
 
 difference <- demo.2019 %>% anti_join(demo.2021)

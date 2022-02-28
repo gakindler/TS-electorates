@@ -19,6 +19,269 @@
 
 \refsection{0}
   \datalist[entry]{apa/global//global/global}
+    \entry{allekThreatsEndangeringAustralia2018}{article}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=57481a4fc5f4243a83e9d31f67ff59b3}{%
+           family={Allek},
+           familyi={A\bibinitperiod},
+           given={Adriana},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d6d208ae2a30f1c1b3d5155c8e2d7426}{%
+           family={Assis},
+           familyi={A\bibinitperiod},
+           given={Ariadna\bibnamedelima S.},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ac8aeb4119764f57d2ee79ff10ffecc9}{%
+           family={Eiras},
+           familyi={E\bibinitperiod},
+           given={Nicoli},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fc6473b18e6a6cbaa406c3a4de171a23}{%
+           family={Amaral},
+           familyi={A\bibinitperiod},
+           given={Thais\bibnamedelima P.},
+           giveni={T\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=88c15319af79e421e182cab766cdd47d}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={Brooke},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=97d712a5eb70efd4badd512cf48467c1}{%
+           family={Butt},
+           familyi={B\bibinitperiod},
+           given={Nathalie},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6241e67cfdc6fb60626144fcfbb2ecf7}{%
+           family={Renwick},
+           familyi={R\bibinitperiod},
+           given={Anna\bibnamedelima R.},
+           giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5d50016ad656c48f22bb2875c7bac503}{%
+           family={Bennett},
+           familyi={B\bibinitperiod},
+           given={Joseph\bibnamedelima R.},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f26073c51323d13fb44bcaa434d89788}{%
+           family={Beyer},
+           familyi={B\bibinitperiod},
+           given={Hawthorne\bibnamedelima L.},
+           giveni={H\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c4f29e19e207a1f8be69f89f223fa6cc}
+      \strng{fullhash}{d812f3e4670f224f6bc3cd8a9e783767}
+      \strng{bibnamehash}{d812f3e4670f224f6bc3cd8a9e783767}
+      \strng{authorbibnamehash}{d812f3e4670f224f6bc3cd8a9e783767}
+      \strng{authornamehash}{c4f29e19e207a1f8be69f89f223fa6cc}
+      \strng{authorfullhash}{d812f3e4670f224f6bc3cd8a9e783767}
+      \field{sortinit}{A}
+      \field{sortinithash}{a3dcedd53b04d1adfd5ac303ecd5e6fa}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Reducing the rate of species extinctions is one of the great challenges of our time. Understanding patterns in the distribution and frequency of both threatened species and the threatening processes affecting them improves our ability to mitigate threats and prioritize management actions. In this quantitative synthesis of processes threatening Australian at-risk fauna, we find that species are impacted by a median of six threats (range 1–19), though there is considerable variation in numbers of threats among major taxonomic groups. Invasive species, habitat loss, biological resource use, natural systems modification and climate change are the processes most commonly affecting Australian threatened species. We identified an uneven distribution of research knowledge among species, with half of the total number of species-specific peer-reviewed scientific publications associated with only 11 threatened species (2.7\%). Furthermore, the number of threats associated with each species was correlated with the research effort for that species, and research effort was correlated with body mass. Hence, there appears to be a research bias towards larger-bodied species, and certain charismatic species, that could result in inferences biased towards these favored species. However, after accounting for these effects we found that for birds, amphibians, reptiles and marine mammals body mass is positively correlated with the number of threats associated with each species. Many threats also co-occur, indicating that threat syndromes may be common.}
+      \field{day}{1}
+      \field{issn}{0006-3207}
+      \field{journaltitle}{Biological Conservation}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{shortjournal}{Biological Conservation}
+      \field{title}{The Threats Endangering {{Australia}}'s at-Risk Fauna}
+      \field{urlday}{24}
+      \field{urlmonth}{7}
+      \field{urlyear}{2021}
+      \field{volume}{222}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{172\bibrangedash 179}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1016/j.biocon.2018.03.029
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Allek et al_2018_The threats endangering Australia's at-risk fauna3.pdf;/home/gareth/Zotero/storage/A4ESPX45/S0006320717310686.html;/home/gareth/Zotero/storage/H3VJT5NV/S0006320717310686.html;/home/gareth/Zotero/storage/KCB6PFPR/S0006320717310686.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0006320717310686
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0006320717310686
+      \endverb
+      \keyw{Body mass,Conservation,Extinction risk,Prioritization,Threatened species,Vulnerability}
+    \endentry
+    \entry{brentonWhatLiesWork2010}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=af127110bd7cc7193ffda63d12d75318}{%
+           family={Brenton},
+           familyi={B\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Canberra}%
+      }
+      \list{publisher}{1}{%
+        {Dept. of Parliamentary Services}%
+      }
+      \strng{namehash}{af127110bd7cc7193ffda63d12d75318}
+      \strng{fullhash}{af127110bd7cc7193ffda63d12d75318}
+      \strng{bibnamehash}{af127110bd7cc7193ffda63d12d75318}
+      \strng{authorbibnamehash}{af127110bd7cc7193ffda63d12d75318}
+      \strng{authornamehash}{af127110bd7cc7193ffda63d12d75318}
+      \strng{authorfullhash}{af127110bd7cc7193ffda63d12d75318}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{annotation}{OCLC: 646828549}
+      \field{isbn}{978-0-9806554-1-4}
+      \field{langid}{english}
+      \field{shorttitle}{What Lies Beneath}
+      \field{title}{What Lies beneath: The Work of Senators and Members in the {{Australian Parliament}}}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Brenton_2010_What lies beneath.pdf;/home/gareth/everything/bibliography/zotero_storage_folder/Brenton_Representative roles and responsibilities.pdf
+      \endverb
+    \endentry
+    \entry{brookSynergiesExtinctionDrivers2008}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=6143a1e21f5f57605409848fecb3cd9f}{%
+           family={Brook},
+           familyi={B\bibinitperiod},
+           given={B.\bibnamedelimi W.},
+           giveni={B\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9ca884a3373711cc4869f1cb517f5edd}{%
+           family={Sodhi},
+           familyi={S\bibinitperiod},
+           given={N.\bibnamedelimi S.},
+           giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80cfecc2b20544104dd6b32c067941f7}{%
+           family={Bradshaw},
+           familyi={B\bibinitperiod},
+           given={C.\bibnamedelimi J.\bibnamedelimi A.},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2d93196c5558447f540f04c493a64d2e}
+      \strng{fullhash}{260d895d95ab0834cb28853f5e45cbf1}
+      \strng{bibnamehash}{260d895d95ab0834cb28853f5e45cbf1}
+      \strng{authorbibnamehash}{260d895d95ab0834cb28853f5e45cbf1}
+      \strng{authornamehash}{2d93196c5558447f540f04c493a64d2e}
+      \strng{authorfullhash}{260d895d95ab0834cb28853f5e45cbf1}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Trends in Ecology \& Evolution}
+      \field{shortjournal}{Trends in Ecology \& Evolution}
+      \field{title}{Synergies among Extinction Drivers under Global Change}
+      \field{volume}{23}
+      \field{year}{2008}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/j.tree.2008.03.011
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Brook et al_2008_Synergies among extinction drivers under global change.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.tree.2008.03.011
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.tree.2008.03.011
+      \endverb
+    \endentry
+    \entry{burkeSpeciesBordersPolitical2020}{inbook}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f040b398839e867690c85d25c111f2c7}{%
+           family={Burke},
+           familyi={B\bibinitperiod},
+           given={Anthony},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86838d35c953fddcf74a35a1dca4fb3d}{%
+           family={Fishel},
+           familyi={F\bibinitperiod},
+           given={Stefanie},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=a2a022ae698493108bf930d004a766ea}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={Joana\bibnamedelima Castro},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=1ee5eaa11e6ecd4a16ba364359003c87}{%
+           family={Saramago},
+           familyi={S\bibinitperiod},
+           given={André},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham}%
+      }
+      \list{publisher}{1}{%
+        {Springer International Publishing}%
+      }
+      \strng{namehash}{e38785a79b99cc6efc2dba361f989336}
+      \strng{fullhash}{e38785a79b99cc6efc2dba361f989336}
+      \strng{bibnamehash}{e38785a79b99cc6efc2dba361f989336}
+      \strng{authorbibnamehash}{e38785a79b99cc6efc2dba361f989336}
+      \strng{authornamehash}{e38785a79b99cc6efc2dba361f989336}
+      \strng{authorfullhash}{e38785a79b99cc6efc2dba361f989336}
+      \strng{editorbibnamehash}{d9115fc2ef45a74791e77641a7ae2082}
+      \strng{editornamehash}{d9115fc2ef45a74791e77641a7ae2082}
+      \strng{editorfullhash}{d9115fc2ef45a74791e77641a7ae2082}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Debates about democracy and ecology invariably lead to the question of the representation and membership of non-human animals, ecosystems and the biosphere in world politics. This chapter responds by interweaving two lines of inquiry. One considers the fundamental political theory that could generate an adequate account of how to give representation to the non-human in the polity. Key theoretical interventions will be considered alongside a posthumanist, new materialist account of the material agency of ecosystems. The second considers the dilemmas involved in designing ecological democratic institutions that could include the non-human in communicative systems of membership and accountability. We propose two new enabling structures for ecological inclusion and governance: 15 regional ecosystem assemblies to cover the Earth’s major biomes, and an Earth System Council to coordinate integrated action, both of which include and channel representation from states, indigenous communities, and proxy guardians for the non-human. Such institutions require a deep commitment to the complexity and vitality of the biosphere, reflexivity and humility in proposing Earth system repair, and a constant awareness of the aporetic quality of political representation as such, in support of new forms of interspecies politics and governance that might work for and with the biosphere as a whole.}
+      \field{booktitle}{Non-{{Human Nature}} in {{World Politics}}: {{Theory}} and {{Practice}}}
+      \field{isbn}{978-3-030-49496-4}
+      \field{title}{Across {{Species}} and {{Borders}}: {{Political Representation}}, {{Ecological Democracy}} and the {{Non-Human}}}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{pages}{33\bibrangedash 52}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1007/978-3-030-49496-4_3
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Burke_Fishel_2020_Across Species and Borders.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/978-3-030-49496-4_3
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/978-3-030-49496-4_3
+      \endverb
+    \endentry
     \entry{ceballosAcceleratedModernHuman2015}{article}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=a4f4fbf0419b2ee65464b9f9db371a53}{%
@@ -82,7 +345,7 @@
       \field{month}{6}
       \field{number}{5}
       \field{shorttitle}{Accelerated Modern Human–Induced Species Losses}
-      \field{title}{Accelerated Modern Human–Induced Species Losses: Entering the Sixth Mass Extinction}
+      \field{title}{Accelerated Modern Human–Induced Species Losses: {{Entering}} the Sixth Mass Extinction}
       \field{urlday}{25}
       \field{urlmonth}{8}
       \field{urlyear}{2021}
@@ -150,6 +413,59 @@
       \verb https://www.aec.gov.au/Electorates/gis/gis_datadownload.htm
       \endverb
     \endentry
+    \entry{dalbyAnthropoceneFormationsEnvironmental2017a}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=62a91539182ff09dcfc5014bb6349508}{%
+           family={Dalby},
+           familyi={D\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{62a91539182ff09dcfc5014bb6349508}
+      \strng{fullhash}{62a91539182ff09dcfc5014bb6349508}
+      \strng{bibnamehash}{62a91539182ff09dcfc5014bb6349508}
+      \strng{authorbibnamehash}{62a91539182ff09dcfc5014bb6349508}
+      \strng{authornamehash}{62a91539182ff09dcfc5014bb6349508}
+      \strng{authorfullhash}{62a91539182ff09dcfc5014bb6349508}
+      \field{sortinit}{D}
+      \field{sortinithash}{c438b3d5d027251ba63f5ed538d98af5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The discussion of the Anthropocene makes it clear that contemporary social thought can no longer take nature, or an external ‘environment’, for granted in political discussion. Humanity is remaking its own context very rapidly, not only in the processes of urbanization but also in the larger context of global biophysical transformations that provide various forms of insecurity. Disasters such as the Fukushima nuclear meltdowns and potentially disastrous plans to geoengineer the climate in coming decades highlight that the human environment is being remade in the Anthropocene. Humanity is now a geological actor, not just a biological one, and that insight, captured in the term Anthropocene, changes understandings of both security and environment in social thought, requiring a focus on production of environments rather than their protection. Disasters help clarify this key point and its significance for considering geosocial formations.}
+      \field{issn}{0263-2764, 1460-3616}
+      \field{journaltitle}{Theory, Culture \& Society}
+      \field{langid}{english}
+      \field{month}{5}
+      \field{number}{2-3}
+      \field{shortjournal}{Theory, Culture \& Society}
+      \field{shorttitle}{Anthropocene {{Formations}}}
+      \field{title}{Anthropocene {{Formations}}: {{Environmental Security}}, {{Geopolitics}} and {{Disaster}}}
+      \field{urlday}{26}
+      \field{urlmonth}{11}
+      \field{urlyear}{2021}
+      \field{volume}{34}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{233\bibrangedash 252}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1177/0263276415598629
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Dalby_2017_Anthropocene Formations.pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://journals.sagepub.com/doi/10.1177/0263276415598629
+      \endverb
+      \verb{url}
+      \verb http://journals.sagepub.com/doi/10.1177/0263276415598629
+      \endverb
+    \endentry
     \entry{gastonSizesSpeciesGeographic2009}{article}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=6dd54b28abee73c6325d2772cb754dc9}{%
@@ -207,6 +523,152 @@
       \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2664.2008.01596.x
       \endverb
       \keyw{area of occupancy,extent of occurrence,geographic distribution,range limits,Red List}
+    \endentry
+    \entry{hahnTmapMakingMaps}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=71bd07d6ea0a6c8121ebed17bd7211c6}{%
+           family={Hahn},
+           familyi={H\bibinitperiod},
+           given={Nico},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{71bd07d6ea0a6c8121ebed17bd7211c6}
+      \strng{fullhash}{71bd07d6ea0a6c8121ebed17bd7211c6}
+      \strng{bibnamehash}{71bd07d6ea0a6c8121ebed17bd7211c6}
+      \strng{authorbibnamehash}{71bd07d6ea0a6c8121ebed17bd7211c6}
+      \strng{authornamehash}{71bd07d6ea0a6c8121ebed17bd7211c6}
+      \strng{authorfullhash}{71bd07d6ea0a6c8121ebed17bd7211c6}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{2 tmap | Making Maps with R}
+      \field{title}{2 Tmap | {{Making Maps}} with {{R}}}
+      \field{urlday}{30}
+      \field{urlmonth}{7}
+      \field{urlyear}{2021}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/gareth/Zotero/storage/XIV9P4C5/Hahn - 2 tmap Making Maps with R.html
+      \endverb
+      \verb{urlraw}
+      \verb https://bookdown.org/nicohahn/making_maps_with_r5/docs/tmap.html
+      \endverb
+      \verb{url}
+      \verb https://bookdown.org/nicohahn/making_maps_with_r5/docs/tmap.html
+      \endverb
+    \endentry
+    \entry{househansardQUESTIONSWRITINGMayo2019}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2c072c9dc6b9142cfb630d44d24491e4}{%
+           family={Hansard},
+           familyi={H\bibinitperiod},
+           given={House},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Parliament of Australia}%
+      }
+      \strng{namehash}{2c072c9dc6b9142cfb630d44d24491e4}
+      \strng{fullhash}{2c072c9dc6b9142cfb630d44d24491e4}
+      \strng{bibnamehash}{2c072c9dc6b9142cfb630d44d24491e4}
+      \strng{authorbibnamehash}{2c072c9dc6b9142cfb630d44d24491e4}
+      \strng{authornamehash}{2c072c9dc6b9142cfb630d44d24491e4}
+      \strng{authorfullhash}{2c072c9dc6b9142cfb630d44d24491e4}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{{QUESTIONS IN WRITING}} : {{Mayo Electorate}}: {{Threatened Species List}} ({{Question No}}. 80)}
+      \field{urlday}{30}
+      \field{urlmonth}{1}
+      \field{urlyear}{2022}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/2019_QUESTIONS IN WRITING.pdf;/home/gareth/Zotero/storage/JK2BKQEH/display.html
+      \endverb
+      \verb{urlraw}
+      \verb https://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;db=CHAMBER;id=chamber%2Fhansardr%2Fb38b3bac-3434-4e22-8fda-df8be681e06c%2F0387;query=Id%3A%22chamber%2Fhansardr%2Fb38b3bac-3434-4e22-8fda-df8be681e06c%2F0271%22
+      \endverb
+      \verb{url}
+      \verb https://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;db=CHAMBER;id=chamber%2Fhansardr%2Fb38b3bac-3434-4e22-8fda-df8be681e06c%2F0387;query=Id%3A%22chamber%2Fhansardr%2Fb38b3bac-3434-4e22-8fda-df8be681e06c%2F0271%22
+      \endverb
+    \endentry
+    \entry{hawkeReportIndependentReview2009}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=25c67fb1f88cdf37df326aa1701d3d0b}{%
+           family={Hawke},
+           familyi={H\bibinitperiod},
+           given={Allan},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{25c67fb1f88cdf37df326aa1701d3d0b}
+      \strng{fullhash}{25c67fb1f88cdf37df326aa1701d3d0b}
+      \strng{bibnamehash}{25c67fb1f88cdf37df326aa1701d3d0b}
+      \strng{authorbibnamehash}{25c67fb1f88cdf37df326aa1701d3d0b}
+      \strng{authornamehash}{25c67fb1f88cdf37df326aa1701d3d0b}
+      \strng{authorfullhash}{25c67fb1f88cdf37df326aa1701d3d0b}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Report of the {{Independent Review}} of the {{Environment Protection}} and {{Biodiversity Conservation Act}} 1999}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /home/gareth/Zotero/storage/NRVSJVRH/final-report.pdf
+      \endverb
+    \endentry
+    \entry{ipbesSummaryPolicymakersGlobal2019}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ebb4b25ab16a0668ca3ba0ed014998d2}{%
+           family={IPBES},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{ebb4b25ab16a0668ca3ba0ed014998d2}
+      \strng{fullhash}{ebb4b25ab16a0668ca3ba0ed014998d2}
+      \strng{bibnamehash}{ebb4b25ab16a0668ca3ba0ed014998d2}
+      \strng{authorbibnamehash}{ebb4b25ab16a0668ca3ba0ed014998d2}
+      \strng{authornamehash}{ebb4b25ab16a0668ca3ba0ed014998d2}
+      \strng{authorfullhash}{ebb4b25ab16a0668ca3ba0ed014998d2}
+      \field{sortinit}{I}
+      \field{sortinithash}{9417e9a1288a9371e2691d999083ed39}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{Summary for Policymakers of the Global Assessment Report on Biodiversity and Ecosystem Services}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{pages}{60}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.5281/zenodo.3553579
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Intergovernmental Science-Policy Platform on Biodiversity and Ecosystem Services_2019_Summary for policymakers of the global assessment report on biodiversity and.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.5281/zenodo.3553579
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5281/zenodo.3553579
+      \endverb
     \endentry
     \entry{ivesCitiesAreHotspots2016}{article}{}
       \name{author}{13}{}{%
@@ -331,6 +793,39 @@
       \verb http://onlinelibrary.wiley.com/doi/abs/10.1111/geb.12404
       \endverb
       \keyw{Australia,biodiversity,conservation policy,species distributions,threatened species,urbanization}
+    \endentry
+    \entry{jeworutzkiCartogramCreateCartograms2020}{software}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=4b88bb77f5004e3e259d7d7af477c151}{%
+           family={Jeworutzki},
+           familyi={J\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4b88bb77f5004e3e259d7d7af477c151}
+      \strng{fullhash}{4b88bb77f5004e3e259d7d7af477c151}
+      \strng{bibnamehash}{4b88bb77f5004e3e259d7d7af477c151}
+      \strng{authorbibnamehash}{4b88bb77f5004e3e259d7d7af477c151}
+      \strng{authornamehash}{4b88bb77f5004e3e259d7d7af477c151}
+      \strng{authorfullhash}{4b88bb77f5004e3e259d7d7af477c151}
+      \field{sortinit}{J}
+      \field{sortinithash}{c45040a764d616897e7f5b30174d7b92}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{R package version 0.2.2}
+      \field{title}{Cartogram: {{Create Cartograms}} with {{R}}}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://CRAN.R-project.org/package=cartogram
+      \endverb
+      \verb{url}
+      \verb https://CRAN.R-project.org/package=cartogram
+      \endverb
     \endentry
     \entry{kearneyThreatsAustraliaImperilled2019}{article}{}
       \name{author}{12}{}{%
@@ -708,7 +1203,7 @@
       \field{month}{8}
       \field{number}{7615}
       \field{shorttitle}{Biodiversity}
-      \field{title}{Biodiversity: The Ravages of Guns, Nets and Bulldozers}
+      \field{title}{Biodiversity: {{The}} Ravages of Guns, Nets and Bulldozers}
       \field{urlday}{26}
       \field{urlmonth}{8}
       \field{urlyear}{2021}
@@ -731,6 +1226,140 @@
       \verb http://www.nature.com/articles/536143a
       \endverb
     \endentry
+    \entry{mcdonaldImprovingPolicyEfficiency2015}{article}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=d9199208dbb21f3852c27f1ddc76e470}{%
+           family={McDonald},
+           familyi={M\bibinitperiod},
+           given={Jane\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fdd18d507351ee0a5af3a4eeeb2600a2}{%
+           family={Carwardine},
+           familyi={C\bibinitperiod},
+           given={Josie},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92256e94e73fa100f158ae399c8e9f2b}{%
+           family={Joseph},
+           familyi={J\bibinitperiod},
+           given={Liana\bibnamedelima N.},
+           giveni={L\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8186eca7165a0a0a487756343d15ad17}{%
+           family={Klein},
+           familyi={K\bibinitperiod},
+           given={Carissa\bibnamedelima J.},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=08382f2547528022d471754b9ffa7286}{%
+           family={Rout},
+           familyi={R\bibinitperiod},
+           given={Tracy\bibnamedelima M.},
+           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8530b68cdac8fb368310f60d286f2a89}{%
+           family={Watson},
+           familyi={W\bibinitperiod},
+           given={James\bibnamedelimb E.\bibnamedelimi M.},
+           giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f6f90bf8a523a09f91228198606aaad1}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={Stephen\bibnamedelima T.},
+           giveni={S\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=63ae4c334647deefc77b7aac7bc62913}{%
+           family={McCarthy},
+           familyi={M\bibinitperiod},
+           given={Michael\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a79981e639d0881431857bdcfe3cdb2}{%
+           family={Possingham},
+           familyi={P\bibinitperiod},
+           given={Hugh\bibnamedelima P.},
+           giveni={H\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{42ce5b1ee36c94f1563f7062ded0897a}
+      \strng{fullhash}{db11b1c731857f91d611bc75f5f5c60f}
+      \strng{bibnamehash}{db11b1c731857f91d611bc75f5f5c60f}
+      \strng{authorbibnamehash}{db11b1c731857f91d611bc75f5f5c60f}
+      \strng{authornamehash}{42ce5b1ee36c94f1563f7062ded0897a}
+      \strng{authorfullhash}{db11b1c731857f91d611bc75f5f5c60f}
+      \field{sortinit}{M}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Native flora and fauna species continue to decline in the megadiverse, wealthy, economically and politically stable nation of Australia despite current efforts in policy and management. Ongoing research is examining these declines, their causes and the adequacy of current policy, but strategies for improving the outcomes for threatened species have attracted less attention. We discuss several key aspects of Australia’s national threatened species management approach that potentially hinder the efficiency and effectiveness of management: the threatened species listing process is lengthy and biased; recovery plan development is resource intensive, restricted to a subset of species and often not effective; funding for threatened species management is not allocated efficiently or transparently; and management is not designed to incorporate uncertainties and adapt to changing future threats. Based on these issues we recommend four changes to current process: rationalize listing and assessment processes; develop approaches to prioritize species-based and threat-based responses cost-effectively; estimate funds required to recover species and secure longer term funding; and accommodate uncertainties and new threats into the current planning framework. Cost-effective prioritization for species and threats identifies which actions are likely to achieve the greatest benefits to species per unit cost, thereby managing more species and threats with available funds. These improvements can be made without legislative reform, additional funding or socio-economic shifts. If implemented, we believe more Australian threatened species will benefit from current efforts. Many of the challenges facing Australia are analogous to issues in other countries including the United States, Canada and the United Kingdom and these recommendations could assist in improving threatened species management.}
+      \field{day}{1}
+      \field{issn}{0006-3207}
+      \field{journaltitle}{Biological Conservation}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{shortjournal}{Biological Conservation}
+      \field{shorttitle}{Improving Policy Efficiency and Effectiveness to Save More Species}
+      \field{title}{Improving Policy Efficiency and Effectiveness to Save More Species: {{A}} Case Study of the Megadiverse Country {{Australia}}}
+      \field{urlday}{5}
+      \field{urlmonth}{8}
+      \field{urlyear}{2021}
+      \field{volume}{182}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{102\bibrangedash 108}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1016/j.biocon.2014.11.030
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/McDonald et al_2015_Improving policy efficiency and effectiveness to save more species.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0006320714004558
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0006320714004558
+      \endverb
+      \keyw{Australia,Cost-effective,Endangered species,Policy,Prioritization,Threatened species}
+    \endentry
+    \entry{commonwealthofaustraliaSpeciesProfileThreats2021}{misc}{}
+      \name{author}{1}{}{%
+        {{un=1,uniquepart=given,hash=7db7ebc15a593a6ee747b9198c019f53}{%
+           family={Australia},
+           familyi={A\bibinitperiod},
+           given={Commonwealth},
+           giveni={C\bibinitperiod},
+           givenun=1,
+           prefix={of},
+           prefixi={o\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Department of Agriculture, Water, and the Environment, Australian Government, Canberra, Australia}%
+      }
+      \strng{namehash}{7db7ebc15a593a6ee747b9198c019f53}
+      \strng{fullhash}{7db7ebc15a593a6ee747b9198c019f53}
+      \strng{bibnamehash}{7db7ebc15a593a6ee747b9198c019f53}
+      \strng{authorbibnamehash}{7db7ebc15a593a6ee747b9198c019f53}
+      \strng{authornamehash}{7db7ebc15a593a6ee747b9198c019f53}
+      \strng{authorfullhash}{7db7ebc15a593a6ee747b9198c019f53}
+      \field{extraname}{1}
+      \field{sortinit}{o}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Species {{Profile}} and {{Threats Database}} ({{SPRAT}})}
+      \field{year}{2021}
+      \field{dateera}{ce}
+    \endentry
     \entry{commonwealthofaustraliaThreatenedSpeciesEPBC2021}{misc}{}
       \name{author}{1}{}{%
         {{un=1,uniquepart=given,hash=7db7ebc15a593a6ee747b9198c019f53}{%
@@ -751,8 +1380,10 @@
       \strng{authorbibnamehash}{7db7ebc15a593a6ee747b9198c019f53}
       \strng{authornamehash}{7db7ebc15a593a6ee747b9198c019f53}
       \strng{authorfullhash}{7db7ebc15a593a6ee747b9198c019f53}
+      \field{extraname}{2}
       \field{sortinit}{o}
       \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{extradate}{2}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
@@ -819,53 +1450,6 @@
       \verb https://www.aph.gov.au/About_Parliament/House_of_Representatives/Powers_practice_and_procedure/Practice7/HTML/Chapter3/Electoral_divisions
       \endverb
     \endentry
-    \entry{australianbureauofstatisticsAustralianStatisticalGeography2021}{misc}{}
-      \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=2316adb6f494021c8f252c92fb598cb6}{%
-           family={Statistics},
-           familyi={S\bibinitperiod},
-           given={Australian\bibnamedelima Bureau},
-           giveni={A\bibinitperiod\bibinitdelim B\bibinitperiod},
-           givenun=0,
-           prefix={of},
-           prefixi={o\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Commonwealth of Australia}%
-      }
-      \strng{namehash}{2316adb6f494021c8f252c92fb598cb6}
-      \strng{fullhash}{2316adb6f494021c8f252c92fb598cb6}
-      \strng{bibnamehash}{2316adb6f494021c8f252c92fb598cb6}
-      \strng{authorbibnamehash}{2316adb6f494021c8f252c92fb598cb6}
-      \strng{authornamehash}{2316adb6f494021c8f252c92fb598cb6}
-      \strng{authorfullhash}{2316adb6f494021c8f252c92fb598cb6}
-      \field{sortinit}{o}
-      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{A classification of Australia into a hierarchy of statistical areas for the publication and analysis of official statistics and other data}
-      \field{annotation}{Edition 3}
-      \field{langid}{english}
-      \field{title}{Australian {{Statistical Geography Standard}} ({{ASGS}})}
-      \field{urlday}{25}
-      \field{urlmonth}{10}
-      \field{urlyear}{2021}
-      \field{year}{2021}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{file}
-      \verb /home/gareth/Zotero/storage/W7IUFZMG/jul2021-jun2026.html
-      \endverb
-      \verb{urlraw}
-      \verb https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/latest-release
-      \endverb
-      \verb{url}
-      \verb https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/latest-release
-      \endverb
-    \endentry
     \entry{pebesmaSimpleFeaturesStandardized2018}{article}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=422fc79d05d5bcdcc598a0a7c6f95159}{%
@@ -893,7 +1477,7 @@
       \field{langid}{english}
       \field{number}{1}
       \field{shorttitle}{Simple {{Features}} for {{R}}}
-      \field{title}{Simple {{Features}} for {{R}}: Standardized {{Support}} for {{Spatial Vector Data}}}
+      \field{title}{Simple {{Features}} for {{R}}: {{Standardized Support}} for {{Spatial Vector Data}}}
       \field{urlday}{31}
       \field{urlmonth}{10}
       \field{urlyear}{2021}
@@ -911,6 +1495,170 @@
       \endverb
       \verb{url}
       \verb https://journal.r-project.org/archive/2018/RJ-2018-009/index.html
+      \endverb
+    \endentry
+    \entry{pitkinConceptRepresentation1972}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=1627953f5d12b53c2b209905126969d5}{%
+           family={Pitkin},
+           familyi={P\bibinitperiod},
+           given={Hanna\bibnamedelima F.},
+           giveni={H\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1627953f5d12b53c2b209905126969d5}
+      \strng{fullhash}{1627953f5d12b53c2b209905126969d5}
+      \strng{bibnamehash}{1627953f5d12b53c2b209905126969d5}
+      \strng{authorbibnamehash}{1627953f5d12b53c2b209905126969d5}
+      \strng{authornamehash}{1627953f5d12b53c2b209905126969d5}
+      \strng{authorfullhash}{1627953f5d12b53c2b209905126969d5}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Being concerned with representation, this book is about an idea, a concept, a word. It is primarily a conceptual analysis, not a historical study of the way in which representative government has evolved, nor yet an empirical investigation of the behavior of contemporary representatives or the expectations voters have about them. Yet, although the book is about a word, it is not about mere words, not merely about words. For the social philosopher, for the social scientist, words are not "mere"; they are the tools of his trade and a vital part of his subject matter. Since human beings are not merely political animals but also language-using animals, their behavior is shaped by their ideas. What they do and how they do it depends upon how they see themselves and their world, and this in turn depends upon the concepts through which they see. Learning what "representation" means and learning how to represent are intimately connected. But even beyond this, the social theorist sees the world through a network of concepts. Our words define and delimit our world in important ways, and this is particularly true of the world of human and social things. For a zoologist may capture a rare specimen and simply observe it; but who can capture an instance of representation (or of power, or of interest)? Such things, too, can be observed, but the observation always presupposes at least a rudimentary conception of what representation (or power, or interest) is, what counts as representation, where it leaves off and some other phenomenon begins. Questions about what representation is, or is like, are not fully separable from the question of what "representation" means. This book approaches the former questions by way of the latter.}
+      \field{isbn}{978-0-520-02156-3}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{pagetotal}{330}
+      \field{title}{The {{Concept}} of {{Representation}}}
+      \field{year}{1972}
+      \field{dateera}{ce}
+    \endentry
+    \entry{resideHowSendFinch2019}{article}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=322c66a47940998c6e4c442c50493c93}{%
+           family={Reside},
+           familyi={R\bibinitperiod},
+           given={April\bibnamedelima E},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4c19b2df13fe4faaba073a7a477cd9fe}{%
+           family={Cosgrove},
+           familyi={C\bibinitperiod},
+           given={Anita\bibnamedelima J},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=71df8457167de8618bde321722e55643}{%
+           family={Pointon},
+           familyi={P\bibinitperiod},
+           given={Revel},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ebe345007c918f0c8bbd2697a7329df8}{%
+           family={Trezise},
+           familyi={T\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8530b68cdac8fb368310f60d286f2a89}{%
+           family={Watson},
+           familyi={W\bibinitperiod},
+           given={James\bibnamedelimb E\bibnamedelima M},
+           giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7c68a987050406739c5d387ffb8177a2}{%
+           family={Maron},
+           familyi={M\bibinitperiod},
+           given={Martine},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{f20bab6b95a1b38873d563ff2129e25b}
+      \strng{fullhash}{f4bb895469de2e7b9de4d60c27dd7fc0}
+      \strng{bibnamehash}{f4bb895469de2e7b9de4d60c27dd7fc0}
+      \strng{authorbibnamehash}{f4bb895469de2e7b9de4d60c27dd7fc0}
+      \strng{authornamehash}{f20bab6b95a1b38873d563ff2129e25b}
+      \strng{authorfullhash}{f4bb895469de2e7b9de4d60c27dd7fc0}
+      \field{sortinit}{R}
+      \field{sortinithash}{b9c68a358aea118dfa887b6e902414a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Australia’s high species extinction rate shows no sign of abating, with at least three vertebrate extinctions recorded within the last decade. In each case, scientists have published ‘post-mortems’ examining the context of these recent extinctions. By tracing the decline of a once-widespread and common bird to the point that it has disappeared from over 80\% of its original range, and describing the circumstances under which habitat loss continues to be approved despite its formal protection, we present a ‘pre-mortem’ for the endangered, and endemic, southern black-throated finch (Poephila cincta cincta). The southern black-throated finch has suffered extensive habitat loss historically, much of which was unregulated. In 2000, Australia increased environmental regulation, and the southern black-throated finch was listed under the Commonwealth’s Environment Protection \& Biodiversity Conservation Act. Despite the increased environmental regulation and formal protection, habitat loss for the southern black-throated finch has continued, mostly incrementally but resulting in large cumulative loss. In the face of steep population decline and range contraction of BTF, five large coal mines were approved between 2012 and 2015 by both State and Commonwealth governments that will remove most of the largest area of high quality habitat that remains. We outline the policy settings under which the decline occurred, with a particular focus on recent ongoing habitat loss occurring within a highly regulated environment. We show that despite Australia’s comparatively strong governance and regulatory frameworks, legally permitted habitat loss continues even for imperilled taxa formally listed under State and Commonwealth environment protection laws.}
+      \field{issn}{1462-9011}
+      \field{journaltitle}{Environmental Science \& Policy}
+      \field{title}{How to Send a Finch Extinct}
+      \field{volume}{94}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{pages}{163\bibrangedash 173}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1016/j.envsci.2019.01.005
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Reside et al_2019_How to send a finch extinct.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1462901118308414
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1462901118308414
+      \endverb
+      \keyw{Conservation,Development approvals,Endangered species,Environmental policy,Habitat loss,Offsets}
+    \endentry
+    \entry{rohrschneiderIntroductionPoliticalRepresentation2020}{inbook}{}
+      \name{editor}{2}{}{%
+        {{un=0,uniquepart=base,hash=60ea3de8964f511ddb7759490a162dbc}{%
+           family={Rohrschneider},
+           familyi={R\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=057cf76ececb52627944b4adfe91d256}{%
+           family={Thomassen},
+           familyi={T\bibinitperiod},
+           given={Jacques},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{7543b82f8f65ac09a06a9ef41015a558}
+      \strng{fullhash}{7543b82f8f65ac09a06a9ef41015a558}
+      \strng{bibnamehash}{7543b82f8f65ac09a06a9ef41015a558}
+      \strng{editorbibnamehash}{7543b82f8f65ac09a06a9ef41015a558}
+      \strng{editornamehash}{7543b82f8f65ac09a06a9ef41015a558}
+      \strng{editorfullhash}{7543b82f8f65ac09a06a9ef41015a558}
+      \field{sortinit}{R}
+      \field{sortinithash}{b9c68a358aea118dfa887b6e902414a7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{editor}
+      \field{labeltitlesource}{title}
+      \field{abstract}{How can democracies effectively represent citizens? The goal of this Handbook is to evaluate comprehensively how well the interests and preferences of mass publics become represented by institutions in liberal democracies. It first explores how the idea and institutions of liberal democracies were formed over centuries and became enshrined in Western political systems. The contributors to this Handbook, made up of the world’s leading scholars on the various aspects of political representation, examine how well the political elites and parties who are charged with the representation of the public interest meet their duties. Clearly, institutions often fail to live up to their own representation goals. With this in mind, the contributors explore several challenges to the way that the system of representation is organized in modern democracies. For example, actors such as parties and established elites face rising distrust among electorates. Also, the rise of international problems such as migration and environmentalism suggests that the focus of democracies on nation states may have to shift to a more international level. All told, this Handbook illuminates the normative and functional challenges faced by representative institutions in liberal democracies.}
+      \field{booktitle}{The {{Oxford Handbook}} of {{Political Representation}} in {{Liberal Democracies}}}
+      \field{day}{28}
+      \field{edition}{1}
+      \field{isbn}{978-0-19-882508-1 978-0-19-186376-9}
+      \field{langid}{english}
+      \field{month}{7}
+      \field{title}{Introduction: {{Political Representation}} in {{Liberal Democracies}}}
+      \field{urlday}{31}
+      \field{urlmonth}{1}
+      \field{urlyear}{2022}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.1093/oxfordhb/9780198825081.001.0001
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/2020_Introduction.pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://oxfordhandbooks.com/view/10.1093/oxfordhb/9780198825081.001.0001/oxfordhb-9780198825081
+      \endverb
+      \verb{url}
+      \verb http://oxfordhandbooks.com/view/10.1093/oxfordhb/9780198825081.001.0001/oxfordhb-9780198825081
       \endverb
     \endentry
     \entry{rydenLinkingDemocracyBiodiversity2020}{article}{}
@@ -968,7 +1716,7 @@
       \field{number}{2}
       \field{shortjournal}{Ambio}
       \field{shorttitle}{Linking Democracy and Biodiversity Conservation}
-      \field{title}{Linking Democracy and Biodiversity Conservation: Empirical Evidence and Research Gaps}
+      \field{title}{Linking Democracy and Biodiversity Conservation: {{Empirical}} Evidence and Research Gaps}
       \field{urlday}{2}
       \field{urlmonth}{11}
       \field{urlyear}{2021}
@@ -989,6 +1737,102 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1007/s13280-019-01210-0
+      \endverb
+    \endentry
+    \entry{samuelIndependentReviewEPBC2020}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=46863d3f17c973bfd5fe82470210e9e0}{%
+           family={Samuel},
+           familyi={S\bibinitperiod},
+           given={G.\bibnamedelimi J},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{46863d3f17c973bfd5fe82470210e9e0}
+      \strng{fullhash}{46863d3f17c973bfd5fe82470210e9e0}
+      \strng{bibnamehash}{46863d3f17c973bfd5fe82470210e9e0}
+      \strng{authorbibnamehash}{46863d3f17c973bfd5fe82470210e9e0}
+      \strng{authornamehash}{46863d3f17c973bfd5fe82470210e9e0}
+      \strng{authorfullhash}{46863d3f17c973bfd5fe82470210e9e0}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{annotation}{OCLC: 1240411951}
+      \field{isbn}{978-1-76003-357-6}
+      \field{langid}{english}
+      \field{shorttitle}{Independent Review of the {{EPBC Act}}}
+      \field{title}{Independent Review of the {{EPBC Act}}: Final Report}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb /home/gareth/Zotero/storage/WH25FEI8/Samuel et al. - 2020 - Independent review of the EPBC Act final report.pdf
+      \endverb
+    \endentry
+    \entry{schwartzConservationDisenfranchisedUrban2002}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=839a03fc67ac2ec600b5f13b6cbabb5e}{%
+           family={Schwartz},
+           familyi={S\bibinitperiod},
+           given={Mark\bibnamedelima W.},
+           giveni={M\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=852e474420c1aac7db140d391fe5ec7a}{%
+           family={Jurjavcic},
+           familyi={J\bibinitperiod},
+           given={Nicole\bibnamedelima L.},
+           giveni={N\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=960400b37f0451a865820200b7b5d0e7}{%
+           family={O'Brien},
+           familyi={O\bibinitperiod},
+           given={Joshua\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{13fa42d8e537a07be9a82856ce68dec8}
+      \strng{fullhash}{ddc498ce6d7710e43e4f89fd548de76a}
+      \strng{bibnamehash}{ddc498ce6d7710e43e4f89fd548de76a}
+      \strng{authorbibnamehash}{ddc498ce6d7710e43e4f89fd548de76a}
+      \strng{authornamehash}{13fa42d8e537a07be9a82856ce68dec8}
+      \strng{authorfullhash}{ddc498ce6d7710e43e4f89fd548de76a}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{1}
+      \field{issn}{0006-3568}
+      \field{journaltitle}{BioScience}
+      \field{month}{7}
+      \field{number}{7}
+      \field{shortjournal}{BioScience}
+      \field{title}{Conservation's {{Disenfranchised Urban Poor}}}
+      \field{urlday}{8}
+      \field{urlmonth}{2}
+      \field{urlyear}{2022}
+      \field{volume}{52}
+      \field{year}{2002}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{601\bibrangedash 606}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1641/0006-3568(2002)052[0601:CSDUP]2.0.CO;2
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Schwartz et al_2002_Conservation's Disenfranchised Urban Poor.pdf;/home/gareth/Zotero/storage/5X3J7E53/248023.html
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1641/0006-3568(2002)052[0601:CSDUP]2.0.CO;2
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1641/0006-3568(2002)052[0601:CSDUP]2.0.CO;2
       \endverb
     \endentry
     \entry{simmondsVulnerableSpeciesEcosystems2020}{article}{}
@@ -1060,122 +1904,6 @@
       \endverb
       \verb{url}
       \verb https://www.scopus.com/inward/record.uri?eid=2-s2.0-85076523028&doi=10.1111%2Fconl.12694&partnerID=40&md5=ddfae2e5d5b71f083e2c561ddb1be17a
-      \endverb
-    \endentry
-    \entry{soanesConservationOpportunitiesThreatened2020}{article}{}
-      \name{author}{13}{}{%
-        {{un=0,uniquepart=base,hash=23d26a3519c71aff96aecd7ca9441988}{%
-           family={Soanes},
-           familyi={S\bibinitperiod},
-           given={Kylie},
-           giveni={K\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=39942e3c55b832f67b0f9dd320d3a51a}{%
-           family={Threlfall},
-           familyi={T\bibinitperiod},
-           given={Caragh},
-           giveni={C\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a1b867e52d01a7fca719112cf9ef9c94}{%
-           family={Ramalho},
-           familyi={R\bibinitperiod},
-           given={Cristina\bibnamedelima Estima},
-           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=076deb0cf480fd3d9ff554c4291fef21}{%
-           family={Bekessy},
-           familyi={B\bibinitperiod},
-           given={Sarah\bibnamedelima A.},
-           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=f63e08ec783205e7ffa5a9e1b1306b38}{%
-           family={Fuller},
-           familyi={F\bibinitperiod},
-           given={Richard\bibnamedelima A.},
-           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=c22a9a492ba6e0273dd787a62507c7e5}{%
-           family={Garrard},
-           familyi={G\bibinitperiod},
-           given={Georgia\bibnamedelima E.},
-           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=cb56d29d89e966d2e5f84ae2f87b97b2}{%
-           family={Ikin},
-           familyi={I\bibinitperiod},
-           given={Karen},
-           giveni={K\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=8562e7c479db9c5cac4d9c0f8c9c7b3f}{%
-           family={Kendal},
-           familyi={K\bibinitperiod},
-           given={David},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=80ee4c8f8906228eb917f6e98f49d03b}{%
-           family={Lee},
-           familyi={L\bibinitperiod},
-           given={Kate},
-           giveni={K\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=c7993873085bfeecea5b3aa0a2c4765f}{%
-           family={Valentine},
-           familyi={V\bibinitperiod},
-           given={Leonie},
-           giveni={L\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=d62489a0d214c49748e9da20e2715dcf}{%
-           family={Williams},
-           familyi={W\bibinitperiod},
-           given={Nicholas},
-           giveni={N\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a8411b0270805ae339dffcc391c8e145}{%
-           family={Parris},
-           familyi={P\bibinitperiod},
-           given={Kirsten},
-           giveni={K\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=292b83d45036f037370bc062286492a8}{%
-           family={Lentini},
-           familyi={L\bibinitperiod},
-           given={Pia},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{publisher}{1}{%
-        {Clean Air and Urban Landscapes Hub}%
-      }
-      \strng{namehash}{c31a5e8d8456b6913590690d7c5ac3b8}
-      \strng{fullhash}{e0d242bf823c17c4a87ef0b46a3f18d3}
-      \strng{bibnamehash}{e0d242bf823c17c4a87ef0b46a3f18d3}
-      \strng{authorbibnamehash}{e0d242bf823c17c4a87ef0b46a3f18d3}
-      \strng{authornamehash}{c31a5e8d8456b6913590690d7c5ac3b8}
-      \strng{authorfullhash}{e0d242bf823c17c4a87ef0b46a3f18d3}
-      \field{sortinit}{S}
-      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{langid}{english}
-      \field{shorttitle}{Conservation Opportunities for Threatened Species in Urban Environments}
-      \field{title}{Conservation Opportunities for Threatened Species in Urban Environments: Report Prepared by the {{NESP Clean Air}} and {{Urban Landscapes Hub}} and {{Threatened Species Recovery Hub}}}
-      \field{urlday}{17}
-      \field{urlmonth}{8}
-      \field{urlyear}{2021}
-      \field{year}{2020}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{file}
-      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Soanes et al_2020_Conservation opportunities for threatened species in urban environments.pdf;/home/gareth/Zotero/storage/2U4ZIGZ7/conservation-opportunities-for-threatened-species-in-urban-enviro.html
-      \endverb
-      \verb{urlraw}
-      \verb https://research-repository.uwa.edu.au/en/publications/conservation-opportunities-for-threatened-species-in-urban-enviro
-      \endverb
-      \verb{url}
-      \verb https://research-repository.uwa.edu.au/en/publications/conservation-opportunities-for-threatened-species-in-urban-enviro
       \endverb
     \endentry
     \entry{sternerPolicyDesignAnthropocene2019}{article}{useprefix=true}
@@ -1390,7 +2118,7 @@
       \verb 10.1038/s41893-018-0194-x
       \endverb
       \verb{file}
-      \verb /home/gareth/Zotero/storage/NWB5ILEG/Sterner et al. - 2019 - Policy design for the Anthropocene.pdf;/home/gareth/Zotero/storage/BBENE6KL/s41893-018-0194-x.html
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Sterner et al_2019_Policy design for the Anthropocene.pdf;/home/gareth/Zotero/storage/BBENE6KL/s41893-018-0194-x.html
       \endverb
       \verb{urlraw}
       \verb https://www.nature.com/articles/s41893-018-0194-x
@@ -1425,7 +2153,7 @@
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{R: A Language and Environment for Statistical Computing}
+      \field{title}{R: {{A}} Language and Environment for Statistical Computing}
       \field{year}{2021}
       \field{dateera}{ce}
       \verb{urlraw}
@@ -1435,123 +2163,63 @@
       \verb https://www.R-project.org/
       \endverb
     \endentry
-    \entry{venterSixteenYearsChange2016}{article}{}
-      \name{author}{12}{}{%
-        {{un=0,uniquepart=base,hash=6bcd49fecc29d279a8d71287da771bfc}{%
-           family={Venter},
-           familyi={V\bibinitperiod},
-           given={Oscar},
-           giveni={O\bibinitperiod},
+    \entry{tomasettiMappingAustraliaElectorates2021}{online}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d581de1870c38e67245f99b58e3c9ee6}{%
+           family={Tomasetti},
+           familyi={T\bibinitperiod},
+           given={Nathaniel},
+           giveni={N\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=52bd37850722f15b4ae7422c5e9b4df3}{%
-           family={Sanderson},
-           familyi={S\bibinitperiod},
-           given={Eric\bibnamedelima W.},
-           giveni={E\bibinitperiod\bibinitdelim W\bibinitperiod},
+        {{un=0,uniquepart=base,hash=9c18385eeac57326b8adc5a18ecaa101}{%
+           family={Cook},
+           familyi={C\bibinitperiod},
+           given={Di},
+           giveni={D\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=e517a2e401f7eb84bd5ae8ef9f19d0bb}{%
-           family={Magrach},
-           familyi={M\bibinitperiod},
-           given={Ainhoa},
-           giveni={A\bibinitperiod},
+        {{un=0,uniquepart=base,hash=aab385203b295bcea3e72bd9a22eebae}{%
+           family={Hofmann},
+           familyi={H\bibinitperiod},
+           given={Heike},
+           giveni={H\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=0f8747bc1629901e590ee962534fa487}{%
-           family={Allan},
-           familyi={A\bibinitperiod},
-           given={James\bibnamedelima R.},
-           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=c88607235712c5b870443d55bb6c1128}{%
-           family={Beher},
-           familyi={B\bibinitperiod},
-           given={Jutta},
+        {{un=0,uniquepart=base,hash=d8f4b871fcc01020bfc43734fb4ed7ff}{%
+           family={Forbes},
+           familyi={F\bibinitperiod},
+           given={Jeremy},
            giveni={J\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=35fdc281983fe91410cc32a65960e5e8}{%
-           family={Jones},
-           familyi={J\bibinitperiod},
-           given={Kendall\bibnamedelima R.},
-           giveni={K\bibinitperiod\bibinitdelim R\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=1a79981e639d0881431857bdcfe3cdb2}{%
-           family={Possingham},
-           familyi={P\bibinitperiod},
-           given={Hugh\bibnamedelima P.},
-           giveni={H\bibinitperiod\bibinitdelim P\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=00f39eac2b0bd8e4b1c66ba94eaa5930}{%
-           family={Laurance},
-           familyi={L\bibinitperiod},
-           given={William\bibnamedelima F.},
-           giveni={W\bibinitperiod\bibinitdelim F\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=15e9e73348f970f4868345a657a73c23}{%
-           family={Wood},
-           familyi={W\bibinitperiod},
-           given={Peter},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=032b65c26fd5090437e0019063701f67}{%
-           family={Fekete},
-           familyi={F\bibinitperiod},
-           given={Balázs\bibnamedelima M.},
-           giveni={B\bibinitperiod\bibinitdelim M\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a98c78e8c834a3dc8ad4a59c5cba267d}{%
-           family={Levy},
-           familyi={L\bibinitperiod},
-           given={Marc\bibnamedelima A.},
-           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=8530b68cdac8fb368310f60d286f2a89}{%
-           family={Watson},
-           familyi={W\bibinitperiod},
-           given={James\bibnamedelima E.M.},
-           giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod},
-           givenun=0}}%
       }
-      \strng{namehash}{cadf33a5b9cc127b60444f1486b342d1}
-      \strng{fullhash}{4ced1b4e0723d5f4d90afa6817bb5b77}
-      \strng{bibnamehash}{4ced1b4e0723d5f4d90afa6817bb5b77}
-      \strng{authorbibnamehash}{4ced1b4e0723d5f4d90afa6817bb5b77}
-      \strng{authornamehash}{cadf33a5b9cc127b60444f1486b342d1}
-      \strng{authorfullhash}{4ced1b4e0723d5f4d90afa6817bb5b77}
-      \field{sortinit}{V}
-      \field{sortinithash}{02432525618c08e2b03cac47c19764af}
+      \strng{namehash}{649715e82713ea2254bdcf07caf03e24}
+      \strng{fullhash}{af3e1988561bc22b0482f879ae44b2ec}
+      \strng{bibnamehash}{af3e1988561bc22b0482f879ae44b2ec}
+      \strng{authorbibnamehash}{af3e1988561bc22b0482f879ae44b2ec}
+      \strng{authornamehash}{649715e82713ea2254bdcf07caf03e24}
+      \strng{authorfullhash}{af3e1988561bc22b0482f879ae44b2ec}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Human pressures on the environment are changing spatially and temporally, with profound implications for the planet's biodiversity and human economies. Here we use recently available data on infrastructure, land cover and human access into natural areas to construct a globally standardized measure of the cumulative human footprint on the terrestrial environment at 1 km2 resolution from 1993 to 2009. We note that while the human population has increased by 23\% and the world economy has grown 153\%, the human footprint has increased by just 9\%. Still, 75\% the planet's land surface is experiencing measurable human pressures. Moreover, pressures are perversely intense, widespread and rapidly intensifying in places with high biodiversity. Encouragingly, we discover decreases in environmental pressures in the wealthiest countries and those with strong control of corruption. Clearly the human footprint on Earth is changing, yet there are still opportunities for conservation gains.}
-      \field{day}{23}
-      \field{issn}{20411723}
-      \field{journaltitle}{Nature Communications}
-      \field{month}{8}
-      \field{number}{1}
-      \field{title}{Sixteen Years of Change in the Global Terrestrial Human Footprint and Implications for Biodiversity Conservation}
-      \field{urlday}{4}
-      \field{urlmonth}{5}
-      \field{urlyear}{2021}
-      \field{volume}{7}
-      \field{year}{2016}
+      \field{langid}{english}
+      \field{title}{Mapping {{Australia}}'s {{Electorates}}}
+      \field{urlday}{18}
+      \field{urlmonth}{1}
+      \field{urlyear}{2022}
+      \field{year}{2021}
       \field{dateera}{ce}
       \field{urldateera}{ce}
-      \field{pages}{1\bibrangedash 11}
-      \range{pages}{11}
-      \verb{doi}
-      \verb 10.1038/ncomms12558
-      \endverb
       \verb{file}
-      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Venter et al_2016_Sixteen years of change in the global terrestrial human footprint and.pdf
+      \verb /home/gareth/Zotero/storage/E3FALEE4/plotting-electorates.html
       \endverb
       \verb{urlraw}
-      \verb www.nature.com/naturecommunications
+      \verb https://jforbes14.github.io/eechidna/articles/plotting-electorates.html
       \endverb
       \verb{url}
-      \verb www.nature.com/naturecommunications
+      \verb https://jforbes14.github.io/eechidna/articles/plotting-electorates.html
       \endverb
-      \keyw{Biodiversity,Conservation biology,Environmental impact}
     \endentry
     \entry{wardNationalscaleDatasetThreats}{article}{}
       \name{author}{19}{}{%
@@ -1678,7 +2346,8 @@
       \strng{authorfullhash}{b867ce24a16d9a4f680cc74c243c76e5}
       \field{sortinit}{W}
       \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
-      \field{labeldatesource}{nodate}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Australia is in the midst of an extinction crisis, having already lost 10\% of terrestrial mammal fauna since European settlement and with hundreds of other species at high risk of extinction. The decline of the nation's biota is a result of an array of threatening processes; however, a comprehensive taxon-specific understanding of threats and their relative impacts remains undocumented nationally. Using expert consultation, we compile the first complete, validated, and consistent taxon-specific threat and impact dataset for all nationally listed threatened taxa in Australia. We confined our analysis to 1,795 terrestrial and aquatic taxa listed as threatened (Vulnerable, Endangered, or Critically Endangered) under Australian Commonwealth law. We engaged taxonomic experts to generate taxon-specific threat and threat impact information to consistently apply the IUCN Threat Classification Scheme and Threat Impact Scoring System, as well as eight broad-level threats and 51 subcategory threats, for all 1,795 threatened terrestrial and aquatic threatened taxa. This compilation produced 4,877 unique taxon–threat–impact combinations with the most frequently listed threats being Habitat loss, fragmentation, and degradation (n = 1,210 taxa), and Invasive species and disease (n = 966 taxa). Yet when only high-impact threats or medium-impact threats are considered, Invasive species and disease become the most prevalent threats. This dataset provides critical information for conservation action planning, national legislation and policy, and prioritizing investments in threatened species management and recovery.}
@@ -1692,6 +2361,8 @@
       \field{urlmonth}{8}
       \field{urlyear}{2021}
       \field{volume}{n/a}
+      \field{year}{2021}
+      \field{dateera}{ce}
       \field{urldateera}{ce}
       \verb{doi}
       \verb 10.1002/ece3.7920
@@ -1790,7 +2461,7 @@
       \field{number}{11}
       \field{shortjournal}{Conservat Sci and Prac}
       \field{shorttitle}{Lots of Loss with Little Scrutiny}
-      \field{title}{Lots of Loss with Little Scrutiny: The Attrition of Habitat Critical for Threatened Species in {{Australia}}}
+      \field{title}{Lots of Loss with Little Scrutiny: {{The}} Attrition of Habitat Critical for Threatened Species in {{Australia}}}
       \field{urlday}{30}
       \field{urlmonth}{6}
       \field{urlyear}{2021}
@@ -2100,7 +2771,7 @@
       \field{issn}{1755263X}
       \field{journaltitle}{Conservation Letters}
       \field{number}{6}
-      \field{title}{Spending to Save: What Will It Cost to Halt {{Australia}}'s Extinction Crisis?}
+      \field{title}{Spending to Save: {{What}} Will It Cost to Halt {{Australia}}'s Extinction Crisis?}
       \field{volume}{12}
       \field{year}{2019}
       \field{dateera}{ce}
@@ -2114,14 +2785,107 @@
       \endverb
       \keyw{budget,costs,Endangered Species Act,funding,government spending,recovery plan,resource allocation,the United States,threatened species,transparency}
     \endentry
+    \entry{woinarskiReadingBlackBook2019}{article}{}
+      \name{author}{10}{}{%
+        {{un=2,uniquepart=given,hash=86561323b56dbd0b230562d6f36b2f32}{%
+           family={Woinarski},
+           familyi={W\bibinitperiod},
+           given={J\bibnamedelima C\bibnamedelima Z},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=f28325d2535b38dfc0f077bec251ec83}{%
+           family={Braby},
+           familyi={B\bibinitperiod},
+           given={M\bibnamedelima F},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1e91567faab86dac6eb65937efbb7cf9}{%
+           family={Burbidge},
+           familyi={B\bibinitperiod},
+           given={A\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7e2dfe6b083d38f0e1c59ad9ab1e9ce5}{%
+           family={Coates},
+           familyi={C\bibinitperiod},
+           given={D},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b96bef69775c6dcfed224aa31aa860c3}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={S\bibnamedelima T},
+           giveni={S\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=294520481ad48dbd09242b4cc438cba9}{%
+           family={Fensham},
+           familyi={F\bibinitperiod},
+           given={R\bibnamedelima J},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34a8387be767936e3abc9c9c53aad9ed}{%
+           family={Legge},
+           familyi={L\bibinitperiod},
+           given={S\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bb625db52a4e2e8d129872ee9f9d8142}{%
+           family={McKenzie},
+           familyi={M\bibinitperiod},
+           given={N\bibnamedelima L},
+           giveni={N\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6297cfa6a79d7026fe5b4d29c330d7ee}{%
+           family={Silcock},
+           familyi={S\bibinitperiod},
+           given={J\bibnamedelima L},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=72d98978e685ecdd2b9120b945aefb09}{%
+           family={Murphy},
+           familyi={M\bibinitperiod},
+           given={B\bibnamedelima P},
+           giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0a94759021381a6780837cbdc5a1391b}
+      \strng{fullhash}{fbb0e211ccbd6b12bebce70dcc0067c1}
+      \strng{bibnamehash}{fbb0e211ccbd6b12bebce70dcc0067c1}
+      \strng{authorbibnamehash}{fbb0e211ccbd6b12bebce70dcc0067c1}
+      \strng{authornamehash}{0a94759021381a6780837cbdc5a1391b}
+      \strng{authorfullhash}{fbb0e211ccbd6b12bebce70dcc0067c1}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biological Conservation}
+      \field{title}{Reading the Black Book: {{The}} Number, Timing, Distribution and Causes of Listed Extinctions in {{Australia}}}
+      \field{volume}{239}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/j.biocon.2019.108261
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Woinarski et al_2019_Reading the black book.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.scopus.com/inward/record.uri?eid=2-s2.0-85074338766&doi=10.1016%2Fj.biocon.2019.108261&partnerID=40&md5=252df4b7d4eb90b150a9cbf10b54dcc7
+      \endverb
+      \verb{url}
+      \verb https://www.scopus.com/inward/record.uri?eid=2-s2.0-85074338766&doi=10.1016%2Fj.biocon.2019.108261&partnerID=40&md5=252df4b7d4eb90b150a9cbf10b54dcc7
+      \endverb
+    \endentry
     \entry{woinarskiContributionPolicyLaw2017}{article}{}
       \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=02e7be75890fa7736760de3daefc6a86}{%
+        {{un=2,uniquepart=given,hash=02e7be75890fa7736760de3daefc6a86}{%
            family={Woinarski},
            familyi={W\bibinitperiod},
            given={John\bibnamedelimb C.\bibnamedelimi Z.},
            giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim Z\bibinitperiod},
-           givenun=0}}%
+           givenun=2}}%
         {{un=0,uniquepart=base,hash=f6f90bf8a523a09f91228198606aaad1}{%
            family={Garnett},
            familyi={G\bibinitperiod},
@@ -2151,7 +2915,6 @@
       \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
-      \true{uniqueprimaryauthor}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Extinctions typically have ecological drivers, such as habitat loss. However, extinction events are also influenced by policy and management settings that may be antithetical to biodiversity conservation, inadequate to prevent extinction, insufficiently resourced, or poorly implemented. Three endemic Australian vertebrate species—the Christmas Island pipistrelle (Pipistrellus murrayi), Bramble Cay melomys (Melomys rubicola), and Christmas Island forest skink (Emoia nativitatis)—became extinct from 2009 to 2014. All 3 extinctions were predictable and probably preventable. We sought to identify the policy, management, research, and other shortcomings that contributed to their extinctions or failed to prevent them. These included a lack within national environmental legislation and policy of explicit commitment to the prevention of avoidable extinctions, lack of explicit accountability, inadequate resources for conservation (particularly for species not considered charismatic or not of high taxonomic distinctiveness), inadequate biosecurity, a slow and inadequate process for listing species as threatened, recovery planning that failed to consider the need for emergency response, inability of researchers to identify major threatening factors, lack of public engagement and involvement in conservation decisions, and limited advocacy. From these 3 cases, we recommend: environmental policy explicitly seeks to prevent extinction of any species and provides a clear chain of accountability and an explicit requirement for public inquiry following any extinction; implementation of a timely and comprehensive process for listing species as threatened and for recovery planning; reservation alone not be assumed sufficient to maintain species; enhancement of biosecurity measures; allocation of sufficient resources to undertake actions necessary to prevent extinction; monitoring be considered a pivotal component of the conservation response; research provides timely identification of factors responsible for decline and of the risk of extinction; effective dissemination of research results; advocacy by an informed public for the recovery of threatened species; and public involvement in governance of the recovery process. These recommendations should be applicable broadly to reduce the likelihood and incidence of extinctions.}
@@ -2183,12 +2946,71 @@
       \endverb
       \keyw{Bramble Cay melomys,Christmas Island forest skink,Christmas Island pipistrelle,conservation policy,eslizón de bosque de Isla Navidad,especies amenazadas,inquest,legislación melomys de Cayo Bramble,legislation,murciélago de Isla Navidad,pesquisa,política de conservación,threatened species}
     \endentry
+    \entry{woinarskiOngoingUnravelingContinental2015}{article}{}
+      \name{author}{3}{}{%
+        {{un=2,uniquepart=given,hash=2bc718fb35218c414f1249b19f4578dd}{%
+           family={Woinarski},
+           familyi={W\bibinitperiod},
+           given={John\bibnamedelimb C.Z.\bibnamedelimi Z},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim Z\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=6a718ffef841f40b11caedaf79bfdf59}{%
+           family={Burbidge},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=21294ceffe62efeddbc07a17d030ae6b}{%
+           family={Harrison},
+           familyi={H\bibinitperiod},
+           given={Peter\bibnamedelima L.},
+           giveni={P\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{03d7fb3ae45e21ab986c0a66a0ca51a5}
+      \strng{fullhash}{c5e04625273fe9aa8bfa14df23600b3c}
+      \strng{bibnamehash}{c5e04625273fe9aa8bfa14df23600b3c}
+      \strng{authorbibnamehash}{c5e04625273fe9aa8bfa14df23600b3c}
+      \strng{authornamehash}{03d7fb3ae45e21ab986c0a66a0ca51a5}
+      \strng{authorfullhash}{c5e04625273fe9aa8bfa14df23600b3c}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The island continent of Australia harbors much of the world’s most distinctive biodiversity, but this review describes an extent of recent and ongoing loss of its mammal fauna that is exceptionally high and appreciably greater than previously recognized. The causes of loss are dissimilar to those responsible for most biodiversity decline elsewhere in the world.The highly distinctive and mostly endemic Australian land mammal fauna has suffered an extraordinary rate of extinction (\&amp;gt;10\% of the 273 endemic terrestrial species) over the last ∼200 y: in comparison, only one native land mammal from continental North America became extinct since European settlement. A further 21\% of Australian endemic land mammal species are now assessed to be threatened, indicating that the rate of loss (of one to two extinctions per decade) is likely to continue. Australia’s marine mammals have fared better overall, but status assessment for them is seriously impeded by lack of information. Much of the loss of Australian land mammal fauna (particularly in the vast deserts and tropical savannas) has been in areas that are remote from human population centers and recognized as relatively unmodified at global scale. In contrast to general patterns of extinction on other continents where the main cause is habitat loss, hunting, and impacts of human development, particularly in areas of high and increasing human population pressures, the loss of Australian land mammals is most likely due primarily to predation by introduced species, particularly the feral cat, Felis catus, and European red fox, Vulpes vulpes, and changed fire regimes.}
+      \field{day}{14}
+      \field{eprinttype}{pmid}
+      \field{isbn}{1417301112}
+      \field{issn}{10916490}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{month}{4}
+      \field{number}{15}
+      \field{title}{Ongoing Unraveling of a Continental Fauna: {{Decline}} and Extinction of {{Australian}} Mammals since {{European}} Settlement}
+      \field{volume}{112}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \field{pages}{4531 LP \bibrangedash  4540}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1073/pnas.1417301112
+      \endverb
+      \verb{eprint}
+      \verb 25675493
+      \endverb
+      \verb{file}
+      \verb /home/gareth/everything/bibliography/zotero_storage_folder/Woinarski et al_2015_Ongoing unraveling of a continental fauna.pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://www.pnas.org/content/112/15/4531.abstract
+      \endverb
+      \verb{url}
+      \verb http://www.pnas.org/content/112/15/4531.abstract
+      \endverb
+      \keyw{Biodiversity,Conservation,Feral animal,Marsupial,Predation}
+    \endentry
   \enddatalist
-  \missing{kearney et al}
-  \missing{nerableSpeciesEcosystems2020}
-  \missing{simmondsVul}
-  \missing{wawardLotsLossLittle2019}
-  \missing{woinarski et al}
 \endrefsection
 \endinput
 

@@ -1,8 +1,8 @@
-This is LuaHBTeX, Version 1.12.0 (TeX Live 2020/Debian)  (format=lualatex 2021.10.7)  24 NOV 2021 17:48
+This is LuaHBTeX, Version 1.12.0 (TeX Live 2020/Debian)  (format=lualatex 2022.1.16)  11 FEB 2022 16:28
  restricted system commands enabled.
  file:line:error style messages enabled.
-**/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.tex
-(/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.tex
+**/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.tex
+(/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.tex
 LaTeX2e <2020-10-01> patch level 4
 Lua module: luaotfload 2021-01-08 3.17 Lua based OpenType font support
 Lua module: lualibs 2020-12-30 2.73 ConTeXt Lua standard libraries.
@@ -51,7 +51,7 @@ luaotfload | db : Font names database loaded from /home/gareth/.texlive2020/texm
 \@input{formatting.aux}
 
 \openout2 = formatting.aux
-(/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/formatting.tex (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
+(/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/formatting.tex (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
 Package: mathtools 2020/03/24 v1.24 mathematical typesetting tools
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
@@ -208,89 +208,89 @@ File: babel.def 2021/01/26 3.53 Babel common definitions
 \l@dumylang=\language2
 Package babel Info: Non-standard hyphenation setup on input line 117.
 \l@nohyphenation=\language3
-\l@liturgicallatin=\language4
-\l@portuguese=\language5
-\l@nynorsk=\language6
-\l@danish=\language7
-\l@russian=\language8
-\l@hindi=\language9
-\l@serbianc=\language10
-\l@sanskrit=\language11
-\l@slovak=\language12
-\l@romanian=\language13
-\l@ibycus=\language14
-\l@latvian=\language15
-\l@italian=\language16
-\l@friulan=\language17
-\l@irish=\language18
-\l@french=\language19
-\l@kannada=\language20
-\l@belarusian=\language21
-\l@bulgarian=\language22
-\l@assamese=\language23
-\l@basque=\language24
-\l@turkish=\language25
-\l@swedish=\language26
-\l@kurmanji=\language27
-\l@bokmal=\language28
-\l@usenglishmax=\language29
-\l@ngerman-x-2019-04-04=\language30
-\l@welsh=\language31
-\l@gujarati=\language32
-\l@ukenglish=\language33
-\l@spanish=\language34
-\l@latin=\language35
-\l@pinyin=\language36
-\l@czech=\language37
-\l@arabic=\language38
-\l@turkmen=\language39
-\l@oriya=\language40
-\l@bengali=\language41
+\l@portuguese=\language4
+\l@serbian=\language5
+\l@belarusian=\language6
+\l@pali=\language7
+\l@mongolianlmc=\language8
+\l@czech=\language9
+\l@pinyin=\language10
+\l@finnish=\language11
+\l@swissgerman=\language12
+\l@german=\language13
+\l@ancientgreek=\language14
+\l@hungarian=\language15
+\l@ngerman-x-2019-04-04=\language16
+\l@uppersorbian=\language17
+\l@farsi=\language18
+\l@irish=\language19
+\l@arabic=\language20
+\l@usenglishmax=\language21
+\l@marathi=\language22
+\l@armenian=\language23
+\l@slovak=\language24
+\l@panjabi=\language25
+\l@liturgicallatin=\language26
+\l@macedonian=\language27
+\l@basque=\language28
+\l@bulgarian=\language29
+\l@gujarati=\language30
+\l@assamese=\language31
+\l@churchslavonic=\language32
+\l@dutch=\language33
+\l@latin=\language34
+\l@malayalam=\language35
+\l@danish=\language36
+\l@friulan=\language37
+\l@tamil=\language38
+\l@mongolian=\language39
+\l@galician=\language40
+\l@slovenian=\language41
 \l@estonian=\language42
-\l@ancientgreek=\language43
-\l@thai=\language44
-\l@icelandic=\language45
-\l@farsi=\language46
-\l@mongolianlmc=\language47
-\l@georgian=\language48
-\l@polish=\language49
-\l@armenian=\language50
-\l@greek=\language51
-\l@galician=\language52
-\l@classiclatin=\language53
-\l@lithuanian=\language54
-\l@pali=\language55
-\l@dutch=\language56
-\l@ngerman=\language57
-\l@indonesian=\language58
-\l@interlingua=\language59
-\l@croatian=\language60
-\l@hungarian=\language61
-\l@monogreek=\language62
-\l@slovenian=\language63
-\l@serbian=\language64
-\l@german=\language65
-\l@marathi=\language66
-\l@occitan=\language67
-\l@esperanto=\language68
-\l@piedmontese=\language69
-\l@mongolian=\language70
-\l@macedonian=\language71
-\l@churchslavonic=\language72
-\l@afrikaans=\language73
-\l@uppersorbian=\language74
-\l@malayalam=\language75
-\l@finnish=\language76
-\l@tamil=\language77
-\l@catalan=\language78
-\l@panjabi=\language79
-\l@swissgerman=\language80
-\l@telugu=\language81
-\l@ukrainian=\language82
-\l@romansh=\language83
-\l@ethiopic=\language84
-\l@german-x-2019-04-04=\language85
-\l@coptic=\language86
+\l@indonesian=\language43
+\l@german-x-2019-04-04=\language44
+\l@esperanto=\language45
+\l@ukrainian=\language46
+\l@romansh=\language47
+\l@polish=\language48
+\l@ethiopic=\language49
+\l@serbianc=\language50
+\l@bengali=\language51
+\l@croatian=\language52
+\l@welsh=\language53
+\l@spanish=\language54
+\l@kannada=\language55
+\l@french=\language56
+\l@nynorsk=\language57
+\l@ukenglish=\language58
+\l@latvian=\language59
+\l@monogreek=\language60
+\l@hindi=\language61
+\l@interlingua=\language62
+\l@russian=\language63
+\l@classiclatin=\language64
+\l@italian=\language65
+\l@greek=\language66
+\l@lithuanian=\language67
+\l@turkish=\language68
+\l@icelandic=\language69
+\l@sanskrit=\language70
+\l@thai=\language71
+\l@ibycus=\language72
+\l@telugu=\language73
+\l@catalan=\language74
+\l@romanian=\language75
+\l@coptic=\language76
+\l@afrikaans=\language77
+\l@ngerman=\language78
+\l@swedish=\language79
+\l@occitan=\language80
+\l@piedmontese=\language81
+\l@turkmen=\language82
+\l@oriya=\language83
+\l@georgian=\language84
+\l@bokmal=\language85
+\l@kurmanji=\language86
 \babelcatcodetablenum=\catcodetable12
 \bbl@pattcodes=\catcodetable13
 )
@@ -304,9 +304,9 @@ Language: english 2017/06/06 v3.3r English support from the babel system
 Package babel Info: \l@canadian = using hyphenrules for english
 (babel)             (\language0) on input line 102.
 Package babel Info: \l@australian = using hyphenrules for ukenglish
-(babel)             (\language33) on input line 105.
+(babel)             (\language58) on input line 105.
 Package babel Info: \l@newzealand = using hyphenrules for ukenglish
-(babel)             (\language33) on input line 108.
+(babel)             (\language58) on input line 108.
 )) (/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
 ) (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
@@ -806,51 +806,51 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count457
 \@quotereset=\count458
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 28.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 38.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 28.
+(Font)              scaled to size 10.07397pt on input line 38.
  (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2020-01-29 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count459
 \l__pdf_internal_box=\box54
-) (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.aux)
+) (/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.aux)
 \openout1 = Kindler_EA_MS.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 38.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Info: Redefining \microtypecontext on input line 28.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Info: Redefining \microtypecontext on input line 38.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 28.
+LaTeX Info: Redefining \showhyphens on input line 38.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of spacing.
 Package microtype Info: No adjustment of kerning.
@@ -901,45 +901,9 @@ Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Kindler_EA_MS.bbl' found.
- (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.bbl
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                kearney et al
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                nerableSpeciesEcosystems2020
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                simmondsVul
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                wawardLotsLossLittle2019
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-
-Package biblatex Warning: The following entry could not be found
-(biblatex)                in the database:
-(biblatex)                woinarski et al
-(biblatex)                Please verify the spelling and rerun
-(biblatex)                LaTeX afterwards.
-
-)
-Package biblatex Info: Reference section=0 on input line 28.
-Package biblatex Info: Reference segment=0 on input line 28.
+ (/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.bbl)
+Package biblatex Info: Reference section=0 on input line 38.
+Package biblatex Info: Reference segment=0 on input line 38.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count460
@@ -959,7 +923,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 28.
+Package hyperref Info: Link coloring OFF on input line 38.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -969,10 +933,10 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count466
 )
-LaTeX Info: Redefining \ref on input line 28.
-LaTeX Info: Redefining \pageref on input line 28.
-LaTeX Info: Redefining \nameref on input line 28.
- (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.out) (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.out)
+LaTeX Info: Redefining \ref on input line 38.
+LaTeX Info: Redefining \pageref on input line 38.
+LaTeX Info: Redefining \nameref on input line 38.
+ (/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.out) (/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.out)
 \@outlinefile=\write4
 
 \openout4 = Kindler_EA_MS.out
@@ -1014,10 +978,10 @@ LaTeX Info: Redefining \nameref on input line 28.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 33.
+(Font)              scaled to size 13.24796pt on input line 43.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 13.24796pt on input line 33.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 33.
+(Font)              scaled to size 13.24796pt on input line 43.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 43.
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-LatinModernRoman.cfg
@@ -1027,38 +991,38 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 33.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 43.
  (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 33.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 43.
  (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 33.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 43.
  (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 33.
+(Font)              <10.95> on input line 43.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 33.
+(Font)              <8> on input line 43.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 33.
+(Font)              <6> on input line 43.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 33.
+(Font)              scaled to size 7.35999pt on input line 43.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 33.
+(Font)              scaled to size 9.19998pt on input line 43.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 33.
+(Font)              <10> on input line 43.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 33.
+(Font)              <7> on input line 43.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 33.
+(Font)              <5> on input line 43.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 33.
+(Font)              scaled to size 6.43999pt on input line 43.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 10.07397pt on input line 43.
+(Font)              scaled to size 10.07397pt on input line 51.
  [1
 
 
@@ -1066,96 +1030,70 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 59.
- [2]
-Overfull \hbox (32.75447pt too wide) in paragraph at lines 73--74
-\T1/phv/m/n/10.95 ing prob-lem which shows no sign of abate-ment ([]; [][more
- []
-
-
-Overfull \hbox (25.19821pt too wide) in paragraph at lines 77--78
-[]\T1/phv/m/n/10.95 The main con-straints on im-proved man-age-ment of Aus-tralian species ([];
- []
-
-[3]
-LaTeX Font Info:    Trying to load font information for TS1+phv on input line 97.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
-File: ts1phv.fd 2020/03/25 scalable font definitions for TS1/phv.
-)
-LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 97.
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `phv' (encoding: TS1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
- [4] [5] [6
-Missing character: There is no ’ (U+2019) in font phvr8t!
-Missing character: There is no ‘ (U+2018) in font phvr8t!
-Missing character: There is no ’ (U+2019) in font phvr8t!
-Missing character: There is no ‘ (U+2018) in font phvr8t!
-Missing character: There is no ’ (U+2019) in font phvr8t!
-]
-<../../../figures/spec_per_elect_point_smooth.png, id=162, 608.5134pt x 741.7311pt>
-File: ../../../figures/spec_per_elect_point_smooth.png Graphic file (type png)
-<use ../../../figures/spec_per_elect_point_smooth.png>
-Package luatex.def Info: ../../../figures/spec_per_elect_point_smooth.png  used on input line 161.
-(luatex.def)             Requested size: 424.06033pt x 516.89937pt.
- [7]
+(Font)              scaled to size 8.27998pt on input line 67.
+ [2] [3] [4]
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 173.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 90.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 10.07397pt on input line 173.
- [8<../../../figures/spec_per_elect_point_smooth.png>]
-<../../../figures/elect_spec_cover_status_histogram.png, id=178, 593.8185pt x 413.1435pt>
-File: ../../../figures/elect_spec_cover_status_histogram.png Graphic file (type png)
-<use ../../../figures/elect_spec_cover_status_histogram.png>
-Package luatex.def Info: ../../../figures/elect_spec_cover_status_histogram.png  used on input line 183.
-(luatex.def)             Requested size: 424.06033pt x 295.03601pt.
- [9<../../../figures/elect_spec_cover_status_histogram.png>]
-<../../../figures/spec_endemic_eighty_elect_combined_chloro.png, id=188, 505.89pt x 505.89pt>
-File: ../../../figures/spec_endemic_eighty_elect_combined_chloro.png Graphic file (type png)
-<use ../../../figures/spec_endemic_eighty_elect_combined_chloro.png>
-Package luatex.def Info: ../../../figures/spec_endemic_eighty_elect_combined_chloro.png  used on input line 201.
-(luatex.def)             Requested size: 424.06033pt x 424.0647pt.
- [10<../../../figures/spec_endemic_eighty_elect_combined_chloro.png>] [11] [12]
-Overfull \hbox (14.9195pt too wide) in paragraph at lines 269--269
+(Font)              scaled to size 10.07397pt on input line 90.
+ [5
+Missing character: There is no ’ (U+2019) in font phvr8t!
+] [6]
+<../../../figures/spec.per.elect.unique.spec.dorl.pdf, id=206, 531.9875pt x 479.7925pt>
+File: ../../../figures/spec.per.elect.unique.spec.dorl.pdf Graphic file (type pdf)
+<use ../../../figures/spec.per.elect.unique.spec.dorl.pdf>
+Package luatex.def Info: ../../../figures/spec.per.elect.unique.spec.dorl.pdf  used on input line 108.
+(luatex.def)             Requested size: 424.06033pt x 382.46547pt.
+<../../../figures/spec.per.elect.point.smooth.pdf, id=209, 426.59375pt x 284.06125pt>
+File: ../../../figures/spec.per.elect.point.smooth.pdf Graphic file (type pdf)
+<use ../../../figures/spec.per.elect.point.smooth.pdf>
+Package luatex.def Info: ../../../figures/spec.per.elect.point.smooth.pdf  used on input line 119.
+(luatex.def)             Requested size: 424.06033pt x 282.39177pt.
+ [7<../../../figures/spec.per.elect.unique.spec.dorl.pdf>] [8<../../../figures/spec.per.elect.point.smooth.pdf>]
+<../../../figures/spec.range.elect.ecdf.pdf, id=242, 568.1225pt x 426.59375pt>
+File: ../../../figures/spec.range.elect.ecdf.pdf Graphic file (type pdf)
+<use ../../../figures/spec.range.elect.ecdf.pdf>
+Package luatex.def Info: ../../../figures/spec.range.elect.ecdf.pdf  used on input line 130.
+(luatex.def)             Requested size: 424.06033pt x 318.43436pt.
+<../../../figures/22-02-11_spec.per.elect.endemic.chloro.png, id=244, 510.4671pt x 286.1892pt>
+File: ../../../figures/22-02-11_spec.per.elect.endemic.chloro.png Graphic file (type png)
+<use ../../../figures/22-02-11_spec.per.elect.endemic.chloro.png>
+Package luatex.def Info: ../../../figures/22-02-11_spec.per.elect.endemic.chloro.png  used on input line 139.
+(luatex.def)             Requested size: 424.06033pt x 237.7553pt.
+ [9<../../../figures/spec.range.elect.ecdf.pdf>] [10<../../../figures/22-02-11_spec.per.elect.endemic.chloro.png>] [11] [12]
+Overfull \hbox (14.9195pt too wide) in paragraph at lines 177--177
 \T1/phv/m/n/10.95 _eprint: https://besjour-nals.on-lineli-brary.wi-ley.com/doi/pdf/10.1111/j.1365-2664.2008.01596.x 
  []
 
 [13
 Missing character: There is no – (U+2013) in font phvr8t!
 Missing character: There is no ’ (U+2019) in font phvr8t!
+] [14
 Missing character: There is no ’ (U+2019) in font phvr8t!
-] [14] [15
+] [15] [16
 Missing character: There is no ’ (U+2019) in font phvr8t!
-] [16]
-<../../../figures/spec_per_elect_dorl.png, id=261, 663.9204pt x 413.1435pt>
-File: ../../../figures/spec_per_elect_dorl.png Graphic file (type png)
-<use ../../../figures/spec_per_elect_dorl.png>
-Package luatex.def Info: ../../../figures/spec_per_elect_dorl.png  used on input line 275.
-(luatex.def)             Requested size: 424.06033pt x 263.88768pt.
- [17<../../../figures/spec_per_elect_dorl.png>] [18] [19] (/home/gareth/everything/projects/au_electoral_analysis/writing/latex/manuscripts_research_article/Kindler_EA_MS.aux)
+] [17] [18] [19] [20] (/home/gareth/everything/projects/electoral/TS_electorates/writing/latex/manuscripts_research_article/Kindler_EA_MS.aux)
 Package rerunfilecheck Info: File `Kindler_EA_MS.out' has not changed.
-(rerunfilecheck)             Checksum: A5CB1955322FD6AFF44BDE3CD0B7A310;3685.
+(rerunfilecheck)             Checksum: 7CF13A5FE65BC9B60E744648E88F6DB5;3645.
 Package logreq Info: Writing requests to 'Kindler_EA_MS.run.xml'.
 
 \openout1 = Kindler_EA_MS.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 24581 strings out of 478824
+ 24653 strings out of 478824
  100000,1373583 words of node,token memory allocated
- 780 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 1 dir, 2 glue, 12 kern, 1 glyph, 43 attribute, 71 glue_spec, 23 attribute_list, 1 write, 8 pdf_action nodes
-   avail lists: 1:4,2:1066,3:534,4:51,5:548,6:27,7:6658,8:142,9:243,10:21,11:532,12:2
- 43228 multiletter control sequences out of 65536+600000
- 62 fonts using 5548711 bytes
- 90i,7n,120p,2525b,4951s stack positions out of 5000i,500n,10000p,200000b,200000s
+ 830 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 1 dir, 2 glue, 10 kern, 1 glyph, 51 attribute, 71 glue_spec, 27 attribute_list, 1 write, 14 pdf_action nodes
+   avail lists: 1:4,2:1252,3:550,4:57,5:513,6:42,7:7110,8:244,9:247,10:32,11:556,12:4
+ 43290 multiletter control sequences out of 65536+600000
+ 61 fonts using 5486631 bytes
+ 90i,7n,120p,2528b,4951s stack positions out of 5000i,500n,10000p,200000b,200000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}</usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on Kindler_EA_MS.pdf (19 pages, 1323417 bytes).
+Output written on Kindler_EA_MS.pdf (20 pages, 1376368 bytes).
 
-PDF statistics: 299 PDF objects out of 1000 (max. 8388607)
- 265 compressed objects within 3 object streams
- 66 named destinations out of 1000 (max. 131072)
- 145 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 395 PDF objects out of 1000 (max. 8388607)
+ 356 compressed objects within 4 object streams
+ 85 named destinations out of 1000 (max. 131072)
+ 153 words of extra memory for PDF output out of 10000 (max. 100000000)
 

@@ -5,20 +5,24 @@
 library(tidyverse)
 library(viridis)
 library(httpgd)
+library(data.table)
 
 #### Import ####
 
-spec.range.elect.counts <- read.csv(
-  "analysed_data/local_analysis_output/spec.range.elect.counts.csv"
+spec.elect.coverage.expanded <- read.csv(
+  "analysed_data/local_analysis_output/spec.elect.coverage.expanded.csv"
+)
+spec.range.elect.expanded <- read.csv(
+  "analysed_data/local_analysis_output/spec.range.elect.expanded.summary.csv"
 )
 
-table(spec.range.elect.counts$species_range_covers_n_electorates, useNA = "ifany")
+table(spec.elect.coverage.expanded$species_range_covers_n_electorates, useNA = "ifany")
 
-table(spec.range.elect.counts$migratory_status, useNA = "ifany")
+table(spec.elect.coverage.expanded$migratory_status, useNA = "ifany")
 
 #### Histogram ####
 
-ggplot(spec.range.elect.counts) +
+ggplot(spec.elect.coverage.expanded) +
   aes(x = species_range_covers_n_electorates) +
   geom_histogram(binwidth = 1) +
   geom_vline(aes(xintercept = median(species_range_covers_n_electorates)),
@@ -38,7 +42,7 @@ ggsave("figures/spec.range.elect.status.histo.pdf",
 
 #### Histogram, density curve ####
 
-ggplot(spec.range.elect.counts) +
+ggplot(spec.elect.coverage.expanded) +
   aes(
     x = species_range_covers_n_electorates
   ) +
@@ -71,8 +75,13 @@ ggsave("figures/spec.range.elect.density.pdf",
 
 #### ECDF function ####
 
+spec.elect.coverage.expanded.ecdf.clean <- spec.elect.coverage.expanded %>%
+  select(species_range_covers_n_electorates)
+
+spec.elect.coverage.expanded.ecdf <- ecdf(data.table(spec.elect.coverage.expanded)[[6]])
+
 ggplot(
-  spec.range.elect.counts
+  spec.elect.coverage.expanded
 ) +
   aes(
     x = species_range_covers_n_electorates
@@ -102,45 +111,52 @@ ggplot(
   #   )
   # ) +
   labs(
-    x = "Number of electorates threatened species range covers",
+    x = "Number of electorates threatened species' range covers",
     y = "Cumulative proportion"
   ) +
   scale_x_continuous(
-    breaks = seq(0, 150, by = 10)
+    breaks = seq(0, 150, 10)
   ) +
   scale_y_continuous(
-    breaks = seq(0.5, 1.0, by = 0.05)
+    breaks = seq(0.5, 1.0, 0.05)
   ) +
   theme_classic()
 
-ggsave("figures/spec.range.elect.ecdf.pdf",
+ggsave("figures/spec.range.elect.ecdf.png",
   width = 20, height = 15, units = "cm"
 )
 
 #### Calculations ####
 
-summary(spec.range.elect.counts)
+summary(spec.elect.coverage.expanded)
 
-table(spec.range.elect.counts$species_range_covers_n_electorates)
+table(spec.elect.coverage.expanded$species_range_covers_n_electorates)
 
-prop.table(table(spec.range.elect.counts$species_range_covers_n_electorates))
+prop.table(table(spec.elect.coverage.expanded$species_range_covers_n_electorates))
 0.4499478624 + 0.1892596455 + 0.0740354536 + 0.0464025026
 
-spec.range.elect.counts.4.greater.cover <- spec.range.elect.counts %>%
+0.2101756511 + 0.0793458510 + 0.0502725621
+
+spec.range.elect.expanded.1 <- spec.range.elect.expanded %>%
+  filter(species_range_covers_n_electorates == 1)
+
+prop.table(table(spec.range.elect.expanded.1$demographic_class))
+
+spec.elect.coverage.expanded.4.greater.cover <- spec.elect.coverage.expanded %>%
   filter(species_range_covers_n_electorates > 3)
 
-table(spec.range.elect.counts.4.greater.cover$species_range_covers_n_electorates)
+table(spec.elect.coverage.expanded.4.greater.cover$species_range_covers_n_electorates)
 
-spec.range.elect.counts.4.less.cover <- spec.range.elect.counts %>%
+spec.elect.coverage.expanded.4.less.cover <- spec.elect.coverage.expanded %>%
   filter(species_range_covers_n_electorates < 4)
 
-spec.range.elect.counts.migratory <- spec.range.elect.counts %>%
+spec.elect.coverage.expanded.migratory <- spec.elect.coverage.expanded %>%
   filter(migratory_status %in% "Migratory")
 
-spec.range.elect.counts.fishes <- spec.range.elect.counts %>%
+spec.elect.coverage.expanded.fishes <- spec.elect.coverage.expanded %>%
   filter(taxon_group == "fishes")
 
-table(spec.range.elect.counts$migratory_status)
-table(spec.range.elect.counts.4.greater.cover$migratory_status)
-table(spec.range.elect.counts.4.less.cover$migratory_status)
-table(spec.range.elect.counts.4.cover$migratory_status)
+table(spec.elect.coverage.expanded$migratory_status)
+table(spec.elect.coverage.expanded.4.greater.cover$migratory_status)
+table(spec.elect.coverage.expanded.4.less.cover$migratory_status)
+table(spec.elect.coverage.expanded.4.cover$migratory_status)

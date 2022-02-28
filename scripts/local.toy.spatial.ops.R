@@ -17,13 +17,14 @@ aus <- aus %>%
   select(geometry) %>%
   slice(1) %>%
   st_crop(
-    xmin = 112.921114, ymin = -43.740510, # drop those pesky islands
+    xmin = 112.921114, ymin = -43.740510,
     xmax = 153.638727, ymax = -9.115517
   )
 
 aus.union <- aus %>%
   st_union(by_feature = FALSE) %>%
-  st_sf()
+  st_sf() %>%
+  st_make_valid()
 
 #### Electorates: Import/clean ####
 
@@ -33,6 +34,9 @@ elect <- elect %>%
   select(
     Elect_div, geometry
   ) %>%
+  rename(
+    electorate = Elect_div
+  ) %>%
   st_make_valid() %>%
   st_crop(
     xmin = 111.921114, ymin = -44.740510,
@@ -40,13 +44,19 @@ elect <- elect %>%
     # remove the islands
   ) %>%
   mutate(
-    elect_area_sqkm = units::set_units(st_area(.), km^2) %>%
+    electorate_area_sqkm = units::set_units(st_area(.), km^2) %>%
       as.numeric()
+  ) %>%
+  relocate(
+    electorate,
+    electorate_area_sqkm,
+    geometry
   )
 
 elect.union <- elect %>%
   st_union(by_feature = FALSE) %>%
-  st_sf()
+  st_sf() %>%
+  st_make_valid()
 
 #### Species: Import/clean ####
 
@@ -87,19 +97,34 @@ species <- species %>%
     "SCIENTIFIC_NAME", "VERNACULAR_NAME", "THREATENED_STATUS",
     "MIGRATORY_STATUS", "TAXON_GROUP", "Shape"
   )) %>%
+  rename(
+    scientific_name = SCIENTIFIC_NAME,
+    vernacular_name = VERNACULAR_NAME,
+    threatened_status = THREATENED_STATUS,
+    migratory_status = MIGRATORY_STATUS,
+    taxon_group = TAXON_GROUP,
+    geometry = Shape
+  ) %>%
   st_make_valid() %>%
   # Merge species at the broad taxa as there are duplicate polygons
   # Probably attributable to subspecies populations, but still ¯\_(ツ)_/¯
   group_by(
-    SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
-    MIGRATORY_STATUS, TAXON_GROUP
+    scientific_name,
+    vernacular_name,
+    threatened_status,
+    migratory_status,
+    taxon_group
   ) %>%
   summarise() %>%
   ungroup() %>%
   st_make_valid() %>%
   mutate(
-    species_area_sqkm = units::set_units(st_area(.), km^2) %>%
+    species_range_area_sqkm = units::set_units(st_area(.), km^2) %>%
       as.numeric()
+  ) %>%
+  relocate(
+    scientific_name, vernacular_name, threatened_status, migratory_status,
+    taxon_group, species_range_area_sqkm, geometry
   )
 
 #### CRS check ####
@@ -127,7 +152,7 @@ species <- species %>%
     dTolerance = 30000
   ) %>% # units of metres, this NULLs geoms < the dTolerance
   st_make_valid() %>%
-  filter(!is.na(st_dimension(Shape))) %>%
+  filter(!is.na(st_dimension(geometry))) %>%
   slice_sample(n = 100)
 elect <- elect %>%
   ms_simplify(
@@ -157,6 +182,40 @@ aus.union <- aus.union %>%
   select(geometry) %>%
   st_make_valid()
 
+# #### Aus, elect, species: Import clean data ####
+
+# aus <- st_read("clean_data/aus.clean.gpkg") %>%
+#   ms_simplify(
+#     keep = 0.01,
+#     keep_shape = TRUE
+#   ) %>%
+#   st_make_valid()
+# aus.union <- st_read("clean_data/aus.union.clean.gpkg") %>%
+#   ms_simplify(
+#     keep = 0.01,
+#     keep_shape = TRUE
+#   ) %>%
+#   st_make_valid()
+# elect <- st_read("clean_data/elect.clean.gpkg") %>%
+#   ms_simplify(
+#     keep = 0.001,
+#     keep_shape = TRUE
+#   ) %>%
+#   st_make_valid()
+# elect.union <- st_read("clean_data/elect.union.clean.gpkg") %>%
+#   ms_simplify(
+#     keep = 0.001,
+#     keep_shape = TRUE
+#   ) %>%
+#   st_make_valid()
+# species <- st_read("clean_data/species.clean.gpkg") %>%
+#   st_simplify(
+#     dTolerance = 30000
+#   ) %>%
+#   filter(!is.na(st_dimension(geom))) %>%
+#   slice_sample(n = 100) %>%
+#     st_make_valid()
+
 #### elect.aus.union.difference - quantifying the overlap ####
 
 elect.aus.union.difference <- elect.union %>%
@@ -172,31 +231,31 @@ spec.per.elect <- elect %>%
   st_join(species)
 
 spec.per.elect.counts <- spec.per.elect %>%
-  group_by(Elect_div) %>%
-  summarise(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
+  group_by(electorate) %>%
+  summarise(total_unique_spec = n_distinct(scientific_name)) %>%
   ungroup()
 
 spec.per.elect.indiv <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
-  group_by(Elect_div) %>%
-  mutate(total_unique_spec = n_distinct(SCIENTIFIC_NAME)) %>%
+  group_by(electorate) %>%
+  mutate(total_unique_spec = n_distinct(scientific_name)) %>%
   ungroup()
 
-elect.spec.cover.counts <- spec.per.elect  %>%
+elect.spec.cover.counts <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
-    SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
-    MIGRATORY_STATUS, TAXON_GROUP
+    scientific_name, vernacular_name, threatened_status,
+    migratory_status, taxon_group
   ) %>%
-  summarise(elect_range_covers = n_distinct(Elect_div))
+  summarise(elect_range_covers = n_distinct(electorate))
 
-elect.spec.cover.indiv <- spec.per.elect  %>%
+elect.spec.cover.indiv <- spec.per.elect %>%
   st_set_geometry(NULL) %>%
   group_by(
-    SCIENTIFIC_NAME, VERNACULAR_NAME, THREATENED_STATUS,
-    MIGRATORY_STATUS, TAXON_GROUP
+    scientific_name, vernacular_name, threatened_status,
+    migratory_status, taxon_group
   ) %>%
-  mutate(elect_range_covers = n_distinct(Elect_div))
+  mutate(elect_range_covers = n_distinct(electorate))
 
 #### spec.range.elect - species range within each electorate ####
 # Calculate the percentage of species area within each electorate
@@ -220,4 +279,4 @@ spec.outside.elect <- species %>%
   st_make_valid() %>%
   mutate(species_difference_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
   mutate(percent_range_difference = species_difference_area_sqkm / species_area_sqkm) %>%
-  mutate(across(percent_range_outside, round, digits = 2))
+  mutate(across(percent_range_difference, round, digits = 2))

@@ -15,8 +15,8 @@ library(rmapshaper)
 
 #### Import and simplify data ####
 
-spec.per.elect <- st_read(
-  dsn = "analysed_data/21-12-18_local_analysis_output/spec.per.elect.gpkg"
+spec.per.elect.counts.summary<- st_read(
+  "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg"
 )
 aus <- st_read(
   "clean_data/aus.clean.gpkg"
@@ -25,12 +25,12 @@ elect <- st_read(
   "clean_data/elect.clean.gpkg"
 )
 
-print(object.size(spec.per.elect), units = "Kb")
+print(object.size(spec.per.elect.counts.summary), units = "Kb")
 print(object.size(aus), units = "Kb")
 print(object.size(elect), units = "Kb")
 
-spec.per.elect <- ms_simplify(
-  spec.per.elect,
+spec.per.elect.counts.summary <- ms_simplify(
+  spec.per.elect.counts.summary,
   keep = 0.001,
   keep_shape = TRUE
 )
@@ -46,14 +46,14 @@ elect <- ms_simplify(
 ) %>%
   st_make_valid()
 
-print(object.size(spec.per.elect), units = "Kb")
+print(object.size(spec.per.elect.counts.summary), units = "Kb")
 print(object.size(aus), units = "Kb")
 print(object.size(elect), units = "Kb")
 
 #### choropleth ####
 
 # Saving as a pdf by changing the border.alpha from 0.001 to 0.01 made them massive
-spec.per.elect.choro <- tm_shape(spec.per.elect) +
+spec.per.elect.counts.summary.choro <- tm_shape(spec.per.elect.counts.summary) +
         tm_fill("total_unique_spec",
                 style = "jenks",
                 title = "Number of threatened species",
@@ -69,7 +69,7 @@ spec.per.elect.choro <- tm_shape(spec.per.elect) +
         tm_layout(frame = FALSE)
 
 # Inset maps?
-syd.region <- tm_shape(spec.per.elect.aus) +
+syd.region <- tm_shape(spec.per.elect.counts.summary.aus) +
         tm_fill("total_unique_spec",
                 style = "jenks",
                 title = "Number of vulnerable specs",
@@ -81,7 +81,7 @@ syd.region <- tm_shape(spec.per.elect.aus) +
 
 print(syd.region, vp = viewport(0.8, 0.27, width = 0.5, height = 0.5))
 
-tmap_save(spec.per.elect.choro,
+tmap_save(spec.per.elect.counts.summary.choro,
         file = "plots/spec_per_elect_choro.pdf",
         height = 8, width = 8, units = "cm"
 )
@@ -89,7 +89,7 @@ tmap_save(spec.per.elect.choro,
 #### Concentration choropleth ####
 
 # plot.spec.conc.per.elect <-
-tm_shape(spec.per.elect) +
+tm_shape(spec.per.elect.counts.summary) +
         tm_fill("species_concentration",
                 style = "jenks",
                 title = "Number of vulnerable species",

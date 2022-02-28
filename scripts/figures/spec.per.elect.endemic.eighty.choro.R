@@ -18,59 +18,87 @@ library(tmaptools)
 spec.per.elect.counts.summary <- st_read(
   "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg"
 )
+spec.range.elect.endemic.expanded <- read.csv(
+  "analysed_data/local_analysis_output/spec.range.elect.endemic.expanded.csv"
+)
 
 spec.per.elect.endemic <- spec.per.elect.counts.summary %>%
-  filter(total_endemic_unique_spec >= 1)
+  filter(total_endemic_unique_species >= 1)
 
 spec.per.elect.eighty <- spec.per.elect.counts.summary %>%
-  filter(total_eighty_unique_spec >= 1)
+  filter(total_eighty_unique_species >= 1)
 
 elect <- st_read("clean_data/elect.clean.gpkg")
 
 print(object.size(spec.per.elect.counts.summary), units = "Kb")
+print(object.size(spec.per.elect.endemic), units = "Kb")
+print(object.size(spec.per.elect.eighty), units = "Kb")
 print(object.size(elect), units = "Kb")
 
 spec.per.elect.counts.summary <- ms_simplify(
   spec.per.elect.counts.summary,
-  keep = 0.001,
+  keep = 0.01,
   keep_shape = TRUE
 ) %>%
   st_make_valid()
+
+spec.per.elect.endemic <- ms_simplify(
+  spec.per.elect.endemic,
+  keep = 0.01,
+  keep_shape = TRUE
+) %>%
+  st_make_valid()
+
+spec.per.elect.eighty <- ms_simplify(
+  spec.per.elect.eighty,
+  keep = 0.01,
+  keep_shape = TRUE
+) %>%
+  st_make_valid()
+
 elect <- ms_simplify(
   elect,
-  keep = 0.001,
+  keep = 0.01,
   keep_shape = TRUE
 ) %>%
   st_make_valid()
 
 print(object.size(spec.per.elect.counts.summary), units = "Kb")
+print(object.size(spec.per.elect.endemic), units = "Kb")
+print(object.size(spec.per.elect.eighty), units = "Kb")
 print(object.size(elect), units = "Kb")
 
 #### Mapping ####
 
-# spec.per.elect.endemic.chloro <-
-  tm_shape(elect) +
+spec.per.elect.endemic.chloro <-
+tm_shape(elect) +
   tm_polygons(border.alpha = 0) +
   tm_shape(spec.per.elect.endemic) +
-  tm_fill("total_endemic_unique_spec",
+  tm_fill("total_endemic_unique_species",
     style = "jenks",
     title = "Number of endemic \nthreatened species",
     palette = "-magma"
   ) +
   tm_text("electorate", size = "AREA") +
   tm_borders(
-    col = "black", alpha = 0.4) +
-  tm_compass(position = c("left", "bottom"),
-             size = 1.25) +
-  tm_scale_bar(position = c("left", "bottom"),
-               width = 0.2) +
-  tm_layout(frame = FALSE,
-            legend.width = 0.3,
-            legend.height = 0.3
-            )
+    col = "black", alpha = 0.4
+  ) +
+  tm_compass(
+    position = c("left", "bottom"),
+    size = 1.25
+  ) +
+  tm_scale_bar(
+    position = c("left", "bottom"),
+    width = 0.2
+  ) +
+  tm_layout(
+    frame = FALSE,
+    legend.width = 0.3,
+    legend.height = 0.3
+  )
 
 tmap_save(spec.per.elect.endemic.chloro,
-  file = "figures/spec.per.elect.endemic.chloro.svg",
+  file = "figures/post_processing/22-02-11_spec.per.elect.endemic.chloro.svg",
   width = 10, height = 10, units = "cm"
 )
 
@@ -119,8 +147,10 @@ ggplot(spec.per.elect.endemic) +
     )
   ) +
   geom_sf_text(
-    aes(label = electorate_abbrev,
-        size = total_unique_spec),
+    aes(
+      label = electorate_abbrev,
+      size = total_unique_spec
+    ),
     show.legend = FALSE
   ) +
   theme_void()
@@ -156,7 +186,7 @@ ggplot(spec.per.elect.counts.summary.dorl) +
   )
 
 ggsave("figures/spec.per.elect.counts.summary.plot.pdf",
-       width = 8, height = 8, units = "cm"
+  width = 8, height = 8, units = "cm"
 )
 
 #### Proportional symbol map ####
@@ -182,6 +212,10 @@ ggplot() +
 
 #### Calculations ####
 
-proportions(table(spec.per.elect.eighty$demographic_class))
+table(spec.range.elect.endemic.expanded$demographic_class)
 
-proportions(table(spec.per.elect.endemic$demographic_class))
+endemic.spec.per.elect <- spec.range.elect.endemic.expanded %>%
+  group_by(demographic_class) %>%
+  summarise(total_unique_species = n_distinct(scientific_name)) %>%
+  ungroup() %>%
+  mutate(percentage_of_total_EPBC_species = total_unique_species / 801)

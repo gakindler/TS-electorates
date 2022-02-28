@@ -42,7 +42,7 @@ aus <- ms_simplify(
 )
 elect <- ms_simplify(
   elect,
-  keep = 0.001,
+  keep = 0.1,
   keep_shape = TRUE
 ) %>%
   st_make_valid()
@@ -61,18 +61,10 @@ spec.per.elect.unique.dorl.weight <- spec.per.elect.counts.summary %>%
     3112
   ) %>%
   cartogram_dorling(
-    weight = "total_unique_spec",
-    k = 0.3,
+    weight = "total_unique_species",
+    k = 0.3
     # m_weight = 1
   )
-
-st_bbox(spec.per.elect.unique.dorl.weight)
-    xmin     ymin     xmax     ymax
--1861273 -4972750  2105058 -1426405
-st_bbox(elect)
-      xmin       ymin       xmax       ymax
-112.929704 -43.627943 153.629864  -9.115517
-
 
 #### tmap ####
 
@@ -105,7 +97,7 @@ tm_shape(
   )
   ) +
   tm_fill(
-    "total_unique_spec",
+    "total_unique_species",
     style = "jenks",
     # style = "cont",
     title = "Threatened species",
@@ -136,7 +128,7 @@ tm_shape(
   )
 
 tmap_save(spec.per.elect.unique.spec.dorl,
-  file = "figures/spec.per.elect.unique.spec.dorl.pdf",
+  file = "figures/spec.per.elect.unique.spec.dorl.png",
   # height = 10, width = 12, units = "cm"
 )
 

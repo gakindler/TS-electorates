@@ -1,6 +1,7 @@
 # Back end spatial operations to answer research questions
 # Run on the UQ HPC with associated data stored of UQ RDM
 # Project: Q4107
+# TODO: rerun 22-02-09 but as interactive,
 
 #### Libraries ####
 
@@ -26,6 +27,9 @@ elect.union <- st_read(
 )
 species <- st_read(
   "/QRISdata/Q4107/TS_electorates/clean_data/species.clean.gpkg"
+)
+species.unclipped <- st_read(
+  "/QRISdata/Q4107/TS_electorates/clean_data/species.clean.unclipped.gpkg"
 )
 
 #### spec.per.elect ####
@@ -80,54 +84,38 @@ spec.elect.coverage.indiv <- spec.per.elect %>%
 spec.range.elect <- species %>%
   st_intersection(elect) %>%
   st_make_valid() %>%
-  mutate(across(species_range_area_sqkm, round, digits = 2)) %>%
+  mutate(
+    across(species_range_area_sqkm, signif, digits = 3)
+  ) %>%
   mutate(
     intersection_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()
   ) %>%
-  mutate(across(intersection_area_sqkm, round, digits = 2)) %>%
+  mutate(
+    across(
+      intersection_area_sqkm, signif,
+      digits = 3
+    )
+  ) %>%
   mutate(
     percent_range_within = intersection_area_sqkm / species_range_area_sqkm
   ) %>%
+  mutate(across(
+    percent_range_within, signif,
+    digits = 3
+  )) %>%
   st_set_geometry(NULL) %T>%
   write_json(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
   )
 
-spec.range.elect.clipped <- species %>%
-  st_intersection(elect.union) %>%
-  st_make_valid() %>%
-  mutate(
-    species_elect_clipped_range_area_sqkm = units::set_units(
-      st_area(.), km^2
-    ) %>% as.numeric()
-  ) %>%
-  st_intersection(elect) %>%
-  st_make_valid() %>%
-  mutate(
-    intersection_area_sqkm = units::set_units(
-      st_area(.), km^2
-    ) %>% as.numeric()
-  ) %>%
-  mutate(
-    percent_range_within = intersection_area_sqkm / species_elect_clipped_range_area_sqkm
-  ) %T>%
-  st_write(
-    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.clipped.gpkg",
-    layer = "spec.range.elect.clipped", append = FALSE, delete_dsn = TRUE
-  ) %>%
-  st_set_geometry(NULL) %T>%
-  write_json(
-    "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.range.elect.clipped.json"
-  )
-
 #### spec.outside.elect ####
 
-spec.outside.elect <- species %>%
+spec.outside.elect <- species.unclipped %>%
   st_difference(elect.union) %>%
   st_make_valid() %>%
   mutate(species_difference_area_sqkm = units::set_units(st_area(.), km^2) %>% as.numeric()) %>%
   mutate(percent_range_difference = species_difference_area_sqkm / species_range_area_sqkm) %>%
-  mutate(across(percent_range_difference, round, digits = 2)) %T>%
+  mutate(across(percent_range_difference, signif, digits = 3)) %T>%
   st_write(
     "/QRISdata/Q4107/TS_electorates/analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg",
     layer = "spec.outside.elect", append = FALSE, delete_dsn = TRUE

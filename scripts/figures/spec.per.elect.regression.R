@@ -46,7 +46,7 @@ print(object.size(spec.per.elect.counts.summary), units = "Kb")
 ggplot(spec.per.elect.counts.summary) +
   aes(
     x = electorate_area_sqkm,
-    y = total_unique_spec
+    y = total_unique_species
     # fill = Elect_div
   ) +
   geom_point(aes(colour = demographic_class),
@@ -95,7 +95,7 @@ ggplot(spec.per.elect.counts.summary) +
   ) +
   theme_classic()
 
-ggsave("figures/spec.per.elect.point.smooth.pdf",
+ggsave("figures/spec.per.elect.point.smooth.png",
   width = 15, height = 10, units = "cm"
 )
 
@@ -120,9 +120,18 @@ ggplot(spec.per.elect.counts.summary) +
 summary(spec.per.elect.counts.summary)
 
 proportions(table(spec.per.elect.counts.summary$demographic_class))
-0.1655629+0.2516556
-
 proportions(table(spec.per.elect.counts.summary$state_territory))
+
+spec.per.elect.demo.area <- spec.per.elect.counts.summary %>%
+  group_by(demographic_class) %>%
+  summarise(sum_elect_area_sqkm = sum(electorate_area_sqkm))
+proportions(spec.per.elect.demo.area$sum_elect_area_sqkm)
+0.0308560479+0.9654603253
+0.0007473473 + 0.0029362795
+
+spec.per.elect.state.area <- spec.per.elect.counts.summary %>%
+  group_by(state_territory) %>%
+  summarise(sum_state_area_sqkm = sum(electorate_area_sqkm))
 
 spec.per.elect.demo.counts <- spec.per.elect.expanded.summary %>%
   group_by(demographic_class) %>%
@@ -145,9 +154,10 @@ spec.per.elect.top.ten.counts <- spec.range.elect.expanded.summary %>%
   summarise(total_unique_species = n_distinct(scientific_name))
 1134/1651
 
-spec.per.elect.demo.area <- spec.per.elect.counts.summary %>%
-  group_by(demographic_class) %>%
-  summarise(sum_elect_area_sqkm = sum(electorate_area_sqkm))
-proportions(spec.per.elect.demo.area$sum_elect_area_sqkm)
-0.0308560479+0.9654603253
-0.0007473473 + 0.0029362795
+spec.per.elect.endemic.demo.counts <- spec.per.elect.counts.summary %>%
+  filter(total_endemic_unique_species >= 1)
+proportions(table(spec.per.elect.endemic.demo.counts$demographic_class))
+
+spec.per.elect.eighty.demo.counts <- spec.per.elect.counts.summary %>%
+  filter(total_eighty_unique_species >= 1)
+proportions(table(spec.per.elect.eighty.demo.counts$demographic_class))
