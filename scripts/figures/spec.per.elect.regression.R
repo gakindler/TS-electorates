@@ -104,57 +104,55 @@ glm_R <- glm(
     data = spec.per.elect.R
 )
 
+coef(summary(glm_IM))
+coef(summary(glm_OM))
+coef(summary(glm_P))
+coef(summary(glm_R))
 
 
-summary(lm_model)
-summary(glm_R)
+lm_IM <- lm(
+    total_unique_species ~ log10(electorate_area_sqkm),
+    data = spec.per.elect.IM
+)
+lm_OM <- lm(
+    total_unique_species ~ log10(electorate_area_sqkm),
+    data = spec.per.elect.OM
+)
+lm_P <- lm(
+    total_unique_species ~ log10(electorate_area_sqkm),
+    data = spec.per.elect.P
+)
+lm_R <- lm(
+    total_unique_species ~ log10(electorate_area_sqkm),
+    data = spec.per.elect.R
+)
 
-summary(residuals(glm_P))
+coef(summary(lm_IM))
+coef(summary(lm_OM))
+coef(summary(lm_P))
+coef(summary(lm_R))
 
 # https://stats.stackexchange.com/questions/477598/equivalent-of-r-squared-in-generalized-linear-model-regression-results
-
-#### Fitting existing model to a plot ####
-
-xmin <- min(spec.per.elect.IM$electorate_area_sqkm)
-xmax <- max(spec.per.elect.IM$electorate_area_sqkm)
-
-predicted <- data.frame(electorate_area_sqkm = seq(xmin, xmax, length.out = 100))
-
-predicted$total_unique_species <- predict.lm(lm_model, predicted)
-predicted$electorate_area_sqkm <- log10(predicted$electorate_area_sqkm)
-
-# Alt multiple models on a single chart
-
-models <- dlply(spec.per.elect.counts.summary, "demographic_class", .fun = make_model)
-
-predvals <- ldply(models, .fun = predictvals, xvar = "electorate_area_sqkm", yvar = "total_unique_species")
-
-# log transformation of the scale of predicted values has got me \_/
-
-#### Scatter plot with regression line ####
-
-plot(glm_model)
-
-hist$electorate_area_sqkm <- spec.per.elect.counts.summary$electorate_area_sqkm
-hist(log10(spec.per.elect.IM$electorate_area_sqkm), 10)
-hist(log10(spec.per.elect.OM$electorate_area_sqkm), 10)
-hist(log10(spec.per.elect.P$electorate_area_sqkm), 10)
-hist(log10(spec.per.elect.R$electorate_area_sqkm), 10)
 
 
 mean(log10(spec.per.elect.IM$electorate_area_sqkm))
 var(log10(spec.per.elect.IM$electorate_area_sqkm))
-range(log10(spec.per.elect.IM$electorate_area_sqkm))
 
-summary(spec.per.elect.counts.summary)
+# TODO: getting coefficients etc into paper - https://data.library.virginia.edu/interpreting-log-transformations-in-a-linear-model/
+# https://www.statology.org/interpret-glm-output-in-r/
 
-# spec.per.elect.point.smooth <-
+
+#### Scatter plot with regression line ####
+
+spec.per.elect.glm.facet <-
 ggplot(spec.per.elect.counts.summary) +
     aes(
         x = log10(electorate_area_sqkm),
         y = total_unique_species
     ) +
-    geom_point() +
+    geom_point(
+        alpha = 0.4
+    ) +
     stat_smooth(
         method = "glm",
         show.legend = FALSE,
@@ -175,8 +173,6 @@ ggplot(spec.per.elect.counts.summary) +
     scale_y_continuous(
         limits = c(0, 280)
     ) +
-    # scale_shape_manual(values = c(1, 2)) +
-    # annotation_logticks(sides = "b") +
     labs(
         x = bquote(Log[10] ~ "electorate area" ~ (km^2)),
         y = "Threatened species"
@@ -188,63 +184,13 @@ ggplot(spec.per.elect.counts.summary) +
     #     )
     # ) +
     theme_classic() +
-    facet_wrap(~demographic_class)
+    facet_wrap(~demographic_class) +
+    theme(
+        strip.background = element_blank()
+    )
 
-
-# spec.per.elect.point.smooth <-
-ggplot(spec.per.elect.counts.summary) +
-    aes(
-        x = electorate_area_sqkm,
-        y = total_unique_species
-        # fill = Elect_div
-    ) +
-    geom_point(aes(colour = demographic_class),
-        alpha = 0.6,
-        show.legend = c(
-            size = FALSE,
-            fill = FALSE
-        ),
-        size = 4
-    ) +
-    # stat_smooth(
-    #   method = lm
-    # )
-    geom_smooth(
-        # method = "loess",
-        method = "lm",
-        show.legend = FALSE,
-        colour = "black"
-    ) +
-    # geom_line(
-    #   data = predicted, size = 1
-    # ) +
-    scale_size(range = c(.5, 10)) +
-    scale_colour_viridis(
-        # begin = 0,
-        # end = 0.9,
-        # direction = -1,
-        discrete = TRUE,
-        option = "H"
-    ) +
-    scale_x_continuous(
-        trans = "log10",
-        labels = scales::comma
-    ) +
-    scale_shape_manual(values = c(1, 2)) +
-    # annotation_logticks(sides = "b") +
-    labs(
-        x = bquote("Electorate area" ~ (km^2)),
-        y = "Threatened species"
-    ) +
-    guides(
-        colour = guide_legend(
-            title = "Demographic class",
-            override.aes = list(size = 3)
-        )
-    ) +
-    theme_classic()
-
-ggsave("figures/spec.per.elect.point.smooth.png",
+ggsave("figures/spec.per.elect.glm.facet.pdf",
+    spec.per.elect.glm.facet,
     width = 15, height = 10, units = "cm"
 )
 
