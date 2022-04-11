@@ -77,104 +77,91 @@ spec.per.elect.R <- spec.per.elect.counts.summary %>%
 #### Regression model ####
 
 # LM, Gaussian, log10
+# Even discrete responses (such as counts that can only logically be positive integers) can occasionally be approximately described by a Gaussian distribution, particularly if either the samples are very large and the values free from boundary conditions (such as being close to a lower limit of 0), or else we are dealing with average counts.
+
+
 # https://towardsdatascience.com/poisson-regression-and-generalised-linear-models-606fe5f7c1fd
 # Do you think Linear Regression would be a suitable model? The answer is NO for the following reasons:
 # The number of calls have to be greater or equal to 0, whereas in Linear Regression the output can be negative as well as positive.
 # The number of calls only take integer values but Linear Regression can output fractional values.
 
-# GLM, Gamma, log10
-glm_IM <- glm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    family = poisson(),
-    data = spec.per.elect.IM
-)
-glm_OM <- glm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    family = poisson(),
-    data = spec.per.elect.OM
-)
-glm_P <- glm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    family = poisson(),
-    data = spec.per.elect.P
-)
-glm_R <- glm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    family = poisson(),
-    data = spec.per.elect.R
-)
-
-coef(summary(glm_IM))
-coef(summary(glm_OM))
-coef(summary(glm_P))
-coef(summary(glm_R))
-
-
 lm_IM <- lm(
-    total_unique_species ~ log10(electorate_area_sqkm),
+    total_unique_species ~ log(electorate_area_sqkm),
     data = spec.per.elect.IM
 )
-lm_OM <- lm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    data = spec.per.elect.OM
-)
-lm_P <- lm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    data = spec.per.elect.P
-)
-lm_R <- lm(
-    total_unique_species ~ log10(electorate_area_sqkm),
-    data = spec.per.elect.R
-)
 
-coef(summary(lm_IM))
-coef(summary(lm_OM))
-coef(summary(lm_P))
-coef(summary(lm_R))
+summary(lm_IM)
+
+xmin <- min(spec.per.elect.IM$electorate_area_sqkm)
+xmax <- max(spec.per.elect.IM$electorate_area_sqkm)
+
+predicted <- data.frame(electorate_area_sqkm = seq(xmin, xmax, length.out = 100))
+
+predicted$total_unique_species <- predict(lm_IM, predicted)
+
+# predicted$electorate_area_sqkm <- log(predicted$electorate_area_sqkm)
+
+plot(predicted)
+
+# Alt multiple models on a single chart
+
+models <- dlply(spec.per.elect.counts.summary, "demographic_class", .fun = make_model)
+
+predvals <- ldply(models, .fun = predictvals, xvar = "electorate_area_sqkm", yvar = "total_unique_species")
+
+# Good morn,
+# I have a work-related favour to ask of thee so I'm donning my finest professional lingo.
+# I'm working on modelling
 
 # https://stats.stackexchange.com/questions/477598/equivalent-of-r-squared-in-generalized-linear-model-regression-results
 
+hist(log(spec.per.elect.IM$electorate_area_sqkm))
+plot(density(log(spec.per.elect.IM$electorate_area_sqkm)))
+plot(density(log(spec.per.elect.OM$electorate_area_sqkm)))
+plot(density(log(spec.per.elect.P$electorate_area_sqkm)))
+plot(density(log(spec.per.elect.R$electorate_area_sqkm)))
 
-mean(log10(spec.per.elect.IM$electorate_area_sqkm))
-var(log10(spec.per.elect.IM$electorate_area_sqkm))
+
+mean(log(spec.per.elect.IM$electorate_area_sqkm))
+median(log(spec.per.elect.IM$electorate_area_sqkm))
+var(log(spec.per.elect.IM$electorate_area_sqkm))
 
 # TODO: getting coefficients etc into paper - https://data.library.virginia.edu/interpreting-log-transformations-in-a-linear-model/
 # https://www.statology.org/interpret-glm-output-in-r/
 
-
 #### Scatter plot with regression line ####
 
-spec.per.elect.glm.facet <-
-ggplot(spec.per.elect.counts.summary) +
+# spec.per.elect.glm.facet <-
+ggplot(spec.per.elect.IM) +
     aes(
-        x = log10(electorate_area_sqkm),
+        x = log(electorate_area_sqkm),
         y = total_unique_species
     ) +
     geom_point(
         alpha = 0.4
     ) +
-    stat_smooth(
-        method = "glm",
-        show.legend = FALSE,
-        colour = "black",
-        method.args = list(
-            family = poisson()
-        )
-    ) +
-    # geom_line(
-    #     data = predicted,
-    #     size = 1
+    # geom_smooth(
+    #     method = "lm",
+    #     show.legend = FALSE,
+    #     colour = "black",
+    #     # method.args = list(
+    #     #     family = quasipoisson()
+    #     # )
     # ) +
+    geom_line(
+        data = predicted,
+        size = 1
+    ) +
     scale_x_continuous(
         # trans = "log10",
         # labels = scales::comma,
-        limits = c(NA, 6.25)
+        # limits = c(NA, 6.25)
     ) +
     scale_y_continuous(
-        limits = c(0, 280)
+        # limits = c(0, 280)
     ) +
     labs(
-        x = bquote(Log[10] ~ "electorate area" ~ (km^2)),
+        x = bquote(Log ~ "electorate area" ~ (km^2)),
         y = "Threatened species"
     ) +
     # guides(
