@@ -10,120 +10,108 @@ library(data.table)
 #### Import ####
 
 spec.elect.coverage.expanded <- read.csv(
-  "analysed_data/local_analysis_output/spec.elect.coverage.expanded.csv"
+    "analysed_data/local_analysis_output/spec.elect.coverage.expanded.csv"
 )
+
 spec.range.elect.expanded <- read.csv(
-  "analysed_data/local_analysis_output/spec.range.elect.expanded.summary.csv"
+    "analysed_data/local_analysis_output/spec.range.elect.expanded.summary.csv"
 )
 
-table(spec.elect.coverage.expanded$species_range_covers_n_electorates, useNA = "ifany")
+# table(spec.elect.coverage.expanded$species_range_covers_n_electorates, useNA = "ifany")
 
-table(spec.elect.coverage.expanded$migratory_status, useNA = "ifany")
+# table(spec.elect.coverage.expanded$migratory_status, useNA = "ifany")
 
-#### Histogram ####
+#### Attempts at optimising ####
 
-ggplot(spec.elect.coverage.expanded) +
-  aes(x = species_range_covers_n_electorates) +
-  geom_histogram(binwidth = 1) +
-  geom_vline(aes(xintercept = median(species_range_covers_n_electorates)),
-    col = "red",
-    size = 0.6,
-    linetype = "dashed"
-  ) +
-  labs(
-    x = "Electorate coverage",
-    y = "Number of threatened species"
-  ) +
-  theme_classic()
+# table(spec.range.elect.expanded$species_range_covers_n_electorates, useNA = "ifany")
 
-ggsave("figures/spec.range.elect.status.histo.pdf",
-  width = 8, height = 8, units = "cm"
-)
-
-#### Histogram, density curve ####
-
-ggplot(spec.elect.coverage.expanded) +
-  aes(
-    x = species_range_covers_n_electorates
-  ) +
-  # geom_histogram(
-  #   binwidth = 1
-  # ) +
-  geom_density(
-    fill = "blue",
-    alpha = .3,
-    outline.type = "full"
-  ) +
-  # geom_vline(
-  #   aes(
-  #     xintercept = median(species_range_covers_n_electorates)
-  #     ),
-  #   col = "red",
-  #   size = 0.6,
-  #   linetype = "dashed"
-  # ) +
-  labs(
-    x = "Electorate coverage",
-    y = "Threatened species density"
-  ) +
-  theme_classic()
+table(spec.range.elect.expanded.ecdf$robust_species_range_covers_n_electorates, useNA = "ifany")
 
 
-ggsave("figures/spec.range.elect.density.pdf",
-  width = 15, height = 10, units = "cm"
-)
+spec.range.elect.expanded.ecdf <- spec.range.elect.expanded %>%
+    mutate(
+        robust_species_range_covers_n_electorates = case_when(
+            percent_range_within == 1 ~ 1,
+            # species_range_covers_n_electorates == 1 ~ 1,
+            TRUE ~ as.numeric(species_range_covers_n_electorates)
+        )
+    ) %>%
+    # select(!species_range_covers_n_electorates) %>%
+    group_by(scientific_name) %>%
+    summarise(robust_species_range_covers_n_electorates = min(robust_species_range_covers_n_electorates)) %>%
+    ungroup()
 
-#### ECDF function ####
+spec.range.elect.expanded.ecdf %>%
+    group_by(scientific_name) %>%
+    filter(n()>1)
 
-spec.elect.coverage.expanded.ecdf.clean <- spec.elect.coverage.expanded %>%
-  select(species_range_covers_n_electorates)
+#### faceting the ECDF ####
 
-spec.elect.coverage.expanded.ecdf <- ecdf(data.table(spec.elect.coverage.expanded)[[6]])
+# spec.elect.coverage.expanded.ecdf <- spec.elect.coverage.expanded %>%
+#     mutate(
+#         ecdf_cut_off = case_when(
+#             species_range_covers_n_electorates <= 10 ~ "Less than or equal 10",
+#             species_range_covers_n_electorates > 10 ~ "Greater than 10"
+#         )
+#     )
+
+# factor(ecdf_cut_off, c("Less than or equal 10", "Greater than 10"))
+
+# levels(spec.elect.coverage.expanded.ecdf$ecdf_cut_off)
+
+# spec.elect.coverage.expanded.ecdf$ecdf_cut_off <- factor(spec.elect.coverage.expanded.ecdf$ecdf_cut_off, c("Less than or equal 10", "Greater than 10"))
+
+#### ECDF ####
 
 ggplot(
-  spec.elect.coverage.expanded
+    spec.range.elect.expanded.ecdf
 ) +
-  aes(
-    x = species_range_covers_n_electorates
-  ) +
-  stat_ecdf(
-    geom = "step",
-    pad = FALSE
-  ) +
-  # geom_vline(
-  #   aes(
-  #     xintercept = quantile(
-  #       species_range_covers_n_electorates
-  #     )[3],
-  #     col = "red",
-  #     size = 0.0001,
-  #     linetype = "dashed"
-  #   )
-  # ) +
-  # geom_vline(
-  #   aes(
-  #     xintercept = quantile(
-  #       species_range_covers_n_electorates
-  #     )[4],
-  #     col = "red",
-  #     size = 0.1,
-  #     linetype = "dashed"
-  #   )
-  # ) +
-  labs(
-    x = "Number of electorates threatened species' range covers",
-    y = "Cumulative proportion"
-  ) +
-  scale_x_continuous(
-    breaks = seq(0, 150, 10)
-  ) +
-  scale_y_continuous(
-    breaks = seq(0.5, 1.0, 0.05)
-  ) +
-  theme_classic()
+    aes(
+        x = robust_species_range_covers_n_electorates
+    ) +
+    stat_ecdf(
+        geom = "step",
+        pad = FALSE
+    ) +
+    # geom_vline(
+    #   aes(
+    #     xintercept = quantile(
+    #       species_range_covers_n_electorates
+    #     )[3],
+    #     col = "red",
+    #     size = 0.0001,
+    #     linetype = "dashed"
+    #   )
+    # ) +
+    # geom_vline(
+    #   aes(
+    #     xintercept = quantile(
+    #       species_range_covers_n_electorates
+    #     )[4],
+    #     col = "red",
+    #     size = 0.1,
+    #     linetype = "dashed"
+    #   )
+    # ) +
+    labs(
+        x = "Threatened species' Commonwealth Electoral Division coverage",
+        y = "Cumulative proportion"
+    ) +
+    scale_x_continuous(
+        breaks = seq(0, 150, 10)
+    ) +
+    scale_y_continuous(
+        breaks = seq(0, 1.0, 0.05)
+    ) +
+    theme_classic()
+# facet_wrap(
+#     ~ ecdf_cut_off,
+#     scales = "free",
+#     ncol = 2
+# )
 
 ggsave("figures/spec.range.elect.ecdf.png",
-  width = 20, height = 15, units = "cm"
+    width = 20, height = 15, units = "cm"
 )
 
 #### Calculations ####
@@ -138,23 +126,23 @@ prop.table(table(spec.elect.coverage.expanded$species_range_covers_n_electorates
 0.2101756511 + 0.0793458510 + 0.0502725621
 
 spec.range.elect.expanded.1 <- spec.range.elect.expanded %>%
-  filter(species_range_covers_n_electorates == 1)
+    filter(species_range_covers_n_electorates == 1)
 
 prop.table(table(spec.range.elect.expanded.1$demographic_class))
 
 spec.elect.coverage.expanded.4.greater.cover <- spec.elect.coverage.expanded %>%
-  filter(species_range_covers_n_electorates > 3)
+    filter(species_range_covers_n_electorates > 3)
 
 table(spec.elect.coverage.expanded.4.greater.cover$species_range_covers_n_electorates)
 
 spec.elect.coverage.expanded.4.less.cover <- spec.elect.coverage.expanded %>%
-  filter(species_range_covers_n_electorates < 4)
+    filter(species_range_covers_n_electorates < 4)
 
 spec.elect.coverage.expanded.migratory <- spec.elect.coverage.expanded %>%
-  filter(migratory_status %in% "Migratory")
+    filter(migratory_status %in% "Migratory")
 
 spec.elect.coverage.expanded.fishes <- spec.elect.coverage.expanded %>%
-  filter(taxon_group == "fishes")
+    filter(taxon_group == "fishes")
 
 table(spec.elect.coverage.expanded$migratory_status)
 table(spec.elect.coverage.expanded.4.greater.cover$migratory_status)
