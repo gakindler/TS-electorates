@@ -11,6 +11,7 @@ library(httpgd)
 library(plyr)
 library(dplyr)
 library(jsonlite)
+library(broom)
 
 #### Functions #### As per Chang 2018
 
@@ -50,8 +51,6 @@ spec.per.elect.counts.summary <- st_read(
 #   "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv"
 # )
 
-print(object.size(spec.per.elect.counts.summary), units = "Kb")
-
 #### Sub-setting ####
 
 spec.per.elect.IM <- spec.per.elect.counts.summary %>%
@@ -79,7 +78,6 @@ spec.per.elect.R <- spec.per.elect.counts.summary %>%
 # LM, Gaussian, log10
 # Even discrete responses (such as counts that can only logically be positive integers) can occasionally be approximately described by a Gaussian distribution, particularly if either the samples are very large and the values free from boundary conditions (such as being close to a lower limit of 0), or else we are dealing with average counts.
 
-
 # https://towardsdatascience.com/poisson-regression-and-generalised-linear-models-606fe5f7c1fd
 # Do you think Linear Regression would be a suitable model? The answer is NO for the following reasons:
 # The number of calls have to be greater or equal to 0, whereas in Linear Regression the output can be negative as well as positive.
@@ -89,52 +87,70 @@ lm_IM <- lm(
     total_unique_species ~ log(electorate_area_sqkm),
     data = spec.per.elect.IM
 )
+lm_OM <- lm(
+    total_unique_species ~ electorate_area_sqkm,
+    data = spec.per.elect.OM
+)
+lm_P <- lm(
+    total_unique_species ~ electorate_area_sqkm,
+    data = spec.per.elect.P
+)
+lm_R <- lm(
+    total_unique_species ~ electorate_area_sqkm,
+    data = spec.per.elect.R
+)
 
-summary(lm_IM)
+broom::glance(lm_IM)
+broom::glance(lm_OM)
+broom::glance(lm_P)
+broom::glance(lm_R)
+broom::tidy(lm_IM)
+broom::tidy(lm_OM)
+broom::tidy(lm_P)
+broom::tidy(lm_R)
 
-xmin <- min(spec.per.elect.IM$electorate_area_sqkm)
-xmax <- max(spec.per.elect.IM$electorate_area_sqkm)
+
+
+xmin <- min(log(spec.per.elect.IM$electorate_area_sqkm))
+xmax <- max(log(spec.per.elect.IM$electorate_area_sqkm))
 
 predicted <- data.frame(electorate_area_sqkm = seq(xmin, xmax, length.out = 100))
 
 predicted$total_unique_species <- predict(lm_IM, predicted)
 
-# predicted$electorate_area_sqkm <- log(predicted$electorate_area_sqkm)
-
-plot(predicted)
-
-# Alt multiple models on a single chart
-
-models <- dlply(spec.per.elect.counts.summary, "demographic_class", .fun = make_model)
-
-predvals <- ldply(models, .fun = predictvals, xvar = "electorate_area_sqkm", yvar = "total_unique_species")
-
-# Good morn,
-# I have a work-related favour to ask of thee so I'm donning my finest professional lingo.
-# I'm working on modelling
-
 # https://stats.stackexchange.com/questions/477598/equivalent-of-r-squared-in-generalized-linear-model-regression-results
 
-hist(log(spec.per.elect.IM$electorate_area_sqkm))
-plot(density(log(spec.per.elect.IM$electorate_area_sqkm)))
-plot(density(log(spec.per.elect.OM$electorate_area_sqkm)))
-plot(density(log(spec.per.elect.P$electorate_area_sqkm)))
-plot(density(log(spec.per.elect.R$electorate_area_sqkm)))
-
-
-mean(log(spec.per.elect.IM$electorate_area_sqkm))
-median(log(spec.per.elect.IM$electorate_area_sqkm))
-var(log(spec.per.elect.IM$electorate_area_sqkm))
+# https://stats.stackexchange.com/questions/298/in-linear-regression-when-is-it-appropriate-to-use-the-log-of-an-independent-va
 
 # TODO: getting coefficients etc into paper - https://data.library.virginia.edu/interpreting-log-transformations-in-a-linear-model/
 # https://www.statology.org/interpret-glm-output-in-r/
 
+
+lm_labels <- function(dat) {
+    mod <- lm(total_unique_species ~ log(electorate_area_sqkm), data = dat)
+    formula <- sprintf(
+        "italic(y) == %.2f %+.2f * italic(x)",
+        round(coef(mod)[1], 2), round(coef(mod)[2], 2)
+    )
+    r <- cor(log(dat$electorate_area_sqkm), dat$total_unique_species)
+    r2 <- sprintf("italic(R^2) == %.2f", r^2)
+    data.frame(formula = formula, r2 = r2, stringsAsFactors = FALSE)
+}
+
+labels <- spec.per.elect.counts.summary %>%
+    group_by(demographic_class) %>%
+    do(lm_labels(.))
+
+
 #### Scatter plot with regression line ####
 
-# spec.per.elect.glm.facet <-
-ggplot(spec.per.elect.IM) +
+spec.per.elect.IM$electorate_area_sqkm <- log(spec.per.elect.IM$electorate_area_sqkm)
+
+# spec.per.elect.lm.facet <-
+    # ggplot(spec.per.elect.counts.summary) +
+    ggplot(spec.per.elect.IM) +
     aes(
-        x = log(electorate_area_sqkm),
+        x = electorate_area_sqkm,
         y = total_unique_species
     ) +
     geom_point(
@@ -144,6 +160,7 @@ ggplot(spec.per.elect.IM) +
     #     method = "lm",
     #     show.legend = FALSE,
     #     colour = "black",
+    #     se = FALSE
     #     # method.args = list(
     #     #     family = quasipoisson()
     #     # )
@@ -151,15 +168,15 @@ ggplot(spec.per.elect.IM) +
     geom_line(
         data = predicted,
         size = 1
-    ) +
-    scale_x_continuous(
-        # trans = "log10",
+    )
+    # scale_x_continuous(
+        # trans = "log",
         # labels = scales::comma,
         # limits = c(NA, 6.25)
-    ) +
-    scale_y_continuous(
+    # ) +
+    # scale_y_continuous(
         # limits = c(0, 280)
-    ) +
+    # ) +
     labs(
         x = bquote(Log ~ "electorate area" ~ (km^2)),
         y = "Threatened species"
@@ -170,15 +187,25 @@ ggplot(spec.per.elect.IM) +
     #         override.aes = list(size = 3)
     #     )
     # ) +
-    theme_classic() +
+    theme_bw()
     facet_wrap(~demographic_class) +
+    geom_text(
+        data = labels, aes(
+            label = formula
+        ), x = 5, y = 200, parse = TRUE, hjust = 0
+    ) +
+    geom_text(
+        x = 5, y = 180, aes(
+            label = r2
+        ), data = labels, parse = TRUE, hjust = 0
+    ) +
     theme(
         strip.background = element_blank()
     )
 
-ggsave("figures/spec.per.elect.glm.facet.pdf",
-    spec.per.elect.glm.facet,
-    width = 15, height = 10, units = "cm"
+ggsave("figures/spec.per.elect.lm.facet.png",
+    spec.per.elect.lm.facet,
+    width = 20, height = 15, units = "cm"
 )
 
 ggplot(spec.per.elect.counts.summary) +
