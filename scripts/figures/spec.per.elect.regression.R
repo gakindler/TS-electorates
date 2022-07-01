@@ -27,141 +27,79 @@ spec.per.elect.counts.summary <- st_read(
         total_unique_species
     )
 
-# spec.range.elect.expanded.summary <- read.csv(
-#   "analysed_data/local_analysis_output/spec.range.elect.expanded.summary.csv"
-# )
-#
-# spec.per.elect.expanded.summary <- read.csv(
-#   "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv"
-# )
+spec.per.elect.expanded.summary <- read_csv(
+    "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv"
+)
 
 #### Linear regression ####
 
-spec.per.elect.IM <- spec.per.elect.counts.summary %>%
-    filter(
-        demographic_class %in% "Inner metropolitan"
-    ) %>%
-    mutate(log_electorate_area_sqkm = log(electorate_area_sqkm))
-hist(spec.per.elect.IM$electorate_area_sqkm)
-plot(spec.per.elect.IM$electorate_area_sqkm), spec.per.elect.IM$total_unique_species)
-boxplot(spec.per.elect.IM$electorate_area_sqkm, horizontal=TRUE)
-rug(jitter(log(spec.per.elect.IM$electorate_area_sqkm)), side=1)
-plot(total_unique_species~log(electorate_area_sqkm), spec.per.elect.IM)
-with(spec.per.elect.IM, lines(lowess(total_unique_species~log(electorate_area_sqkm))))
+model <- lm(
+    log2(total_unique_species) ~ log2(electorate_area_sqkm),
+    data = spec.per.elect.counts.summary
+)
 
-IM.lm <- lm(total_unique_species ~ log(electorate_area_sqkm), data = spec.per.elect.IM)
-
-# https://b-rodrigues.github.io/modern_R/statistical-models.html#diagnostics
-autoplot(IM.lm, which = 1:6) + theme_minimal()
-
-# https://www.flutterbys.com.au/stats/tut/tut10.4.html
-p <- ecdf(log(spec.per.elect.counts.summary$electorate_area_sqkm))
-plot(p)
-
-
-spec.per.elect.OM <- spec.per.elect.counts.summary %>%
-    filter(
-        demographic_class %in% "Outer metropolitan"
+eqn <- as.character(
+    as.expression(
+        substitute(
+            italic(y) == a + b * italic(x) * "," ~ ~ italic(r)^2 ~ "=" ~ r2,
+            list(
+                a = format(unname(coef(model)[1]), digits = 3),
+                b = format(unname(coef(model)[2]), digits = 3),
+                r2 = format(summary(model)$r.squared, digits = 2)
+            )
+        )
     )
-hist(log(spec.per.elect.OM$electorate_area_sqkm))
-plot(log(spec.per.elect.OM$electorate_area_sqkm), spec.per.elect.OM$total_unique_species)
-shapiro.test(log(spec.per.elect.OM$electorate_area_sqkm))
-
-spec.per.elect.P <- spec.per.elect.counts.summary %>%
-    filter(
-        demographic_class %in% "Provincial"
-    )
-hist(log(spec.per.elect.P$electorate_area_sqkm))
-plot(log(spec.per.elect.P$electorate_area_sqkm), spec.per.elect.P$total_unique_species)
-shapiro.test(log(spec.per.elect.P$electorate_area_sqkm))
-
-spec.per.elect.R <- spec.per.elect.counts.summary %>%
-    filter(
-        demographic_class %in% "Rural"
-    )
-hist(log(spec.per.elect.R$electorate_area_sqkm))
-plot(log(spec.per.elect.R$electorate_area_sqkm), spec.per.elect.R$total_unique_species)
-
-boxplot(log(spec.per.elect.counts.summary$electorate_area_sqkm), horizontal=TRUE)
-rug(jitter(log(spec.per.elect.counts.summary$electorate_area_sqkm)), side=1)
-
-plot(total_unique_species~log(electorate_area_sqkm), spec.per.elect.counts.summary)
-with(spec.per.elect.counts.summary, lines(lowess(total_unique_species~log(electorate_area_sqkm))))
-
-
-lm_labels <- function(dat) {
-    mod <- lm(total_unique_species ~ log2(electorate_area_sqkm), data = dat)
-    formula <- sprintf(
-        "italic(y) == %.2f %+.2f * italic(x)",
-        round(coef(mod)[1], 2), round(coef(mod)[2], 2)
-    )
-    r <- cor(log2(dat$electorate_area_sqkm), dat$total_unique_species)
-    r2 <- sprintf("italic(R^2) == %.2f", r^2)
-    data.frame(formula = formula, r2 = r2, stringsAsFactors = FALSE)
-}
-
-labels <- spec.per.elect.counts.summary %>%
-    group_by(demographic_class) %>%
-    do(lm_labels(.))
+)
 
 # spec.per.elect.lm.facet <-
-    ggplot(spec.per.elect.counts.summary) +
+ggplot(spec.per.elect.counts.summary) +
     aes(
-        x = electorate_area_sqkm,
-        y = total_unique_species
+        x = log2(electorate_area_sqkm),
+        y = log2(total_unique_species)
     ) +
     geom_point(
-        alpha = 0.4
+        alpha = 0.8,
+        aes(colour = demographic_class),
+        size = 2
     ) +
     geom_smooth(
-        # method = "gam",
+        method = "lm",
         show.legend = FALSE,
         colour = "black",
         se = FALSE
         # method.args = list(
         #     family = quasipoisson()
         # )
-    )
-    # geom_line(
-    #     data = predicted,
-    #     size = 1
-    # )
-    # scale_x_continuous(
-        # trans = "log",
-        # labels = scales::comma,
-        # limits = c(NA, 6.25)
-    # ) +
-    # scale_y_continuous(
-        # limits = c(0, 280)
+    ) +
+    scale_colour_brewer(
+        palette = "Paired"
+    ) +
+    # scale_colour_viridis_d(
+    #     option = "H"
     # ) +
     labs(
-        x = bquote(Log[2] ~ "Commonwealth Electoral Division area" ~ (km^2)),
-        y = "Threatened species"
+        x = bquote(log[2] ~ "Commonwealth Electoral Division area" ~ (km^2)),
+        y = bquote(log[2] ~ "number of threatened species"),
+        tag = "A"
     ) +
-    # guides(
-    #     colour = guide_legend(
-    #         title = "Demographic class",
-    #         override.aes = list(size = 3)
-    #     )
-    # ) +
+    guides(
+        colour = guide_legend(
+            title = "Demographic class",
+            override.aes = list(size = 3)
+        )
+    ) +
     theme_bw() +
-    facet_wrap(~demographic_class) +
-    geom_text(
-        data = labels, aes(
-            label = formula
-        ), x = 5.2, y = 205, parse = TRUE, hjust = 0
-    ) +
-    geom_text(
-        x = 5.2, y = 180, aes(
-            label = r2
-        ), data = labels, parse = TRUE, hjust = 0
+    annotate(
+        "text",
+        label = eqn,
+        parse = TRUE, x = Inf,
+        y = -Inf, hjust = 1.1, vjust = -.5
     ) +
     theme(
         strip.background = element_blank()
     )
 
-ggsave("figures/spec.per.elect.lm.facet.png",
-    # spec.per.elect.lm.facet,
+ggsave("figures/spec.per.elect.lm.png",
     width = 20, height = 15, units = "cm"
 )
 
@@ -177,6 +115,86 @@ ggplot(spec.per.elect.counts.summary) +
         colour = "black"
     )
 
+#### LM demo faceted ####
+
+lm_labels <- function(dat) {
+    mod <- lm(log2(total_unique_species) ~ log2(electorate_area_sqkm), data = dat)
+    formula <- sprintf(
+        "italic(y) == %.2f %+.2f * italic(x)",
+        round(coef(mod)[1], 2), round(coef(mod)[2], 2)
+    )
+    r <- as.numeric(format(cor(log2(dat$electorate_area_sqkm), dat$total_unique_species), digits = 2))
+    r2 <- sprintf("italic(r^2) == %.2f", as.numeric(format(r^2, digits = 2)))
+    data.frame(formula = formula, r2 = r2, stringsAsFactors = FALSE)
+}
+
+lm_full_summary <- function(dat) {
+    model <- lm(
+        log2(total_unique_species) ~ log2(electorate_area_sqkm),
+        data = dat
+    )
+    formula <- sprintf(
+        "italic(y) == %.2f %+.2f * italic(x)",
+        round(coef(model)[1], 2), round(coef(model)[2], 2)
+    )
+    r2 <- summary(model)$r.squared
+    f_stat <- summary(model)$fstatistic[["value"]]
+    p_value <- summary(model)$coefficients[2,4]
+    data.frame(
+        formula = formula, r2 = r2,
+        f_stat = f_stat, p_value = p_value,
+        stringsAsFactors = FALSE
+    )
+}
+
+labels <- spec.per.elect.counts.summary %>%
+    group_by(demographic_class) %>%
+    do(lm_labels(.))
+
+full_summary <- spec.per.elect.counts.summary %>%
+    group_by(demographic_class) %>%
+    do(lm_full_summary(.))
+
+# spec.per.elect.lm.facet <-
+    ggplot(spec.per.elect.counts.summary) +
+    aes(
+        x = log2(electorate_area_sqkm),
+        y = log2(total_unique_species)
+    ) +
+    geom_point(
+        alpha = 0.4
+    ) +
+    geom_smooth(
+        method = "lm",
+        show.legend = FALSE,
+        colour = "black",
+        se = FALSE
+    ) +
+    labs(
+        x = bquote(log[2] ~ "Commonwealth Electoral Division area" ~ (km^2)),
+        y = bquote(log[2] ~ "number of threatened species"),
+        tag = "B"
+    ) +
+    theme_bw() +
+    facet_wrap(~demographic_class) +
+    geom_text(
+        data = labels, aes(
+            label = formula
+        ), x = 5.2, y = 7.8, parse = TRUE, hjust = 0
+    ) +
+    geom_text(
+        x = 5.2, y = 7.4, aes(
+            label = r2
+        ), data = labels, parse = TRUE, hjust = 0
+    ) +
+    theme(
+        strip.background = element_blank()
+    )
+
+ggsave("figures/spec.per.elect.lm.facet.png",
+    width = 20, height = 15, units = "cm"
+)
+
 #### GLM ####
 
 #### sars R package ####
@@ -187,7 +205,7 @@ summary(fit)
 plot(fit)
 
 sars_spec_per_elects <- spec.per.elect.counts.summary %>%
-select(electorate_area_sqkm, total_unique_species)
+    select(electorate_area_sqkm, total_unique_species)
 
 fit_loga <- sar_loga(sars_spec_per_elects)
 plot(fit_loga)
@@ -195,7 +213,7 @@ plot(fit_loga)
 fit_C <- sar_multi(sars_spec_per_elects, obj = c("power", "loga", "monod"))
 plot(fit_C)
 
-fit_lm <- sar_linear(sars_spec_per_elects, normaTest ="shapiro", homoTest = "cor.fitted")
+fit_lm <- sar_linear(sars_spec_per_elects, normaTest = "shapiro", homoTest = "cor.fitted")
 summary(fit_lm)
 
 fit_av <- sar_average(
@@ -208,7 +226,7 @@ fit_lm_log <- lin_pow(
     data = sars_spec_per_elects,
     compare = TRUE,
     normaTest = "shapiro"
-    )
+)
 summary(fit_lm_log)
 plot(fit_lm_log)
 
@@ -234,7 +252,7 @@ spec.per.elect.state.area <- spec.per.elect.counts.summary %>%
     group_by(state_territory) %>%
     summarise(sum_state_area_sqkm = sum(electorate_area_sqkm))
 
-spec.per.elect.demo.counts <- spec.per.elect.expanded.summary %>%
+spec.per.elect.expanded.summary %>%
     group_by(demographic_class) %>%
     summarise(total_unique_species = n_distinct(scientific_name)) %>%
     ungroup() %>%

@@ -214,8 +214,14 @@ ggplot() +
 
 table(spec.range.elect.endemic.expanded$demographic_class)
 
-endemic.spec.per.elect <- spec.range.elect.endemic.expanded %>%
+spec.range.elect.endemic.expanded %>%
   group_by(demographic_class) %>%
   summarise(total_unique_species = n_distinct(scientific_name)) %>%
   ungroup() %>%
   mutate(percentage_of_total_EPBC_species = total_unique_species / 801)
+
+spec.range.elect.endemic.expanded %>%
+  group_by(demographic_class) %>%
+  summarise(elect_demo = n_distinct(electorate))
+
+round(prop.table(table(spec.per.elect.endemic$demographic_class)),2)
