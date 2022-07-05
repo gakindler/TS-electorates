@@ -7,6 +7,7 @@ library(viridis)
 library(httpgd)
 library(data.table)
 library(dplyr)
+library(patchwork)
 
 #### Import ####
 
@@ -52,7 +53,7 @@ spec.range.elect.expanded.rob %>%
 
 #### ECDF ####
 
-# zoomed
+zoomed <-
 ggplot(
   spec.range.elect.expanded.rob
 ) +
@@ -82,6 +83,7 @@ ggsave("figures/spec.range.elect.zoom.ecdf.png",
     width = 20, height = 15, units = "cm"
 )
 
+overall <-
 ggplot(
   spec.range.elect.expanded.rob
 ) +
@@ -110,6 +112,17 @@ ggplot(
 ggsave("figures/spec.range.elect.full.ecdf.png",
     width = 20, height = 15, units = "cm"
 )
+
+#### Inset the two ####
+
+overall + inset_element(
+    zoomed,
+    left = 0.4,
+    bottom = 0.1,
+    right = 0.9,
+    top = 0.7
+)
+
 
 # Getting "Error in f(...) : Graphics API version mismatch" error
 
