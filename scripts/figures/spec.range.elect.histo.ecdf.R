@@ -65,8 +65,10 @@ ggplot(
         pad = FALSE
     ) +
     labs(
-        x = "Threatened species' Commonwealth Electoral Division coverage",
-        y = "Cumulative proportion"
+        x = NULL,
+        # "Threatened species' Commonwealth Electoral Division coverage",
+        y = NULL
+        # "Cumulative proportion"
     ) +
   scale_x_continuous(
     breaks = seq(1, 10, 1)
@@ -77,11 +79,17 @@ ggplot(
     scale_y_continuous(
         breaks = seq(0, 1.0, 0.05)
     ) +
-    theme_classic()
+    theme_bw() +
+    theme(
+        strip.background = element_blank()
+    )
 
 ggsave("figures/spec.range.elect.zoom.ecdf.png",
     width = 20, height = 15, units = "cm"
 )
+
+x_axis_seq <- seq(0, 150, 10)
+x_axis_seq[x_axis_seq == 0] <- 1
 
 overall <-
 ggplot(
@@ -99,7 +107,7 @@ ggplot(
         y = "Cumulative proportion"
     ) +
   scale_x_continuous(
-    breaks = seq(0, 150, 5)
+    breaks = x_axis_seq
   ) +
 #   coord_cartesian(
 #     xlim = c(1, 10)
@@ -107,7 +115,10 @@ ggplot(
     scale_y_continuous(
         breaks = seq(0, 1.0, 0.05)
     ) +
-    theme_classic()
+    theme_bw() +
+    theme(
+        strip.background = element_blank()
+    )
 
 ggsave("figures/spec.range.elect.full.ecdf.png",
     width = 20, height = 15, units = "cm"
@@ -123,6 +134,9 @@ overall + inset_element(
     top = 0.7
 )
 
+ggsave("figures/spec.range.elect.inset.ecdf.png",
+    width = 20, height = 15, units = "cm"
+)
 
 # Getting "Error in f(...) : Graphics API version mismatch" error
 
@@ -164,8 +178,6 @@ table(spec.elect.coverage.expanded.4.cover$migratory_status)
 
 ######################
 
-<- spec.range.elect.expanded.rob
-
 
 spec.elect.coverage.expanded.1.greater.cover <- spec.range.elect.expanded.rob %>%
     filter(robust_species_range_covers_n_electorates == 1)
@@ -184,3 +196,14 @@ dim(spec.elect.coverage.expanded.5.greater.cover)[1]/1651
 
 
 table(spec.elect.coverage.expanded.5.greater.cover$robust_species_range_covers_n_electorates)
+
+#### Checking the tables for synchron ####
+
+orig <- spec.range.elect.expanded.rob
+
+altered <- spec.range.elect.expanded |>
+  group_by(scientific_name) |>
+  summarise(species_range_covers_n_electorates = min(species_range_covers_n_electorates))
+
+discrep <- orig |> anti_join(altered, by = c("scientific_name" = "scientific_name", "robust_species_range_covers_n_electorates" = "species_range_covers_n_electorates"))
+

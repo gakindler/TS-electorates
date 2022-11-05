@@ -38,6 +38,8 @@ model <- lm(
     data = spec.per.elect.counts.summary
 )
 
+format(confint(model, parm = '(Intercept)'), digits = 3)
+
 eqn <- as.character(
     as.expression(
         substitute(
@@ -66,7 +68,7 @@ ggplot(spec.per.elect.counts.summary) +
         method = "lm",
         show.legend = FALSE,
         colour = "black",
-        se = FALSE
+        se = TRUE
         # method.args = list(
         #     family = quasipoisson()
         # )
@@ -102,18 +104,6 @@ ggplot(spec.per.elect.counts.summary) +
 ggsave("figures/spec.per.elect.lm.png",
     width = 20, height = 15, units = "cm"
 )
-
-ggplot(spec.per.elect.counts.summary) +
-    aes(
-        x = elect_area_sqkm,
-        y = total_unique_spec
-    ) +
-    geom_point(aes(colour = Demographic_class)) +
-    geom_smooth(
-        method = "lm",
-        show.legend = FALSE,
-        colour = "black"
-    )
 
 #### LM demo faceted ####
 
@@ -155,6 +145,26 @@ full_summary <- spec.per.elect.counts.summary %>%
     group_by(demographic_class) %>%
     do(lm_full_summary(.))
 
+lm_confint <- function(dat) {
+    model <- lm(
+        log2(total_unique_species) ~ log2(electorate_area_sqkm),
+        data = dat
+    )
+    lower_CI <- confint(model, parm = '(Intercept)')[1,1]
+    upper_CI <- confint(model, parm = '(Intercept)')[1,2]
+    data.frame(
+        lower_CI = lower_CI, upper_CI = upper_CI,
+        stringsAsFactors = FALSE
+    )
+}
+
+# confint_summary <-
+spec.per.elect.counts.summary %>%
+    group_by(demographic_class) %>%
+    do(lm_confint(.))
+
+# TODO: start here, I couldn't figure this out, why theCI's are whack numbers? Go to the moderndive book
+
 # spec.per.elect.lm.facet <-
     ggplot(spec.per.elect.counts.summary) +
     aes(
@@ -168,7 +178,7 @@ full_summary <- spec.per.elect.counts.summary %>%
         method = "lm",
         show.legend = FALSE,
         colour = "black",
-        se = FALSE
+        se = TRUE
     ) +
     labs(
         x = bquote(log[2] ~ "Commonwealth Electoral Division area" ~ (km^2)),
@@ -194,6 +204,24 @@ full_summary <- spec.per.elect.counts.summary %>%
 ggsave("figures/spec.per.elect.lm.facet.png",
     width = 20, height = 15, units = "cm"
 )
+
+#### Checking assumptions ####
+
+plot(model)
+autoplot(model)
+
+autoplot(model, which = 1:6, data = spec.per.elect.counts.summary,
+    colour = "demographic_class")
+
+tidy(model)
+glance(model)
+
+influence.measures(model)
+
+confint(model)
+summary(model)
+
+
 
 #### GLM ####
 
