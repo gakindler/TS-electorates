@@ -76,7 +76,7 @@ spec.per.elect.expanded.summary <- spec.per.elect.indiv %>%
 
 #### expanded range summary - spec.range.elect/spec.elect.coverage.indiv ####
 
-spec.range.elect.expanded.summary <- spec.range.elect %>%
+spec.range.elect.temp <- spec.range.elect %>%
     select(!c(electorate_area_sqkm, species_range_area_sqkm)) %>%
     inner_join(spec.elect.coverage.indiv) %>%
     select(!electorate_area_sqkm) %>%
@@ -89,7 +89,43 @@ spec.range.elect.expanded.summary <- spec.range.elect %>%
         state_territory_abbrev, demographic_class,
         electorate_area_sqkm, intersection_area_sqkm,
         percent_range_within
-    ) %T>%
+    )
+
+spec.range.elect.robust <- spec.range.elect.temp %>%
+    mutate(
+        robust_species_range_covers_n_electorates = case_when(
+            percent_range_within == 1 ~ 1,
+            TRUE ~ as.numeric(species_range_covers_n_electorates)
+        )
+    ) %>%
+    group_by(scientific_name) %>%
+    summarise(
+        robust_species_range_covers_n_electorates = min(
+          robust_species_range_covers_n_electorates
+        )
+    ) %>%
+    ungroup() %>%
+    mutate(
+    robust_species_range_covers_n_electorates = as.integer(
+      robust_species_range_covers_n_electorates
+    )
+  )
+
+spec.range.elect.expanded.summary <- spec.range.elect.temp |>
+  full_join(spec.range.elect.robust) |>
+  as_tibble() |>
+  select(
+    scientific_name, vernacular_name, threatened_status,
+    taxon_group, migratory_status, species_range_area_sqkm,
+    robust_species_range_covers_n_electorates,
+    electorate, electorate_abbrev, state_territory,
+    state_territory_abbrev, demographic_class,
+    electorate_area_sqkm, intersection_area_sqkm,
+    percent_range_within
+  ) |>
+  rename(
+    species_range_covers_n_electorates = robust_species_range_covers_n_electorates
+    ) |>
     write.csv(
         "analysed_data/local_analysis_output/spec.range.elect.expanded.summary.csv",
         row.names = FALSE

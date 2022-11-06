@@ -136,7 +136,7 @@ species.clean.first <- species %>%
     ) %>%
     st_make_valid() %>%
     # Merge species at the broad taxa as there are duplicate polygons
-    # Probably attributable to subspecies populations, but still ¯\_(ツ)_/¯
+    # Likely attributable to subspecies populations
     group_by(
         scientific_name,
         vernacular_name,

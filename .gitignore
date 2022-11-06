@@ -1,32 +1,13 @@
-# .Rproj.user
-# .Rhistory
-# .RData
-# .Ruserdata
-# /raw_data
-# /analysed_data
-# /electoral_analysis_ArcGIS_proj
-# /figures
-# /tables
-# /clean_data
-# /presos
-# /.vscode
-# /scripts/HPC/*.e*
-# /scripts/HPC/*.o*
-# /**/*.docx
-# /**/*.bib
-# /writing/word
-# !/writing/latex/**/*.tex
-# /**/*.qgz
-
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 *
 !*/
-!*.tex
-!*.aux
-!*.md
-!*.R
-!*.r
-!*.pbs
+!*/1.HPC.clean.data.R
+!*/2.HPC.spatial.ops.R
+!*/3.local.analysis.R
+!*/spec.per.elect.carto.R
+!*/spec.per.elect.endemic.eighty.choro.R
+!*/spec.per.elect.regression.R
+!*/spec.range.elect.histo.ecdf.R

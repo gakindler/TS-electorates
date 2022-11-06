@@ -18,47 +18,22 @@ spec.elect.coverage.expanded <- read.csv(
 spec.range.elect.expanded <- read.csv(
     "analysed_data/local_analysis_output/spec.range.elect.expanded.summary.csv"
 ) %>%
-as_tibble()
+as_tibble() |>
+group_by(scientific_name, species_range_covers_n_electorates) |>
+summarise()
 
 spec.range.elect.endemic.expanded <- read.csv(
   "analysed_data/local_analysis_output/spec.range.elect.endemic.expanded.csv"
 )
 
-#### Attempts at optimising ####
-
-spec.range.elect.expanded.rob <- spec.range.elect.expanded %>%
-    mutate(
-        robust_species_range_covers_n_electorates = case_when(
-            percent_range_within == 1 ~ 1,
-            # species_range_covers_n_electorates == 1 ~ 1,
-            TRUE ~ as.numeric(species_range_covers_n_electorates)
-        )
-    ) %>%
-    group_by(scientific_name) %>%
-    summarise(
-        robust_species_range_covers_n_electorates = min(
-          robust_species_range_covers_n_electorates
-        )
-    ) %>%
-    ungroup() %>%
-    mutate(
-    robust_species_range_covers_n_electorates = as.integer(
-      robust_species_range_covers_n_electorates
-    )
-  )
-
-spec.range.elect.expanded.rob %>%
-    group_by(scientific_name) %>%
-    filter(n()>1)
-
 #### ECDF ####
 
 zoomed <-
 ggplot(
-  spec.range.elect.expanded.rob
+  spec.range.elect.expanded
 ) +
     aes(
-        x = robust_species_range_covers_n_electorates
+        x = species_range_covers_n_electorates
     ) +
     stat_ecdf(
         geom = "step",
@@ -93,10 +68,10 @@ x_axis_seq[x_axis_seq == 0] <- 1
 
 overall <-
 ggplot(
-  spec.range.elect.expanded.rob
+  spec.range.elect.expanded
 ) +
     aes(
-        x = robust_species_range_covers_n_electorates
+        x = species_range_covers_n_electorates
     ) +
     stat_ecdf(
         geom = "step",
@@ -144,7 +119,7 @@ ggsave("figures/spec.range.elect.inset.ecdf.png",
 
 summary(spec.elect.coverage.expanded)
 
-table(spec.range.elect.expanded.rob$robust_species_range_covers_n_electorates)
+table(spec.range.elect.expanded$species_range_covers_n_electorates)
 
 prop.table(table(spec.elect.coverage.expanded$species_range_covers_n_electorates))
 0.4499478624 + 0.1892596455 + 0.0740354536 + 0.0464025026
@@ -156,8 +131,8 @@ spec.range.elect.expanded.1 <- spec.range.elect.expanded %>%
 
 prop.table(table(spec.range.elect.expanded.1$demographic_class))
 
-spec.range.elect.expanded.rob %>%
-    filter(robust_species_range_covers_n_electorates <= 4) %>%
+spec.range.elect.expanded %>%
+    filter(species_range_covers_n_electorates <= 4) %>%
     nrow() / 1651
 
 table(spec.elect.coverage.expanded.4.greater.cover$species_range_covers_n_electorates)
@@ -179,31 +154,21 @@ table(spec.elect.coverage.expanded.4.cover$migratory_status)
 ######################
 
 
-spec.elect.coverage.expanded.1.greater.cover <- spec.range.elect.expanded.rob %>%
-    filter(robust_species_range_covers_n_electorates == 1)
+spec.elect.coverage.expanded.1.greater.cover <- spec.range.elect.expanded %>%
+    filter(species_range_covers_n_electorates == 1)
 dim(spec.elect.coverage.expanded.1.greater.cover)[1]
 dim(spec.elect.coverage.expanded.1.greater.cover)[1]/1651
 
-spec.elect.coverage.expanded.24.cover <- spec.range.elect.expanded.rob %>%
-    filter(between(robust_species_range_covers_n_electorates, 2, 4))
+spec.elect.coverage.expanded.24.cover <- spec.range.elect.expanded %>%
+    filter(between(species_range_covers_n_electorates, 2, 4))
 dim(spec.elect.coverage.expanded.24.cover)[1]
 dim(spec.elect.coverage.expanded.24.cover)[1]/1651
 
-spec.elect.coverage.expanded.5.greater.cover <- spec.range.elect.expanded.rob %>%
-    filter(robust_species_range_covers_n_electorates > 4)
+spec.elect.coverage.expanded.5.greater.cover <- spec.range.elect.expanded %>%
+    filter(species_range_covers_n_electorates > 4)
 dim(spec.elect.coverage.expanded.5.greater.cover)[1]
 dim(spec.elect.coverage.expanded.5.greater.cover)[1]/1651
 
 
-table(spec.elect.coverage.expanded.5.greater.cover$robust_species_range_covers_n_electorates)
-
-#### Checking the tables for synchron ####
-
-orig <- spec.range.elect.expanded.rob
-
-altered <- spec.range.elect.expanded |>
-  group_by(scientific_name) |>
-  summarise(species_range_covers_n_electorates = min(species_range_covers_n_electorates))
-
-discrep <- orig |> anti_join(altered, by = c("scientific_name" = "scientific_name", "robust_species_range_covers_n_electorates" = "species_range_covers_n_electorates"))
+table(spec.elect.coverage.expanded.5.greater.cover$species_range_covers_n_electorates)
 
