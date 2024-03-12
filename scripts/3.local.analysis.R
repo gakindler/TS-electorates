@@ -12,23 +12,12 @@ library(units)
 
 #### Import: HPC outputs ####
 
-spec.elect.coverage.counts <- fromJSON(
-    "analysed_data/HPC_spatial_ops_output/spec.elect.coverage.counts.json"
-)
-spec.elect.coverage.indiv <- fromJSON(
-    "analysed_data/HPC_spatial_ops_output/spec.elect.coverage.indiv.json"
-)
-spec.outside.elect <- st_read(
-    "analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg"
-)
-spec.per.elect.counts <- st_read(
-    "analysed_data/HPC_spatial_ops_output/spec.per.elect.counts.gpkg"
-)
-spec.per.elect.indiv <- fromJSON(
-    "analysed_data/HPC_spatial_ops_output/spec.per.elect.indiv.json"
-)
 spec.range.elect <- fromJSON(
     "analysed_data/HPC_spatial_ops_output/spec.range.elect.json"
+) |>
+    as_tibble()
+spec.outside.elect <- st_read(
+    "analysed_data/HPC_spatial_ops_output/spec.outside.elect.gpkg"
 )
 
 #### Import: Australia, electorates, species, demography ####
@@ -46,16 +35,70 @@ species.unclipped <- st_read("clean_data/species.clean.unclipped.gpkg")
 elect.demo <- elect %>%
     st_set_geometry(NULL) %>%
     inner_join(demo) %>%
-    mutate(across(electorate_area_sqkm, signif, digits = 3)) %T>%
+    mutate(
+      across(
+        .cols = electorate_area_sqkm,
+        .fns = ~ signif(.x, digits = 3)
+        )
+      ) |>
+    as_tibble() %T>%
     write.csv(
         "analysed_data/local_analysis_output/elect.demo.summary.csv",
         row.names = FALSE
     )
 
-#### Quick clean that need to be fixed TODO ####
+#### applying threshold
 
-spec.range.elect <- spec.range.elect %>%
-    mutate(across(percent_range_within, signif, digits = 3))
+spec.range.elect.threshold <- spec.range.elect |>
+  filter(percent_range_within >= 0.10)
+
+#### Creating the tables from the 2.HPC spatial ops
+
+spec.per.elect.counts <- spec.range.elect.threshold %>%
+  group_by(electorate) %>%
+  summarise(total_unique_species = n_distinct(scientific_name)) %>%
+  ungroup()
+
+write.csv(spec.per.elect.counts,
+  "analysed_data/local_analysis_output/spec.per.elect.counts.csv",
+  row.names = FALSE
+)
+
+spec.per.elect.indiv <- spec.range.elect.threshold %>%
+  group_by(electorate) %>%
+  mutate(total_unique_species = n_distinct(scientific_name)) %>%
+  ungroup()
+
+write.csv(spec.per.elect.indiv,
+  "analysed_data/local_analysis_output/spec.per.elect.indiv.csv",
+  row.names = FALSE
+)
+
+#### spec.elect.coverage - species electorate coverage  ####
+
+spec.elect.coverage.counts <- spec.range.elect.threshold %>%
+  group_by(
+      scientific_name, vernacular_name, threatened_status,
+      migratory_status, taxon_group
+  ) %>%
+  summarise(species_range_covers_n_electorates = n_distinct(electorate))
+
+write.csv(spec.elect.coverage.counts,
+  "analysed_data/local_analysis_output/spec.elect.coverage.counts.csv",
+  row.names = FALSE
+)
+
+spec.elect.coverage.indiv <- spec.range.elect.threshold %>%
+  group_by(
+      scientific_name, vernacular_name, threatened_status,
+      migratory_status, taxon_group
+  ) %>%
+  mutate(species_range_covers_n_electorates = n_distinct(electorate))
+
+write.csv(spec.elect.coverage.indiv,
+  "analysed_data/local_analysis_output/spec.elect.coverage.indiv.csv",
+  row.names = FALSE
+)
 
 #### expanded indiv summary - spec.per.elect.indiv ####
 
@@ -68,15 +111,16 @@ spec.per.elect.expanded.summary <- spec.per.elect.indiv %>%
         electorate, electorate_abbrev, state_territory,
         state_territory_abbrev, demographic_class,
         electorate_area_sqkm, total_unique_species
-    ) %T>%
-    write.csv(
+    )
+
+    write.csv(spec.per.elect.expanded.summary,
         "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv",
         row.names = FALSE
     )
 
-#### expanded range summary - spec.range.elect/spec.elect.coverage.indiv ####
+#### expanded range summary - spec.range.elect.threshold/spec.elect.coverage.indiv ####
 
-spec.range.elect.temp <- spec.range.elect %>%
+spec.range.elect.threshold.temp <- spec.range.elect.threshold %>%
     select(!c(electorate_area_sqkm, species_range_area_sqkm)) %>%
     inner_join(spec.elect.coverage.indiv) %>%
     select(!electorate_area_sqkm) %>%
@@ -91,7 +135,7 @@ spec.range.elect.temp <- spec.range.elect %>%
         percent_range_within
     )
 
-spec.range.elect.robust <- spec.range.elect.temp %>%
+spec.range.elect.threshold.robust <- spec.range.elect.threshold.temp %>%
     mutate(
         robust_species_range_covers_n_electorates = case_when(
             percent_range_within == 1 ~ 1,
@@ -111,8 +155,8 @@ spec.range.elect.robust <- spec.range.elect.temp %>%
     )
   )
 
-spec.range.elect.expanded.summary <- spec.range.elect.temp |>
-  full_join(spec.range.elect.robust) |>
+spec.range.elect.threshold.expanded.summary <- spec.range.elect.threshold.temp |>
+  full_join(spec.range.elect.threshold.robust) |>
   as_tibble() |>
   select(
     scientific_name, vernacular_name, threatened_status,
@@ -133,7 +177,7 @@ spec.range.elect.expanded.summary <- spec.range.elect.temp |>
 
 #### summary counts - spec.per.elect ####
 
-spec.eighty.elect.counts <- spec.range.elect %>%
+spec.eighty.elect.counts <- spec.range.elect.threshold %>%
     select(!c(electorate_area_sqkm, species_range_area_sqkm)) %>%
     inner_join(spec.elect.coverage.indiv) %>%
     # there were 17 species distributions that overhang along borders such as marine
@@ -146,7 +190,7 @@ spec.eighty.elect.counts <- spec.range.elect %>%
     summarise(total_eighty_unique_species = n_distinct(scientific_name)) %>%
     ungroup()
 
-spec.endemic.elect.counts <- spec.range.elect %>%
+spec.endemic.elect.counts <- spec.range.elect.threshold %>%
     select(!c(electorate_area_sqkm, species_range_area_sqkm)) %>%
     inner_join(spec.elect.coverage.indiv) %>%
     filter(
@@ -157,7 +201,6 @@ spec.endemic.elect.counts <- spec.range.elect %>%
     ungroup()
 
 spec.per.elect.counts.summary <- spec.per.elect.counts %>%
-    st_set_geometry(NULL) %>%
     full_join(spec.eighty.elect.counts) %>%
     full_join(spec.endemic.elect.counts) %>%
     inner_join(elect.demo) %>%
@@ -166,7 +209,7 @@ spec.per.elect.counts.summary <- spec.per.elect.counts %>%
     ) %>%
     mutate(across(species_per_sqkm, signif, digits = 3)) %>%
     select(!electorate_area_sqkm) %>%
-    inner_join(elect) %>%
+    inner_join(elect) |>
     st_as_sf() %>%
     mutate(across(electorate_area_sqkm, signif, digits = 3)) %>%
     relocate(
@@ -175,20 +218,33 @@ spec.per.elect.counts.summary <- spec.per.elect.counts %>%
         electorate_area_sqkm, total_unique_species,
         species_per_sqkm, total_eighty_unique_species,
         total_endemic_unique_species, geom
-    ) %T>%
-    st_write(
-        "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg",
-        layer = "spec.per.elect.counts.summary", append = FALSE
-    ) %>%
-    st_set_geometry(NULL) %T>%
+    )
+
+st_write(spec.per.elect.counts.summary,
+    "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg",
+    layer = "spec.per.elect.counts.summary", append = FALSE
+)
+
+spec.per.elect.counts.summary |>
+    st_set_geometry(NULL) |>
     write.csv(
         "analysed_data/local_analysis_output/spec.per.elect.counts.summary.csv",
         row.names = FALSE
     )
 
+spec.per.elect.counts.summary.all <- spec.per.elect.counts.summary |>
+    st_set_geometry(NULL) |>
+    full_join(elect.demo)
+
+spec.per.elect.counts.summary.all |>
+    write.csv(
+        "analysed_data/local_analysis_output/spec.per.elect.counts.summary.all.csv",
+        row.names = FALSE
+    )
+
 #### expanded endemic/eighty - spec.eighty.elect.indiv ####
 
-spec.range.elect.eighty.expanded <- spec.range.elect %>%
+spec.range.elect.threshold.eighty.expanded <- spec.range.elect.threshold %>%
     select(!c(electorate_area_sqkm, species_range_area_sqkm)) %>%
     inner_join(spec.elect.coverage.indiv) %>%
     select(!electorate_area_sqkm) %>%
@@ -212,7 +268,7 @@ spec.range.elect.eighty.expanded <- spec.range.elect %>%
         row.names = FALSE
     )
 
-spec.range.elect.endemic.expanded <- spec.range.elect %>%
+spec.range.elect.threshold.endemic.expanded <- spec.range.elect.threshold %>%
     select(!c(electorate_area_sqkm, species_range_area_sqkm)) %>%
     inner_join(spec.elect.coverage.indiv) %>%
     select(!electorate_area_sqkm) %>%

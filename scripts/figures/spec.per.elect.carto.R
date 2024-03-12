@@ -2,28 +2,19 @@
 
 #### Libraries ####
 
-library(tidyverse)
-library(sf)
-library(tmap)
-library(leaflet)
-library(viridis)
-library(grid)
-library(cartogram)
-library(rmapshaper)
-library(tmaptools)
-library(magrittr)
-library(httpgd)
+pacman::p_load(tidyverse, sf, tmap, leaflet, viridis, grid, cartogram, rmapshaper, tmaptools, magrittr, httpgd, here)
 
 #### Import and simplify data ####
 
-spec.per.elect.counts.summary <- st_read(
-  "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg"
+spec.per.elect.counts.summary <- st_read(here("analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg")
 )
 aus <- st_read(
-  "clean_data/aus.clean.gpkg"
+  here(
+  "clean_data/aus.clean.gpkg")
 )
 elect <- st_read(
-  "clean_data/elect.clean.gpkg"
+  here(
+  "clean_data/elect.clean.gpkg")
 )
 
 print(object.size(spec.per.elect.counts.summary), units = "Kb")
@@ -62,7 +53,7 @@ spec.per.elect.unique.dorl.weight <- spec.per.elect.counts.summary %>%
   ) %>%
   cartogram_dorling(
     weight = "total_unique_species",
-    k = 0.3
+    k = 0.8
     # m_weight = 1
   )
 
@@ -114,11 +105,11 @@ tm_shape(
     # legend.position = c("left", "top")
     # title.position = c("left", "bottom")
   # ) +
-  # tm_compass(position = c("left", "bottom")) +
-  # tm_scale_bar(
-  #   position = c("left", "bottom"),
-  #   width = 0.2
-  # ) +
+  tm_compass(position = c("left", "bottom")) +
+  tm_scale_bar(
+    position = c("left", "bottom"),
+    width = 0.2
+  ) +
   tm_layout(
     frame = FALSE,
     # legend.width = 1,
@@ -127,123 +118,9 @@ tm_shape(
     # legend.outside = TRUE
   )
 
+spec.per.elect.unique.spec.dorl
+
 tmap_save(spec.per.elect.unique.spec.dorl,
   file = "figures/spec.per.elect.unique.spec.dorl.png",
-  # height = 10, width = 12, units = "cm"
-)
-
-#### ggplot ####
-# https://r-charts.com/spatial/cartogram-ggplot2/#dorling
-# https://rpubs.com/frankhecker/434695
-# https://rud.is/rpubs/hello-dorling.html
-
-# spec.per.elect.counts.summary.dorl <-
-ggplot(spec.per.elect.counts.summary.dorl) +
-  geom_sf(
-    aes(fill = total_unique_spec),
-    color = "grey50"
-  ) +
-  scale_fill_viridis(
-    option = "C",
-    direction = -1,
-    n.breaks = 10,
-    guide_colorbar(
-      barwidth = 50,
-      barheight = 50,
-      title = "Number of threatened species",
-      title.position = "right",
-      title.vjust = 0.1,
-      ticks = FALSE
-    )
-  ) +
-  geom_sf_text(
-    aes(label = electorate, size = total_unique_spec),
-    show.legend = FALSE
-  ) +
-  theme_void()
-
-ggplot(spec.per.elect.counts.summary.dorl) +
-  geom_sf(
-    aes(fill = total_unique_spec),
-    color = "grey50"
-  ) +
-  # geom_sf_text(aes(label = electorate),
-  #              check_overlap = TRUE) +
-  scale_fill_viridis(
-    direction = -1,
-    n.breaks = 10,
-    guide_colorbar(
-      barwidth = 50,
-      barheight = 50,
-      title = "Number of vulnerable species",
-      title.position = "right",
-      title.vjust = 0.1,
-      ticks = FALSE
-    )
-  ) +
-  theme_void() +
-  theme(
-    legend.position = "top",
-    legend.margin = margin(t = 5, b = 0),
-    legend.title = element_text(size = 7),
-    legend.text = element_text(
-      angle = 45,
-      margin = margin(t = 5)
-    )
-  )
-
-ggsave("figures/spec.per.elect.counts.summary.plot.pdf",
-  width = 8, height = 8, units = "cm"
-)
-
-#### Proportional symbol map ####
-
-elect_centroid <- st_centroid(spec.per.elect.counts.summary, of_largest_polygon = TRUE)
-
-ggplot() +
-  geom_sf(data = spec.per.elect.counts.summary, fill = "grey95") +
-  geom_sf(
-    data = elect_centroid,
-    aes(fill = total_unique_spec)
-  ) +
-  geom_sf(
-    data = elect_centroid,
-    aes(size = total_unique_spec),
-    show.legend = FALSE
-  ) +
-  scale_fill_viridis(direction = -1) +
-  # scale_size(range = c(1, 9),
-  #            guide = guide_legend()) +
-  theme_void() +
-  theme(legend.position = "top")
-
-#### Non-contiguous cartogram ####
-
-spec.per.elect.counts.summary.ncont.weight <- st_transform(spec.per.elect.counts.summary, 3112) %>%
-  cartogram_ncont(weight = "total_unique_spec")
-
-# spec.per.elect.counts.summary.ncont <-
-tm_shape(elect) +
-  tm_borders() +
-  tm_shape(spec.per.elect.counts.summary.ncont.weight) +
-  tm_fill("total_unique_spec",
-    style = "jenks",
-    title = "Number of threatened species",
-    palette = "-inferno"
-  ) +
-  tm_text("electorate_abbrev", size = "AREA") +
-  tm_borders(alpha = 0.3) +
-  tm_compass(position = c("left", "bottom")) +
-  tm_scale_bar(
-    position = c("left", "bottom"),
-    width = 0.2
-  ) +
-  tm_layout(
-    frame = FALSE,
-    legend.outside = TRUE
-  )
-
-tmap_save(spec.per.elect.counts.summary.ncont,
-  file = "plots/spec_per_elect_ncont.pdf",
-  height = 8, width = 8, units = "cm"
+  # height = 15, width = 15, units = "cm"
 )

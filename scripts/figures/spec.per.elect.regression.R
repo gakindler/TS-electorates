@@ -2,24 +2,13 @@
 
 #### Libraries ####
 
-library(tidyverse)
-library(sf)
-library(viridis)
-library(grid)
-library(cartogram)
-library(httpgd)
-library(plyr)
-library(dplyr)
-library(jsonlite)
-library(broom)
-library(ggfortify)
-library(sars)
+pacman::p_load(tidyverse, sf, tmap, leaflet, viridis, grid, cartogram, rmapshaper, tmaptools, magrittr, httpgd, jsonlite, broom, ggfortify, sars, here)
 
 #### Import ####
 
-spec.per.elect.counts.summary <- st_read(
+spec.per.elect.counts.summary <- st_read(here(
     "analysed_data/local_analysis_output/spec.per.elect.counts.summary.gpkg"
-) %>%
+)) %>%
     st_set_geometry(NULL) %>%
     select(
         electorate, state_territory,
@@ -27,9 +16,25 @@ spec.per.elect.counts.summary <- st_read(
         total_unique_species
     )
 
-spec.per.elect.expanded.summary <- read_csv(
-    "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv"
+spec.per.elect.expanded.summary <- read_csv(here(
+    "analysed_data/local_analysis_output/spec.per.elect.expanded.summary.csv")
 )
+
+spec.per.elect.counts.summary.all <- read_csv(here(
+    "analysed_data/local_analysis_output/spec.per.elect.counts.summary.all.csv"
+)) %>%
+    select(
+        electorate, state_territory,
+        demographic_class, electorate_area_sqkm,
+        total_unique_species
+    ) |>
+    mutate(
+        total_unique_species = replace_na(total_unique_species, 0)
+    )
+
+spec.per.elect.counts <- read_csv(here(
+  "analysed_data/local_analysis_output/spec.per.elect.counts.csv"
+))
 
 #### Linear regression ####
 
@@ -82,7 +87,7 @@ ggplot(spec.per.elect.counts.summary) +
     labs(
         x = bquote(log[2] ~ "Commonwealth Electoral Division area" ~ (km^2)),
         y = bquote(log[2] ~ "number of threatened species"),
-        tag = "A"
+        # tag = "A"
     ) +
     guides(
         colour = guide_legend(
@@ -102,7 +107,7 @@ ggplot(spec.per.elect.counts.summary) +
     )
 
 ggsave("figures/spec.per.elect.lm.png",
-    width = 20, height = 15, units = "cm"
+    width = 17, height = 12, units = "cm"
 )
 
 #### LM demo faceted ####
@@ -223,40 +228,6 @@ summary(model)
 
 
 
-#### GLM ####
-
-#### sars R package ####
-
-data(galap)
-fit <- sar_loga(data = galap, grid_start = "partial")
-summary(fit)
-plot(fit)
-
-sars_spec_per_elects <- spec.per.elect.counts.summary %>%
-    select(electorate_area_sqkm, total_unique_species)
-
-fit_loga <- sar_loga(sars_spec_per_elects)
-plot(fit_loga)
-
-fit_C <- sar_multi(sars_spec_per_elects, obj = c("power", "loga", "monod"))
-plot(fit_C)
-
-fit_lm <- sar_linear(sars_spec_per_elects, normaTest = "shapiro", homoTest = "cor.fitted")
-summary(fit_lm)
-
-fit_av <- sar_average(
-    data = sars_spec_per_elects,
-    normaTest = "shapiro",
-    homoTest = "cor.fitted"
-)
-
-fit_lm_log <- lin_pow(
-    data = sars_spec_per_elects,
-    compare = TRUE,
-    normaTest = "shapiro"
-)
-summary(fit_lm_log)
-plot(fit_lm_log)
 
 #### Calculations ####
 #
@@ -281,27 +252,35 @@ spec.per.elect.state.area <- spec.per.elect.counts.summary %>%
     summarise(sum_state_area_sqkm = sum(electorate_area_sqkm))
 
 spec.per.elect.expanded.summary %>%
+    group_by(scientific_name) %>%
+    summarise()
+
+spec.per.elect.expanded.summary %>%
     group_by(demographic_class) %>%
     summarise(total_unique_species = n_distinct(scientific_name)) %>%
     ungroup() %>%
-    mutate(percentage_of_total_EPBC_species = total_unique_species / 1651)
+    mutate(percentage_of_total_EPBC_species = total_unique_species / 1642)
 
 spec.per.elect.state.counts <- spec.per.elect.expanded.summary %>%
     group_by(state_territory) %>%
     summarise(total_unique_species = n_distinct(scientific_name)) %>%
     ungroup() %>%
-    mutate(percentage_of_total_EPBC_species = total_unique_species / 1651)
+    mutate(percentage_of_total_EPBC_species = total_unique_species / 1642)
 
-spec.per.elect.top.ten.counts <- spec.range.elect.expanded.summary %>%
+spec.per.elect.counts %>%
+    arrange(desc(total_unique_species)) |>
+    head(10)
+
+spec.per.elect.expanded.summary |>
     filter(electorate %in% c(
         "O'Connor", "Durack",
-        "Maranoa", "Kennedy",
+        "Kennedy", "Leichhardt",
+        "Lyons", "Maranoa",
         "Eden-Monaro", "New England",
-        "Page", "Leichhardt",
-        "Lyons", "Grey"
+        "Grey", "Lingiari"
     )) %>%
     summarise(total_unique_species = n_distinct(scientific_name))
-1134 / 1651
+1041 / 1642
 
 spec.per.elect.endemic.demo.counts <- spec.per.elect.counts.summary %>%
     filter(total_endemic_unique_species >= 1)
